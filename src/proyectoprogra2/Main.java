@@ -62,6 +62,8 @@ public class Main extends javax.swing.JFrame {
         jsp_propiedadWidth = new javax.swing.JSpinner();
         jsp_propiedadHeight = new javax.swing.JSpinner();
         tbtn_propiedadEnable = new javax.swing.JToggleButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jp_uml = new javax.swing.JPanel();
         jp_opciones = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jp_medio = new javax.swing.JPanel();
@@ -75,6 +77,7 @@ public class Main extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jl_variables = new javax.swing.JList<>();
         btn_agregarVariables = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         jmb_barraVentana = new javax.swing.JMenuBar();
         jm_archivo = new javax.swing.JMenu();
         jmi_guardar = new javax.swing.JMenuItem();
@@ -484,6 +487,49 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        javax.swing.GroupLayout jp_umlLayout = new javax.swing.GroupLayout(jp_uml);
+        jp_uml.setLayout(jp_umlLayout);
+        jp_umlLayout.setHorizontalGroup(
+            jp_umlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1040, Short.MAX_VALUE)
+            .addGroup(jp_umlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jp_umlLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jp_opciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(jp_medio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(jp_variables, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jp_umlLayout.setVerticalGroup(
+            jp_umlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 511, Short.MAX_VALUE)
+            .addGroup(jp_umlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jp_umlLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jp_umlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jp_medio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jp_variables, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jp_opciones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addContainerGap()))
+        );
+
+        jTabbedPane1.addTab("UML", jp_uml);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1040, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 511, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Clases", jPanel1);
+
         jm_archivo.setText("Archivo");
 
         jmi_guardar.setText("Guardar                                       Ctrl + G");
@@ -511,24 +557,15 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jp_opciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jp_medio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jp_variables, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1040, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jp_medio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jp_variables, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jp_opciones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
 
@@ -609,7 +646,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JComboBox<String> jcb_operacionResultado;
@@ -632,6 +671,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jp_diagrama;
     private javax.swing.JPanel jp_medio;
     private javax.swing.JPanel jp_opciones;
+    private javax.swing.JPanel jp_uml;
     private javax.swing.JPanel jp_variables;
     private javax.swing.JSpinner jsp_propiedadHeight;
     private javax.swing.JSpinner jsp_propiedadTamanho;
