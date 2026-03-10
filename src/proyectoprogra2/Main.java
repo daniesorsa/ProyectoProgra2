@@ -6,13 +6,16 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 public class Main extends javax.swing.JFrame {    
-    ArrayList<Variable> variables = new ArrayList<Variable>();
+    private ArrayList<Variable> variables = new ArrayList<Variable>();
+    private ArrayList<Figura> figuras = new ArrayList<Figura>();
+    private Figura figuraSelec = null;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Main.class.getName());
     public Main() {
         initComponents();
         this.pack();
         this.setLocationRelativeTo(null);
-        
+        figuras.add(new Rectangulo(10, 10, 80, 40));
+        figuras.add(new Ovalo(10, 60, 80, 40));
         DefaultComboBoxModel modeloComboBox = new DefaultComboBoxModel();
         jcb_operacionVariable1.setModel(modeloComboBox);
         jcb_operacionVariable2.setModel(modeloComboBox);

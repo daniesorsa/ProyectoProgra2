@@ -1,9 +1,12 @@
 package proyectoprogra2;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-public abstract class Diamante extends Figura {
-    public Diamante() {
+public class Diamante extends Figura {
+
+    public Diamante(int x, int y, int ancho, int alto) {
+        super(x, y, ancho, alto);
     }
+    
     @Override
     public void dibujar(Graphics2D g2) {
         Polygon rombo = new Polygon();

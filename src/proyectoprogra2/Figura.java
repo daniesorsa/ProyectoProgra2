@@ -6,6 +6,16 @@ public abstract class Figura {
     protected int ancho;
     protected int   alto;
     protected String texto;
-    public abstract void dibujar(Graphics2D g2);
-    public abstract boolean contiene(int mouseX, int mouseY); // d&d
+
+    public Figura(int x, int y, int ancho, int alto) {
+        this.x = x;
+        this.y = y;
+        this.ancho = ancho;
+        this.alto = alto;
+    }
+    
+    public void dibujar(Graphics2D g2) {    }
+    public boolean contiene(int mouseX, int mouseY) { 
+        return mouseX >= x && mouseX <= x + ancho && mouseY >= y && mouseY <= y + alto;
+    }
 }
