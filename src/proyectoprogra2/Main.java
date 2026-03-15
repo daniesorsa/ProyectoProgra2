@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 public class Main extends javax.swing.JFrame {    
     private ArrayList<Variable> variables = new ArrayList<Variable>();
@@ -16,12 +19,19 @@ public class Main extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         figuras.add(new Rectangulo(10, 10, 80, 40));
         figuras.add(new Ovalo(10, 60, 80, 40));
+        
+        
         DefaultComboBoxModel modeloComboBox = new DefaultComboBoxModel();
         jcb_operacionVariable1.setModel(modeloComboBox);
         jcb_operacionVariable2.setModel(modeloComboBox);
         
         DefaultListModel modeloLista = new DefaultListModel();
         jl_variables.setModel(modeloLista);
+        
+        DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Clases");
+        DefaultTreeModel arbol = new DefaultTreeModel(raiz);
+        jtr_clases.setModel(arbol);
+        
         
     }
     @SuppressWarnings("unchecked")
@@ -65,7 +75,19 @@ public class Main extends javax.swing.JFrame {
         jsp_propiedadWidth = new javax.swing.JSpinner();
         jsp_propiedadHeight = new javax.swing.JSpinner();
         tbtn_propiedadEnable = new javax.swing.JToggleButton();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jd_crearClase = new javax.swing.JDialog();
+        jLabel20 = new javax.swing.JLabel();
+        btn_nombreClase = new javax.swing.JButton();
+        txt_nombreClase = new javax.swing.JTextField();
+        jpm_clases = new javax.swing.JPopupMenu();
+        jmi_agregarPropiedad = new javax.swing.JMenuItem();
+        jmi_eliminarArbol = new javax.swing.JMenuItem();
+        jmi_eliminarPropiedad = new javax.swing.JMenuItem();
+        jmi_descripcion = new javax.swing.JMenuItem();
+        jmi_agregarMetodo = new javax.swing.JMenuItem();
+        jmi_eliminarMetodo = new javax.swing.JMenuItem();
+        jmi_descripcionMetodo = new javax.swing.JMenuItem();
+        jtp_principal = new javax.swing.JTabbedPane();
         jp_uml = new javax.swing.JPanel();
         jp_opciones = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -80,7 +102,17 @@ public class Main extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jl_variables = new javax.swing.JList<>();
         btn_agregarVariables = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        jp_clases = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jtr_clases = new javax.swing.JTree();
+        btn_separador = new javax.swing.JButton();
+        btn_nuevaClase = new javax.swing.JButton();
+        btn_herencia = new javax.swing.JButton();
+        btn_codigoUni = new javax.swing.JButton();
+        btn_generarCodigoClases = new javax.swing.JButton();
+        jtp_diagramaCodigo1 = new javax.swing.JTabbedPane();
+        jp_diagrama1 = new javax.swing.JPanel();
+        jp_codigo1 = new javax.swing.JPanel();
         jmb_barraVentana = new javax.swing.JMenuBar();
         jm_archivo = new javax.swing.JMenu();
         jmi_guardar = new javax.swing.JMenuItem();
@@ -361,6 +393,71 @@ public class Main extends javax.swing.JFrame {
                 .addGap(39, 39, 39))
         );
 
+        jLabel20.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel20.setText("Nombre");
+
+        btn_nombreClase.setText("Crear");
+        btn_nombreClase.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_nombreClaseMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jd_crearClaseLayout = new javax.swing.GroupLayout(jd_crearClase.getContentPane());
+        jd_crearClase.getContentPane().setLayout(jd_crearClaseLayout);
+        jd_crearClaseLayout.setHorizontalGroup(
+            jd_crearClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_crearClaseLayout.createSequentialGroup()
+                .addGroup(jd_crearClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_crearClaseLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txt_nombreClase, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jd_crearClaseLayout.createSequentialGroup()
+                        .addGap(136, 136, 136)
+                        .addComponent(btn_nombreClase)))
+                .addContainerGap(61, Short.MAX_VALUE))
+        );
+        jd_crearClaseLayout.setVerticalGroup(
+            jd_crearClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_crearClaseLayout.createSequentialGroup()
+                .addGap(94, 94, 94)
+                .addGroup(jd_crearClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_nombreClase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(49, 49, 49)
+                .addComponent(btn_nombreClase)
+                .addContainerGap(67, Short.MAX_VALUE))
+        );
+
+        jmi_agregarPropiedad.setText("Agregar Propiedad");
+        jpm_clases.add(jmi_agregarPropiedad);
+
+        jmi_eliminarArbol.setText("Eliminar Arbol");
+        jmi_eliminarArbol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_eliminarArbolActionPerformed(evt);
+            }
+        });
+        jpm_clases.add(jmi_eliminarArbol);
+
+        jmi_eliminarPropiedad.setText("Eliminar Propiedad");
+        jmi_eliminarPropiedad.setToolTipText("");
+        jpm_clases.add(jmi_eliminarPropiedad);
+
+        jmi_descripcion.setText("Descripcion");
+        jpm_clases.add(jmi_descripcion);
+
+        jmi_agregarMetodo.setText("Agregar Metodo");
+        jpm_clases.add(jmi_agregarMetodo);
+
+        jmi_eliminarMetodo.setText("Eliminar Metodo");
+        jpm_clases.add(jmi_eliminarMetodo);
+
+        jmi_descripcionMetodo.setText("Descripcion Metodo");
+        jpm_clases.add(jmi_descripcionMetodo);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel2.setFont(new java.awt.Font("Bauhaus 93", 2, 36)); // NOI18N
@@ -507,7 +604,7 @@ public class Main extends javax.swing.JFrame {
         );
         jp_umlLayout.setVerticalGroup(
             jp_umlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 511, Short.MAX_VALUE)
+            .addGap(0, 516, Short.MAX_VALUE)
             .addGroup(jp_umlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jp_umlLayout.createSequentialGroup()
                     .addContainerGap()
@@ -518,20 +615,108 @@ public class Main extends javax.swing.JFrame {
                     .addContainerGap()))
         );
 
-        jTabbedPane1.addTab("UML", jp_uml);
+        jtp_principal.addTab("UML", jp_uml);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1040, Short.MAX_VALUE)
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Clases Generadas");
+
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Clases");
+        jtr_clases.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jtr_clases.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtr_clasesMouseClicked(evt);
+            }
+        });
+
+        btn_separador.setText("Separador");
+
+        btn_nuevaClase.setText("Nueva Clase");
+        btn_nuevaClase.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_nuevaClaseMouseClicked(evt);
+            }
+        });
+
+        btn_herencia.setText("Herencia");
+
+        btn_codigoUni.setText("Codig Uni");
+
+        btn_generarCodigoClases.setText("jButton3");
+
+        javax.swing.GroupLayout jp_diagrama1Layout = new javax.swing.GroupLayout(jp_diagrama1);
+        jp_diagrama1.setLayout(jp_diagrama1Layout);
+        jp_diagrama1Layout.setHorizontalGroup(
+            jp_diagrama1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 721, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 511, Short.MAX_VALUE)
+        jp_diagrama1Layout.setVerticalGroup(
+            jp_diagrama1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 449, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Clases", jPanel1);
+        jtp_diagramaCodigo1.addTab("Diagrama", jp_diagrama1);
+
+        javax.swing.GroupLayout jp_codigo1Layout = new javax.swing.GroupLayout(jp_codigo1);
+        jp_codigo1.setLayout(jp_codigo1Layout);
+        jp_codigo1Layout.setHorizontalGroup(
+            jp_codigo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 721, Short.MAX_VALUE)
+        );
+        jp_codigo1Layout.setVerticalGroup(
+            jp_codigo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 449, Short.MAX_VALUE)
+        );
+
+        jtp_diagramaCodigo1.addTab("Codigo", jp_codigo1);
+
+        javax.swing.GroupLayout jp_clasesLayout = new javax.swing.GroupLayout(jp_clases);
+        jp_clases.setLayout(jp_clasesLayout);
+        jp_clasesLayout.setHorizontalGroup(
+            jp_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jp_clasesLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(jp_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jp_clasesLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(jp_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_separador)
+                            .addComponent(btn_herencia)
+                            .addComponent(btn_generarCodigoClases))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addGroup(jp_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btn_nuevaClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_codigoUni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jtr_clases, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(37, 37, 37)
+                .addComponent(jtp_diagramaCodigo1, javax.swing.GroupLayout.PREFERRED_SIZE, 721, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE))
+        );
+        jp_clasesLayout.setVerticalGroup(
+            jp_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jp_clasesLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(jp_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jtp_diagramaCodigo1)
+                    .addGroup(jp_clasesLayout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtr_clases, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jp_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_separador)
+                            .addComponent(btn_nuevaClase))
+                        .addGap(18, 18, 18)
+                        .addGroup(jp_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_herencia)
+                            .addComponent(btn_codigoUni))
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_generarCodigoClases)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jtp_principal.addTab("Clases", jp_clases);
 
         jm_archivo.setText("Archivo");
 
@@ -562,13 +747,13 @@ public class Main extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1040, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtp_principal, javax.swing.GroupLayout.PREFERRED_SIZE, 1040, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1)
+                .addComponent(jtp_principal)
                 .addContainerGap())
         );
 
@@ -587,11 +772,6 @@ public class Main extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erros, no deje vacio o solo con espacio");
             return;
         }
-        /*for (int i = 0; i < nombre.length(); i++) {
-            if(!((nombre.charAt(i) >= 65 &&  nombre.charAt(i) <= 90)  ||  (nombre.charAt(i) >= 97 &&  nombre.charAt(i) <= 122)) ) {
-                JOptionPane.showMessageDialog(null, "Erros, ingrese un nombre sin numeros");
-            }
-        }*/
         String tipo = jcb_tipoVariable.getSelectedItem().toString();
         Variable variable = new Variable(nombre, tipo);
         variables.add(variable);
@@ -618,6 +798,53 @@ public class Main extends javax.swing.JFrame {
     private void btn_propiedadCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_propiedadCancelarMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_propiedadCancelarMouseClicked
+
+    private void btn_nuevaClaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nuevaClaseMouseClicked
+        // TODO add your handling code here:
+        jd_crearClase.pack();
+        jd_crearClase.setLocationRelativeTo(jtp_principal);
+        jd_crearClase.setVisible(true);     
+    }//GEN-LAST:event_btn_nuevaClaseMouseClicked
+
+    private void btn_nombreClaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nombreClaseMouseClicked
+        // TODO add your handling code here:
+        String nombre = txt_nombreClase.getText();
+        if(nombre.isEmpty() || nombre.isBlank() || !(nombre.charAt(0) >= 65 && nombre.charAt(0) <= 90)) {
+            JOptionPane.showMessageDialog(this, "Asegurese de que:"
+                    + "\n1. No este vacio"
+                    + "\n2. No tenga unicamentre espacios"
+                    + "\n3. El primer caracter debe es mayuscula");
+            txt_nombreClase.setText("");
+        } else {
+            DefaultTreeModel modeloArbol = (DefaultTreeModel) jtr_clases.getModel();
+            DefaultMutableTreeNode nodoClase = (DefaultMutableTreeNode) modeloArbol.getRoot();
+            DefaultMutableTreeNode nuevoNodo = new DefaultMutableTreeNode(nombre);
+            nodoClase.add(nuevoNodo);
+            modeloArbol.reload();
+            txt_nombreClase.setText("");
+            jd_crearClase.setVisible(false);
+        }
+    }//GEN-LAST:event_btn_nombreClaseMouseClicked
+
+    private void jmi_eliminarArbolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarArbolActionPerformed
+        // TODO add your handling code here:
+        DefaultTreeModel modeloArbol = (DefaultTreeModel) jtr_clases.getModel();
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modeloArbol.getRoot();
+        int confirmarInt = JOptionPane.showConfirmDialog(this, "Realizar eliminacion de arbol?", "Confirmacion", JOptionPane.YES_NO_OPTION);
+        boolean confirmar = confirmarInt == JOptionPane.YES_OPTION;
+        if(confirmar) {
+            raiz.removeAllChildren();
+            modeloArbol.reload();
+        }
+        else return;
+    }//GEN-LAST:event_jmi_eliminarArbolActionPerformed
+
+    private void jtr_clasesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtr_clasesMouseClicked
+        // TODO add your handling code here:
+        jpm_clases.pack();
+        jpm_clases.setLocation(evt.getX(), evt.getY());
+        jpm_clases.setVisible(true);
+    }//GEN-LAST:event_jtr_clasesMouseClicked
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
     }
@@ -625,12 +852,18 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregarVariable;
     private javax.swing.JButton btn_agregarVariables;
+    private javax.swing.JButton btn_codigoUni;
     private javax.swing.JButton btn_generarCodigo;
+    private javax.swing.JButton btn_generarCodigoClases;
+    private javax.swing.JButton btn_herencia;
+    private javax.swing.JButton btn_nombreClase;
+    private javax.swing.JButton btn_nuevaClase;
     private javax.swing.JButton btn_operacionGuardar;
     private javax.swing.JButton btn_operacionGuardar1;
     private javax.swing.JButton btn_pegar;
     private javax.swing.JButton btn_propiedadCancelar;
     private javax.swing.JButton btn_propiedadColor;
+    private javax.swing.JButton btn_separador;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -643,15 +876,15 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JComboBox<String> jcb_operacionResultado;
@@ -661,6 +894,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcb_propiedadFuente;
     private javax.swing.JComboBox<String> jcb_tipoVariable;
     private javax.swing.JDialog jd_agregarVariable;
+    private javax.swing.JDialog jd_crearClase;
     private javax.swing.JDialog jd_operacion;
     private javax.swing.JDialog jd_propiedadesFigura;
     private javax.swing.JList<String> jl_variables;
@@ -668,19 +902,34 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jm_exportar;
     private javax.swing.JMenuBar jmb_barraVentana;
     private javax.swing.JMenuItem jmi_abrir;
+    private javax.swing.JMenuItem jmi_agregarMetodo;
+    private javax.swing.JMenuItem jmi_agregarPropiedad;
+    private javax.swing.JMenuItem jmi_descripcion;
+    private javax.swing.JMenuItem jmi_descripcionMetodo;
+    private javax.swing.JMenuItem jmi_eliminarArbol;
+    private javax.swing.JMenuItem jmi_eliminarMetodo;
+    private javax.swing.JMenuItem jmi_eliminarPropiedad;
     private javax.swing.JMenuItem jmi_guardar;
     private javax.swing.JMenuItem jmi_nuevo;
+    private javax.swing.JPanel jp_clases;
     private javax.swing.JPanel jp_codigo;
+    private javax.swing.JPanel jp_codigo1;
     private javax.swing.JPanel jp_diagrama;
+    private javax.swing.JPanel jp_diagrama1;
     private javax.swing.JPanel jp_medio;
     private javax.swing.JPanel jp_opciones;
     private javax.swing.JPanel jp_uml;
     private javax.swing.JPanel jp_variables;
+    private javax.swing.JPopupMenu jpm_clases;
     private javax.swing.JSpinner jsp_propiedadHeight;
     private javax.swing.JSpinner jsp_propiedadTamanho;
     private javax.swing.JSpinner jsp_propiedadWidth;
     private javax.swing.JTabbedPane jtp_diagramaCodigo;
+    private javax.swing.JTabbedPane jtp_diagramaCodigo1;
+    private javax.swing.JTabbedPane jtp_principal;
+    private javax.swing.JTree jtr_clases;
     private javax.swing.JToggleButton tbtn_propiedadEnable;
+    private javax.swing.JTextField txt_nombreClase;
     private javax.swing.JTextField txt_nombreVariable;
     // End of variables declaration//GEN-END:variables
 }
