@@ -2,6 +2,7 @@ package proyectoprogra2;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -17,6 +18,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -24,12 +26,134 @@ import javax.swing.tree.DefaultTreeModel;
 public class Main extends javax.swing.JFrame {    
     private ArrayList<Variable> variables = new ArrayList<Variable>();
     private ArrayList<Figura> figuras = new ArrayList<Figura>();
-    
+    private ArrayList<Figura> plantillas = new ArrayList<>();
+    private JPanel canvasPanel;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Main.class.getName());
     
     public Main() {
-        initComponents();
         
+        //figuras
+        initComponents();
+        Ovalo inicio = new Ovalo(10, 10, 90, 35);
+        inicio.setNombre("Inicio");
+
+        Ovalo fin = new Ovalo(130, 10, 90, 35);
+        fin.setNombre("Fin");
+
+        Rectangulo proceso = new Rectangulo(10, 80, 90, 40);
+        proceso.setNombre("Proceso");
+        
+        Paralelogramo declarar = new Paralelogramo(10, 150, 90, 40);
+        declarar.setNombre("Declarar");
+
+        Diamante ifFig = new Diamante(10, 150, 90, 50);
+        ifFig.setNombre("If");
+
+        Rectangulo forFig = new Rectangulo(10, 210, 90, 40);
+        forFig.setNombre("For");
+
+        Rectangulo whileFig = new Rectangulo(10, 260, 90, 40);
+        whileFig.setNombre("While");
+
+        RectanguloDoble sout = new RectanguloDoble(10, 360, 90, 40);
+        sout.setNombre("sout");
+        
+        plantillas.add(inicio);
+        plantillas.add(fin);
+        plantillas.add(proceso);
+        plantillas.add(declarar);
+        plantillas.add(ifFig);
+        plantillas.add(forFig);
+        plantillas.add(whileFig);
+        plantillas.add(sout);
+        
+        JPanel opcionesPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+                for (Figura f : plantillas) f.dibujar(g2);
+            }
+        };
+        opcionesPanel.setBackground(Color.WHITE);
+        opcionesPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                for (Figura f : plantillas) {
+                    if (f.contiene(e.getX(), e.getY())) {
+                        //offset para poder mover
+                        int x = Math.max(10, canvasPanel.getWidth()  / 2 - f.getAncho() / 2)+ (figuras.size() % 6) * 15;
+                        int y = Math.max(10, canvasPanel.getHeight() / 2 - f.getAlto()  / 2) + (figuras.size() % 6) * 15;
+                        figuras.add(f.copiar(x, y));
+                        canvasPanel.repaint();
+                        break;
+                    }
+                }
+            }
+        });
+    jp_opciones.setLayout(new BorderLayout());
+    jp_opciones.add(opcionesPanel, BorderLayout.CENTER);
+ 
+    final Figura[] seleccionada = {null};
+    final int[] offsetX = {0};
+    final int[] offsetY = {0};
+ 
+    canvasPanel = new JPanel() {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D) g;
+            for (Figura f : figuras) f.dibujar(g2);
+        }
+    };
+    canvasPanel.setBackground(Color.WHITE);
+ 
+    canvasPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mousePressed(java.awt.event.MouseEvent e) {
+            if (javax.swing.SwingUtilities.isLeftMouseButton(e)) {
+                seleccionada[0] = null;
+                for (int i = figuras.size() - 1; i >= 0; i--) {
+                    if (figuras.get(i).contiene(e.getX(), e.getY())) {
+                        seleccionada[0] = figuras.get(i);
+                        offsetX[0] = e.getX() - seleccionada[0].getX();
+                        offsetY[0] = e.getY() - seleccionada[0].getY();
+                        break;
+                    }
+                }
+            }
+        }
+        @Override
+        public void mouseReleased(java.awt.event.MouseEvent e) {
+            seleccionada[0] = null;
+        }
+    });
+ 
+    canvasPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+        @Override
+        public void mouseDragged(java.awt.event.MouseEvent e) {
+            if (seleccionada[0] != null && javax.swing.SwingUtilities.isLeftMouseButton(e)) {
+                int nuevoX = e.getX() - offsetX[0];
+                int nuevoY = e.getY() - offsetY[0];
+                // Clamp so the figure stays inside the canvas
+                nuevoX = Math.max(0, Math.min(nuevoX,
+                canvasPanel.getWidth()  - seleccionada[0].getAncho()));
+                nuevoY = Math.max(0, Math.min(nuevoY,
+                canvasPanel.getHeight() - seleccionada[0].getAlto()));
+ 
+                seleccionada[0].setX(nuevoX);
+                seleccionada[0].setY(nuevoY);
+                canvasPanel.repaint();
+            }
+        }
+    });
+    
+        jp_diagrama.removeAll();
+        jp_diagrama.setLayout(new BorderLayout());
+        jp_diagrama.add(canvasPanel, BorderLayout.CENTER);
+        jtp_diagramaCodigo.setSelectedIndex(1);
+        
+                
         this.pack();
         this.setLocationRelativeTo(null);
         
@@ -37,19 +161,6 @@ public class Main extends javax.swing.JFrame {
         jmi_nuevo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         jmi_guardar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         jmi_abrir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-        
-        // Figuras
-        figuras.add(new Rectangulo(10, 10, 80, 40));
-        figuras.add(new Ovalo(10, 60, 80, 40));
-        figuras.add(new Diamante(10, 60, 80, 40));
-        figuras.add(new Circulo(10, 60, 80, 40));
-        PanelDiagrama panel = new PanelDiagrama(figuras);
-        jp_diagrama.removeAll();
-        jp_diagrama.setLayout(new BorderLayout());
-        jp_diagrama.add(panel, BorderLayout.CENTER);
-        jp_diagrama.revalidate();
-        jp_diagrama.repaint();
-        panel.setBackground(Color.RED);
         
         //Modelos
         //jcb
@@ -520,7 +631,7 @@ public class Main extends javax.swing.JFrame {
         jp_codigo.setLayout(jp_codigoLayout);
         jp_codigoLayout.setHorizontalGroup(
             jp_codigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 487, Short.MAX_VALUE)
+            .addGap(0, 437, Short.MAX_VALUE)
         );
         jp_codigoLayout.setVerticalGroup(
             jp_codigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -533,7 +644,7 @@ public class Main extends javax.swing.JFrame {
         jp_diagrama.setLayout(jp_diagramaLayout);
         jp_diagramaLayout.setHorizontalGroup(
             jp_diagramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 487, Short.MAX_VALUE)
+            .addGap(0, 437, Short.MAX_VALUE)
         );
         jp_diagramaLayout.setVerticalGroup(
             jp_diagramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -553,12 +664,12 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jp_medioLayout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addComponent(btn_pegar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
                 .addComponent(btn_generarCodigo)
                 .addGap(68, 68, 68))
             .addGroup(jp_medioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jtp_diagramaCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtp_diagramaCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jp_medioLayout.setVerticalGroup(
@@ -658,7 +769,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jp_umlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jp_umlLayout.createSequentialGroup()
                     .addGap(294, 294, 294)
-                    .addComponent(jp_medio, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jp_medio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(295, Short.MAX_VALUE)))
         );
         jp_umlLayout.setVerticalGroup(
@@ -849,17 +960,37 @@ public class Main extends javax.swing.JFrame {
 
     private void btn_agregarVariableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarVariableMouseClicked
         // TODO add your handling code here:
-        String nombre = txt_nombreVariable.getText();
-        if(nombre.isBlank() || nombre.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Erros, no deje vacio o solo con espacio");
-            return;
+        for (Variable v : variables) {
+            if(v.getNombre().equals(txt_nombreVariable)) {
+                JOptionPane.showMessageDialog(null, "Erros, no deje vacio o solo con espacio");
+                txt_nombreVariable.setText("");
+                return;
+            }
         }
-        String tipo = jcb_tipoVariable.getSelectedItem().toString();
-        Variable variable = new Variable(nombre, tipo);
-        variables.add(variable);
-        DefaultListModel modelo = (DefaultListModel) jl_variables.getModel();
-        modelo.addElement(variable);
-        jd_agregarVariable.setVisible(false);
+        String nombre = txt_nombreVariable.getText();
+        if(nombre.isEmpty() || (nombre.charAt(0) >= 65 && nombre.charAt(0) <= 90) || !(nombre.matches("^[a-zA-Z0-9_]*$"))) {
+            JOptionPane.showMessageDialog(null, "Error, no se permiten "
+                    + "\n- Vacios"
+                    + "\n- En blanco"
+                    + "\n- Caracteres Especiales"
+                    + "\n- Letra mayuscula inicial");
+            return;
+        } else {
+            DefaultListModel modelo = (DefaultListModel) jl_variables.getModel();
+            for (int i = 0; i < modelo.getSize(); i++) {
+                if(modelo.getElementAt(i).toString().equals(nombre)) {
+                    JOptionPane.showMessageDialog(null, "Error, ya existe una variable con ese nombre");
+                    txt_nombreVariable.setText("");
+                    return;
+                }
+            }
+            String tipo = jcb_tipoVariable.getSelectedItem().toString();
+            Variable variable = new Variable(nombre, tipo);
+            variables.add(variable);
+            modelo.addElement(variable);
+            jd_agregarVariable.setVisible(false);
+        }
+            
     }//GEN-LAST:event_btn_agregarVariableMouseClicked
 
     private void btn_agregarVariablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarVariablesMouseClicked

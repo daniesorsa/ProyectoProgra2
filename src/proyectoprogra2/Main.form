@@ -753,7 +753,7 @@
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="294" max="-2" attributes="0"/>
-                          <Component id="jp_medio" min="-2" pref="451" max="-2" attributes="0"/>
+                          <Component id="jp_medio" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="295" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -807,13 +807,13 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                           <Component id="btn_pegar" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="131" max="32767" attributes="0"/>
                           <Component id="btn_generarCodigo" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jtp_diagramaCodigo" min="-2" pref="487" max="-2" attributes="0"/>
+                          <Component id="jtp_diagramaCodigo" min="-2" pref="437" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -849,7 +849,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="487" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="437" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
@@ -871,7 +871,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="487" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="437" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
