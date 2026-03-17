@@ -111,12 +111,12 @@ public abstract class Figura implements Serializable {
     
     public abstract void dibujar(Graphics2D g2);
     public abstract Figura copiar(int x, int y);
-    protected void copiarPropiedades(Figura dest) {
-        dest.texto = this.texto;
-        dest.colorFondo = this.colorFondo;
-        dest.colorBorde = this.colorBorde;
-        dest.fuente = this.fuente;
-        dest.tamFuente = this.tamFuente;
+    protected void copiarPropiedades(Figura original) {
+        original.texto = this.texto;
+        original.colorFondo = this.colorFondo;
+        original.colorBorde = this.colorBorde;
+        original.fuente = this.fuente;
+        original.tamFuente = this.tamFuente;
     }
     protected void dibujarTexto(Graphics2D g2) {
         if (texto == null || texto.isEmpty()) return;

@@ -643,6 +643,53 @@
         </DimensionLayout>
       </Layout>
     </Container>
+    <Container class="javax.swing.JPopupMenu" name="jpm_diagramas">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="jmi_cambiarColor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Agregar Propiedad"/>
+          </Properties>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jmi_cambiarTexto">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Eliminar Arbol"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_cambiarTextoActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jmi_eliminar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Eliminar Propiedad"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+          </Properties>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jmi_cambiarFuente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Descripcion"/>
+          </Properties>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jmi_propiedades">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Propiedades"/>
+          </Properties>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jmi_copiar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Eliminar Metodo"/>
+          </Properties>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jmi_colorFuente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Descripcion Metodo"/>
+          </Properties>
+        </MenuItem>
+      </SubComponents>
+    </Container>
     <Menu class="javax.swing.JMenuBar" name="jmb_barraVentana">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jm_archivo">
@@ -838,6 +885,9 @@
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
                   <SubComponents>
                     <Container class="javax.swing.JPanel" name="jp_codigo">
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jp_codigoMouseClicked"/>
+                      </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                           <JTabbedPaneConstraints tabName="Codigo">
@@ -1031,8 +1081,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jLabel3" alignment="1" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -1040,16 +1089,17 @@
                                   <Component id="btn_herencia" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="btn_generarCodigoClases" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="30" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="btn_nuevaClase" max="32767" attributes="0"/>
-                                  <Component id="btn_codigoUni" max="32767" attributes="0"/>
+                                  <Component id="btn_nuevaClase" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btn_codigoUni" min="-2" pref="99" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Component id="jtr_clases" max="32767" attributes="0"/>
+                          <Component id="jtr_clases" alignment="0" min="-2" pref="202" max="-2" attributes="0"/>
+                          <Component id="jLabel3" alignment="0" min="-2" pref="213" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                      <Component id="jtp_diagramaCodigo1" min="-2" pref="721" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jtp_diagramaCodigo1" min="-2" pref="746" max="-2" attributes="0"/>
                       <EmptySpace pref="46" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -1150,7 +1200,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="721" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="746" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -1172,7 +1222,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="721" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="746" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">

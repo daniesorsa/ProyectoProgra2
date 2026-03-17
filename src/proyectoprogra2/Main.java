@@ -1,16 +1,10 @@
 package proyectoprogra2;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.BufferedWriter;
-import java.io.File;
+import java.io.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -28,12 +22,13 @@ public class Main extends javax.swing.JFrame {
     private ArrayList<Figura> figuras = new ArrayList<Figura>();
     private ArrayList<Figura> plantillas = new ArrayList<>();
     private JPanel canvasPanel;
+    private Figura figuraClickDerecho = null;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Main.class.getName());
     
     public Main() {
-        
-        //figuras
         initComponents();
+        //figuras
+        
         Ovalo inicio = new Ovalo(10, 10, 90, 35);
         inicio.setNombre("Inicio");
 
@@ -43,19 +38,13 @@ public class Main extends javax.swing.JFrame {
         Rectangulo proceso = new Rectangulo(10, 80, 90, 40);
         proceso.setNombre("Proceso");
         
-        Paralelogramo declarar = new Paralelogramo(10, 150, 90, 40);
+        Paralelogramo declarar = new Paralelogramo(130, 80, 90, 40);
         declarar.setNombre("Declarar");
 
         Diamante ifFig = new Diamante(10, 150, 90, 50);
         ifFig.setNombre("If");
 
-        Rectangulo forFig = new Rectangulo(10, 210, 90, 40);
-        forFig.setNombre("For");
-
-        Rectangulo whileFig = new Rectangulo(10, 260, 90, 40);
-        whileFig.setNombre("While");
-
-        RectanguloDoble sout = new RectanguloDoble(10, 360, 90, 40);
+        RectanguloDoble sout = new RectanguloDoble(130, 150, 90, 40);
         sout.setNombre("sout");
         
         plantillas.add(inicio);
@@ -63,8 +52,6 @@ public class Main extends javax.swing.JFrame {
         plantillas.add(proceso);
         plantillas.add(declarar);
         plantillas.add(ifFig);
-        plantillas.add(forFig);
-        plantillas.add(whileFig);
         plantillas.add(sout);
         
         JPanel opcionesPanel = new JPanel() {
@@ -91,62 +78,73 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         });
-    jp_opciones.setLayout(new BorderLayout());
-    jp_opciones.add(opcionesPanel, BorderLayout.CENTER);
- 
-    final Figura[] seleccionada = {null};
-    final int[] offsetX = {0};
-    final int[] offsetY = {0};
- 
-    canvasPanel = new JPanel() {
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2 = (Graphics2D) g;
-            for (Figura f : figuras) f.dibujar(g2);
-        }
-    };
-    canvasPanel.setBackground(Color.WHITE);
- 
-    canvasPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-        @Override
-        public void mousePressed(java.awt.event.MouseEvent e) {
-            if (javax.swing.SwingUtilities.isLeftMouseButton(e)) {
-                seleccionada[0] = null;
-                for (int i = figuras.size() - 1; i >= 0; i--) {
-                    if (figuras.get(i).contiene(e.getX(), e.getY())) {
-                        seleccionada[0] = figuras.get(i);
-                        offsetX[0] = e.getX() - seleccionada[0].getX();
-                        offsetY[0] = e.getY() - seleccionada[0].getY();
-                        break;
+        jp_opciones.setLayout(new BorderLayout());
+        jp_opciones.add(opcionesPanel, BorderLayout.CENTER);
+
+        final Figura[] seleccionada = {null};
+        final int[] offsetX = {0};
+        final int[] offsetY = {0};
+
+        canvasPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+                for (Figura f : figuras) f.dibujar(g2);
+            }
+        };
+        canvasPanel.setBackground(Color.WHITE);
+        canvasPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                if (e.getButton() == 1) {
+                    seleccionada[0] = null;
+                    for (int i = figuras.size() - 1; i >= 0; i--) {
+                        if (figuras.get(i).contiene(e.getX(), e.getY())) {
+                            seleccionada[0] = figuras.get(i);
+                            offsetX[0] = e.getX() - seleccionada[0].getX();
+                            offsetY[0] = e.getY() - seleccionada[0].getY();
+                            break;
+                        }
                     }
                 }
             }
-        }
-        @Override
-        public void mouseReleased(java.awt.event.MouseEvent e) {
-            seleccionada[0] = null;
-        }
-    });
- 
-    canvasPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-        @Override
-        public void mouseDragged(java.awt.event.MouseEvent e) {
-            if (seleccionada[0] != null && javax.swing.SwingUtilities.isLeftMouseButton(e)) {
-                int nuevoX = e.getX() - offsetX[0];
-                int nuevoY = e.getY() - offsetY[0];
-                // Clamp so the figure stays inside the canvas
-                nuevoX = Math.max(0, Math.min(nuevoX,
-                canvasPanel.getWidth()  - seleccionada[0].getAncho()));
-                nuevoY = Math.max(0, Math.min(nuevoY,
-                canvasPanel.getHeight() - seleccionada[0].getAlto()));
- 
-                seleccionada[0].setX(nuevoX);
-                seleccionada[0].setY(nuevoY);
-                canvasPanel.repaint();
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+                seleccionada[0] = null;
             }
-        }
-    });
+             @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                figuraClickDerecho = null;
+                if (evt.getButton() == 3) {
+                for (int i = figuras.size() - 1; i >= 0; i--) {
+                    if (figuras.get(i).contiene(evt.getX(), evt.getY())) {
+                        figuraClickDerecho = figuras.get(i);
+                        break;
+                    }
+                }
+                if(figuraClickDerecho != null) jpm_diagramas.show(canvasPanel, evt.getX(), evt.getY());
+            }
+        }});
+ 
+        canvasPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(java.awt.event.MouseEvent e) {
+                if (seleccionada[0] != null && javax.swing.SwingUtilities.isLeftMouseButton(e)) {
+                    int nuevoX = e.getX() - offsetX[0];
+                    int nuevoY = e.getY() - offsetY[0];
+                    // Clamp so the figure stays inside the canvas
+                    nuevoX = Math.max(0, Math.min(nuevoX,
+                    canvasPanel.getWidth()  - seleccionada[0].getAncho()));
+                    nuevoY = Math.max(0, Math.min(nuevoY,
+                    canvasPanel.getHeight() - seleccionada[0].getAlto()));
+
+                    seleccionada[0].setX(nuevoX);
+                    seleccionada[0].setY(nuevoY);
+                    canvasPanel.repaint();
+                }
+            }
+        });
     
         jp_diagrama.removeAll();
         jp_diagrama.setLayout(new BorderLayout());
@@ -231,6 +229,14 @@ public class Main extends javax.swing.JFrame {
         jmi_eliminarMetodo = new javax.swing.JMenuItem();
         jmi_descripcionMetodo = new javax.swing.JMenuItem();
         jd_herencia = new javax.swing.JDialog();
+        jpm_diagramas = new javax.swing.JPopupMenu();
+        jmi_cambiarColor = new javax.swing.JMenuItem();
+        jmi_cambiarTexto = new javax.swing.JMenuItem();
+        jmi_eliminar = new javax.swing.JMenuItem();
+        jmi_cambiarFuente = new javax.swing.JMenuItem();
+        jmi_propiedades = new javax.swing.JMenuItem();
+        jmi_copiar = new javax.swing.JMenuItem();
+        jmi_colorFuente = new javax.swing.JMenuItem();
         jtp_principal = new javax.swing.JTabbedPane();
         jp_uml = new javax.swing.JPanel();
         jp_opciones = new javax.swing.JPanel();
@@ -614,6 +620,33 @@ public class Main extends javax.swing.JFrame {
             .addGap(0, 518, Short.MAX_VALUE)
         );
 
+        jmi_cambiarColor.setText("Agregar Propiedad");
+        jpm_diagramas.add(jmi_cambiarColor);
+
+        jmi_cambiarTexto.setText("Eliminar Arbol");
+        jmi_cambiarTexto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_cambiarTextoActionPerformed(evt);
+            }
+        });
+        jpm_diagramas.add(jmi_cambiarTexto);
+
+        jmi_eliminar.setText("Eliminar Propiedad");
+        jmi_eliminar.setToolTipText("");
+        jpm_diagramas.add(jmi_eliminar);
+
+        jmi_cambiarFuente.setText("Descripcion");
+        jpm_diagramas.add(jmi_cambiarFuente);
+
+        jmi_propiedades.setText("Propiedades");
+        jpm_diagramas.add(jmi_propiedades);
+
+        jmi_copiar.setText("Eliminar Metodo");
+        jpm_diagramas.add(jmi_copiar);
+
+        jmi_colorFuente.setText("Descripcion Metodo");
+        jpm_diagramas.add(jmi_colorFuente);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         javax.swing.GroupLayout jp_opcionesLayout = new javax.swing.GroupLayout(jp_opciones);
@@ -626,6 +659,12 @@ public class Main extends javax.swing.JFrame {
             jp_opcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        jp_codigo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jp_codigoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jp_codigoLayout = new javax.swing.GroupLayout(jp_codigo);
         jp_codigo.setLayout(jp_codigoLayout);
@@ -828,7 +867,7 @@ public class Main extends javax.swing.JFrame {
         jp_diagrama1.setLayout(jp_diagrama1Layout);
         jp_diagrama1Layout.setHorizontalGroup(
             jp_diagrama1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 721, Short.MAX_VALUE)
+            .addGap(0, 746, Short.MAX_VALUE)
         );
         jp_diagrama1Layout.setVerticalGroup(
             jp_diagrama1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -841,7 +880,7 @@ public class Main extends javax.swing.JFrame {
         jp_codigo1.setLayout(jp_codigo1Layout);
         jp_codigo1Layout.setHorizontalGroup(
             jp_codigo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 721, Short.MAX_VALUE)
+            .addGap(0, 746, Short.MAX_VALUE)
         );
         jp_codigo1Layout.setVerticalGroup(
             jp_codigo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -856,21 +895,21 @@ public class Main extends javax.swing.JFrame {
             jp_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jp_clasesLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(jp_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jp_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jp_clasesLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(jp_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btn_separador)
                             .addComponent(btn_herencia)
                             .addComponent(btn_generarCodigoClases))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addGap(30, 30, 30)
                         .addGroup(jp_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btn_nuevaClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_codigoUni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jtr_clases, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(37, 37, 37)
-                .addComponent(jtp_diagramaCodigo1, javax.swing.GroupLayout.PREFERRED_SIZE, 721, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_nuevaClase)
+                            .addComponent(btn_codigoUni, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jtr_clases, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jtp_diagramaCodigo1, javax.swing.GroupLayout.PREFERRED_SIZE, 746, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(46, Short.MAX_VALUE))
         );
         jp_clasesLayout.setVerticalGroup(
@@ -1150,6 +1189,14 @@ public class Main extends javax.swing.JFrame {
         Main nuevaVentana = new Main();
         nuevaVentana.setVisible(true);
     }//GEN-LAST:event_jmi_nuevoActionPerformed
+
+    private void jmi_cambiarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cambiarTextoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmi_cambiarTextoActionPerformed
+
+    private void jp_codigoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jp_codigoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jp_codigoMouseClicked
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
     }
@@ -1211,13 +1258,20 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_abrir;
     private javax.swing.JMenuItem jmi_agregarMetodo;
     private javax.swing.JMenuItem jmi_agregarPropiedad;
+    private javax.swing.JMenuItem jmi_cambiarColor;
+    private javax.swing.JMenuItem jmi_cambiarFuente;
+    private javax.swing.JMenuItem jmi_cambiarTexto;
+    private javax.swing.JMenuItem jmi_colorFuente;
+    private javax.swing.JMenuItem jmi_copiar;
     private javax.swing.JMenuItem jmi_descripcion;
     private javax.swing.JMenuItem jmi_descripcionMetodo;
+    private javax.swing.JMenuItem jmi_eliminar;
     private javax.swing.JMenuItem jmi_eliminarArbol;
     private javax.swing.JMenuItem jmi_eliminarMetodo;
     private javax.swing.JMenuItem jmi_eliminarPropiedad;
     private javax.swing.JMenuItem jmi_guardar;
     private javax.swing.JMenuItem jmi_nuevo;
+    private javax.swing.JMenuItem jmi_propiedades;
     private javax.swing.JPanel jp_clases;
     private javax.swing.JPanel jp_codigo;
     private javax.swing.JPanel jp_codigo1;
@@ -1228,6 +1282,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jp_uml;
     private javax.swing.JPanel jp_variables;
     private javax.swing.JPopupMenu jpm_clases;
+    private javax.swing.JPopupMenu jpm_diagramas;
     private javax.swing.JSpinner jsp_propiedadHeight;
     private javax.swing.JSpinner jsp_propiedadTamanho;
     private javax.swing.JSpinner jsp_propiedadWidth;
