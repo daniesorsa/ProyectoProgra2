@@ -1,5 +1,8 @@
 package proyectoprogra2;
-public class Variable {
+
+import java.io.Serializable;
+
+public class Variable implements Serializable {
     private String nombre;
     private String tipo;
 

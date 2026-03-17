@@ -1,6 +1,7 @@
 package proyectoprogra2;
 import java.awt.Graphics2D;
-public class Ovalo extends Figura {
+import java.io.Serializable;
+public class Ovalo extends Figura implements Serializable{
 
     public Ovalo(int x, int y, int ancho, int alto) {
         super(x, y, ancho, alto);

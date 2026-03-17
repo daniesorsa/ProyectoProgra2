@@ -1,7 +1,8 @@
 package proyectoprogra2;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-public class Diamante extends Figura {
+import java.io.Serializable;
+public class Diamante extends Figura implements Serializable {
 
     public Diamante(int x, int y, int ancho, int alto) {
         super(x, y, ancho, alto);
