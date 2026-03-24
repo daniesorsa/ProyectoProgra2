@@ -26,4 +26,9 @@ public class Diamante extends Figura implements Serializable {
         copiarPropiedades(d);
         return d;
     }
+
+    @Override
+    public Figura copiar() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

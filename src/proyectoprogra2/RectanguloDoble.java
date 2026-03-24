@@ -25,4 +25,9 @@ public class RectanguloDoble extends Figura implements Serializable {
         copiarPropiedades(rd);
         return rd;
     }
+
+    @Override
+    public Figura copiar() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

@@ -1506,7 +1506,7 @@ public class Main extends javax.swing.JFrame {
     private void jmi_copiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_copiarActionPerformed
         //int x, int y, int ancho, int alto
         
-        figuraCopiada = new Figura(figuraClickDerecho.getX(), figuraClickDerecho.getY(), figuraClickDerecho.getAncho(),figuraClickDerecho.getAlto());
+        //figuraCopiada = new Figura(figuraClickDerecho.getX(), figuraClickDerecho.getY(), figuraClickDerecho.getAncho(),figuraClickDerecho.getAlto());
         figuras.add(figuraCopiada);
     }//GEN-LAST:event_jmi_copiarActionPerformed
     public static void main(String args[]) {

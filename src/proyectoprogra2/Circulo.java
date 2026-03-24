@@ -21,4 +21,9 @@ public class Circulo extends Figura implements Serializable {
         copiarPropiedades(c);
         return c;
     }
+
+    @Override
+    public Figura copiar() {
+        return new Circulo(x, y, ancho, alto);
+    }
 }
