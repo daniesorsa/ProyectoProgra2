@@ -1,5 +1,4 @@
 package proyectoprogra2;
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.*;
@@ -10,42 +9,49 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-
 public class Main extends javax.swing.JFrame {    
-    private ArrayList<Variable> variables = new ArrayList<Variable>();
-    private ArrayList<Figura> figuras = new ArrayList<Figura>();
+    private ArrayList<Variable> variables = new ArrayList<>();
+    private ArrayList<Figura> figuras = new ArrayList<>();
     private ArrayList<Figura> plantillas = new ArrayList<>();
     private JPanel canvasPanel;
     private Figura figuraClickDerecho = null;
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Main.class.getName());
-    
+    private Color colorSelec = Color.white;
     public Main() {
         initComponents();
+        
         //figuras
         
         Ovalo inicio = new Ovalo(10, 10, 90, 35);
         inicio.setNombre("Inicio");
+        inicio.setTexto("Inicio");
+        
 
         Ovalo fin = new Ovalo(130, 10, 90, 35);
         fin.setNombre("Fin");
-
+        fin.setTexto("Fin");
+        
         Rectangulo proceso = new Rectangulo(10, 80, 90, 40);
         proceso.setNombre("Proceso");
+        proceso.setTexto("Proceso");
         
         Paralelogramo declarar = new Paralelogramo(130, 80, 90, 40);
         declarar.setNombre("Declarar");
-
+        declarar.setTexto("Declarar");
+        
         Diamante ifFig = new Diamante(10, 150, 90, 50);
         ifFig.setNombre("If");
-
+        ifFig.setTexto("If");
+        
         RectanguloDoble sout = new RectanguloDoble(130, 150, 90, 40);
         sout.setNombre("sout");
+        sout.setTexto("Sout");
         
         plantillas.add(inicio);
         plantillas.add(fin);
@@ -72,6 +78,7 @@ public class Main extends javax.swing.JFrame {
                         int x = Math.max(10, canvasPanel.getWidth()  / 2 - f.getAncho() / 2)+ (figuras.size() % 6) * 15;
                         int y = Math.max(10, canvasPanel.getHeight() / 2 - f.getAlto()  / 2) + (figuras.size() % 6) * 15;
                         figuras.add(f.copiar(x, y));
+                        figuras.getLast().setTexto("Lorem Ipsum");
                         canvasPanel.repaint();
                         break;
                     }
@@ -126,8 +133,7 @@ public class Main extends javax.swing.JFrame {
                 if(figuraClickDerecho != null) jpm_diagramas.show(canvasPanel, evt.getX(), evt.getY());
             }
         }});
- 
-        canvasPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+         canvasPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             @Override
             public void mouseDragged(java.awt.event.MouseEvent e) {
                 if (seleccionada[0] != null && javax.swing.SwingUtilities.isLeftMouseButton(e)) {
@@ -162,9 +168,17 @@ public class Main extends javax.swing.JFrame {
         
         //Modelos
         //jcb
-        DefaultComboBoxModel modeloComboBox = new DefaultComboBoxModel();
-        jcb_operacionVariable1.setModel(modeloComboBox);
-        jcb_operacionVariable2.setModel(modeloComboBox);
+        DefaultComboBoxModel modeloOperacionVariable =  new DefaultComboBoxModel();
+        jcb_operacionVariable1.setModel(modeloOperacionVariable);
+        jcb_operacionVariable2.setModel(modeloOperacionVariable);
+        
+        String[] fuentes = (String[]) GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        DefaultComboBoxModel modeloFuentes = new DefaultComboBoxModel(fuentes);
+        jcb_fuente.setModel(modeloFuentes);
+        jcb_propiedadFuente.setModel(modeloFuentes);
+        
+        String[] tamanhos = {"8", "10", "12", "14", "16", "18", "24", "36", "48"};
+        jcb_tamanhoFuente.setModel(new DefaultComboBoxModel<>(tamanhos));
         
         //jlist
         DefaultListModel modeloLista = new DefaultListModel();
@@ -200,22 +214,23 @@ public class Main extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        btn_operacionGuardar1 = new javax.swing.JButton();
+        btn_operacionGuardarPropiedad = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         btn_propiedadCancelar = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        btn_propiedadColor = new javax.swing.JButton();
+        txt_textoPropiedades = new javax.swing.JTextField();
+        txt_nombrePropiedades = new javax.swing.JTextField();
+        btn_propiedadColorFondo = new javax.swing.JButton();
         jcb_propiedadFuente = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
         jsp_propiedadTamanho = new javax.swing.JSpinner();
         jsp_propiedadWidth = new javax.swing.JSpinner();
         jsp_propiedadHeight = new javax.swing.JSpinner();
-        tbtn_propiedadEnable = new javax.swing.JToggleButton();
+        jp_colorFondoPropiedades = new javax.swing.JPanel();
+        btn_propiedadEnable = new javax.swing.JToggleButton();
         jd_crearClase = new javax.swing.JDialog();
         jLabel20 = new javax.swing.JLabel();
         btn_nombreClase = new javax.swing.JButton();
@@ -236,7 +251,16 @@ public class Main extends javax.swing.JFrame {
         jmi_cambiarFuente = new javax.swing.JMenuItem();
         jmi_propiedades = new javax.swing.JMenuItem();
         jmi_copiar = new javax.swing.JMenuItem();
+        jpm_agregarPropiedadDiagrama = new javax.swing.JMenuItem();
         jmi_colorFuente = new javax.swing.JMenuItem();
+        jd_cambiarFuente = new javax.swing.JDialog();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jcb_fuente = new javax.swing.JComboBox<>();
+        jcb_estilo = new javax.swing.JComboBox<>();
+        btn_guardarFuente = new javax.swing.JButton();
+        jcb_tamanhoFuente = new javax.swing.JComboBox<>();
         jtp_principal = new javax.swing.JTabbedPane();
         jp_uml = new javax.swing.JPanel();
         jp_opciones = new javax.swing.JPanel();
@@ -250,7 +274,7 @@ public class Main extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jl_variables = new javax.swing.JList<>();
-        btn_agregarVariables = new javax.swing.JButton();
+        btn_agregarVariablePrincipal = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jp_clases = new javax.swing.JPanel();
@@ -282,6 +306,9 @@ public class Main extends javax.swing.JFrame {
         btn_agregarVariable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_agregarVariableMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_agregarVariableMouseEntered(evt);
             }
         });
 
@@ -407,7 +434,7 @@ public class Main extends javax.swing.JFrame {
         );
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel11.setText("Color");
+        jLabel11.setText("Color del Fondo");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel12.setText("Nombre");
@@ -415,11 +442,16 @@ public class Main extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel13.setText("Texto");
 
-        btn_operacionGuardar1.setFont(new java.awt.Font("Tw Cen MT", 0, 24)); // NOI18N
-        btn_operacionGuardar1.setText("Cerrar");
-        btn_operacionGuardar1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_operacionGuardarPropiedad.setFont(new java.awt.Font("Tw Cen MT", 0, 24)); // NOI18N
+        btn_operacionGuardarPropiedad.setText("Cerrar");
+        btn_operacionGuardarPropiedad.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_operacionGuardar1MouseClicked(evt);
+                btn_operacionGuardarPropiedadMouseClicked(evt);
+            }
+        });
+        btn_operacionGuardarPropiedad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_operacionGuardarPropiedadActionPerformed(evt);
             }
         });
 
@@ -447,58 +479,86 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        btn_propiedadColor.setText("Elegir Color");
+        btn_propiedadColorFondo.setText("Elegir Color");
+        btn_propiedadColorFondo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_propiedadColorFondoActionPerformed(evt);
+            }
+        });
 
         jcb_propiedadFuente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Times New Roman", "Arial", "Courier New", "Dialog", "Serif", "Monospaced", "Tahoma" }));
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel19.setText("Tamaño");
 
-        tbtn_propiedadEnable.setText("Enable");
+        javax.swing.GroupLayout jp_colorFondoPropiedadesLayout = new javax.swing.GroupLayout(jp_colorFondoPropiedades);
+        jp_colorFondoPropiedades.setLayout(jp_colorFondoPropiedadesLayout);
+        jp_colorFondoPropiedadesLayout.setHorizontalGroup(
+            jp_colorFondoPropiedadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jp_colorFondoPropiedadesLayout.setVerticalGroup(
+            jp_colorFondoPropiedadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 38, Short.MAX_VALUE)
+        );
+
+        btn_propiedadEnable.setText("Enable");
 
         javax.swing.GroupLayout jd_propiedadesFiguraLayout = new javax.swing.GroupLayout(jd_propiedadesFigura.getContentPane());
         jd_propiedadesFigura.getContentPane().setLayout(jd_propiedadesFiguraLayout);
         jd_propiedadesFiguraLayout.setHorizontalGroup(
             jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_propiedadesFiguraLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_operacionGuardarPropiedad, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(73, 73, 73)
+                .addComponent(btn_propiedadCancelar)
+                .addGap(74, 74, 74))
+            .addGroup(jd_propiedadesFiguraLayout.createSequentialGroup()
                 .addGap(41, 41, 41)
-                .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jd_propiedadesFiguraLayout.createSequentialGroup()
-                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                        .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_propiedadesFiguraLayout.createSequentialGroup()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(59, 59, 59))
-                    .addGroup(jd_propiedadesFiguraLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_propiedadesFiguraLayout.createSequentialGroup()
                         .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jd_propiedadesFiguraLayout.createSequentialGroup()
-                                .addGap(98, 98, 98)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jsp_propiedadHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jsp_propiedadTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jsp_propiedadWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jsp_propiedadHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jsp_propiedadTamanho, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                                        .addComponent(jsp_propiedadWidth, javax.swing.GroupLayout.Alignment.TRAILING)))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jd_propiedadesFiguraLayout.createSequentialGroup()
                                 .addGap(43, 43, 43)
                                 .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jTextField2)
-                                    .addComponent(btn_propiedadColor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jcb_propiedadFuente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(tbtn_propiedadEnable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(22, 22, 22))))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_propiedadesFiguraLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_operacionGuardar1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addComponent(btn_propiedadCancelar)
-                .addGap(74, 74, 74))
+                                    .addGroup(jd_propiedadesFiguraLayout.createSequentialGroup()
+                                        .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txt_nombrePropiedades)
+                                            .addComponent(txt_textoPropiedades)
+                                            .addGroup(jd_propiedadesFiguraLayout.createSequentialGroup()
+                                                .addComponent(jp_colorFondoPropiedades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                                                .addComponent(btn_propiedadColorFondo, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(22, 22, 22))
+                                    .addGroup(jd_propiedadesFiguraLayout.createSequentialGroup()
+                                        .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(jcb_propiedadFuente, javax.swing.GroupLayout.Alignment.LEADING, 0, 228, Short.MAX_VALUE)
+                                            .addComponent(btn_propiedadEnable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))))
         );
         jd_propiedadesFiguraLayout.setVerticalGroup(
             jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -508,24 +568,26 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_nombrePropiedades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_textoPropiedades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_propiedadColor))
-                .addGap(18, 18, 18)
+                .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_propiedadColorFondo))
+                    .addComponent(jp_colorFondoPropiedades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tbtn_propiedadEnable))
+                    .addComponent(btn_propiedadEnable))
                 .addGap(10, 10, 10)
                 .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jcb_propiedadFuente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jsp_propiedadTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -539,7 +601,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jsp_propiedadHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(44, 44, 44)
                 .addGroup(jd_propiedadesFiguraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_operacionGuardar1)
+                    .addComponent(btn_operacionGuardarPropiedad)
                     .addComponent(btn_propiedadCancelar))
                 .addGap(39, 39, 39))
         );
@@ -620,10 +682,15 @@ public class Main extends javax.swing.JFrame {
             .addGap(0, 518, Short.MAX_VALUE)
         );
 
-        jmi_cambiarColor.setText("Agregar Propiedad");
+        jmi_cambiarColor.setText("Cambiar Color");
+        jmi_cambiarColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_cambiarColorActionPerformed(evt);
+            }
+        });
         jpm_diagramas.add(jmi_cambiarColor);
 
-        jmi_cambiarTexto.setText("Eliminar Arbol");
+        jmi_cambiarTexto.setText("Cambiar el Texto");
         jmi_cambiarTexto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmi_cambiarTextoActionPerformed(evt);
@@ -631,21 +698,108 @@ public class Main extends javax.swing.JFrame {
         });
         jpm_diagramas.add(jmi_cambiarTexto);
 
-        jmi_eliminar.setText("Eliminar Propiedad");
+        jmi_eliminar.setText("Eliminar");
         jmi_eliminar.setToolTipText("");
+        jmi_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_eliminarActionPerformed(evt);
+            }
+        });
         jpm_diagramas.add(jmi_eliminar);
 
-        jmi_cambiarFuente.setText("Descripcion");
+        jmi_cambiarFuente.setText("Cambiar Fuente");
+        jmi_cambiarFuente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_cambiarFuenteActionPerformed(evt);
+            }
+        });
         jpm_diagramas.add(jmi_cambiarFuente);
 
         jmi_propiedades.setText("Propiedades");
+        jmi_propiedades.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_propiedadesActionPerformed(evt);
+            }
+        });
         jpm_diagramas.add(jmi_propiedades);
 
-        jmi_copiar.setText("Eliminar Metodo");
+        jmi_copiar.setText("Copiar");
         jpm_diagramas.add(jmi_copiar);
 
-        jmi_colorFuente.setText("Descripcion Metodo");
+        jpm_agregarPropiedadDiagrama.setText("Agregar Propiedad");
+        jpm_agregarPropiedadDiagrama.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jpm_agregarPropiedadDiagramaActionPerformed(evt);
+            }
+        });
+        jpm_diagramas.add(jpm_agregarPropiedadDiagrama);
+
+        jmi_colorFuente.setText("Color de Fuente");
         jpm_diagramas.add(jmi_colorFuente);
+
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel21.setText("Estilo");
+
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel22.setText("Fuente");
+
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel23.setText("Tamaño");
+
+        jcb_fuente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Times New Roman", "Arial", "Courier New", "Verdana", "Tahoma", "Monospaced", "Serif", "SansSerif", "Dialog", "DialogInput" }));
+
+        jcb_estilo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Plano", "Negrita", "Cursiva", "Negrita Cursiva" }));
+
+        btn_guardarFuente.setText("Guardar");
+        btn_guardarFuente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarFuenteActionPerformed(evt);
+            }
+        });
+
+        jcb_tamanhoFuente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Plano", "Negrita", "Cursiva", "Negrita Cursiva" }));
+
+        javax.swing.GroupLayout jd_cambiarFuenteLayout = new javax.swing.GroupLayout(jd_cambiarFuente.getContentPane());
+        jd_cambiarFuente.getContentPane().setLayout(jd_cambiarFuenteLayout);
+        jd_cambiarFuenteLayout.setHorizontalGroup(
+            jd_cambiarFuenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_cambiarFuenteLayout.createSequentialGroup()
+                .addGroup(jd_cambiarFuenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_cambiarFuenteLayout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addGroup(jd_cambiarFuenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(64, 64, 64)
+                        .addGroup(jd_cambiarFuenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcb_fuente, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcb_estilo, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcb_tamanhoFuente, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jd_cambiarFuenteLayout.createSequentialGroup()
+                        .addGap(146, 146, 146)
+                        .addComponent(btn_guardarFuente)))
+                .addContainerGap(56, Short.MAX_VALUE))
+        );
+        jd_cambiarFuenteLayout.setVerticalGroup(
+            jd_cambiarFuenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_cambiarFuenteLayout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(jd_cambiarFuenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcb_fuente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_cambiarFuenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcb_estilo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_cambiarFuenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcb_tamanhoFuente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_guardarFuente)
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -734,10 +888,10 @@ public class Main extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jl_variables);
 
-        btn_agregarVariables.setText("Agregar");
-        btn_agregarVariables.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_agregarVariablePrincipal.setText("Agregar");
+        btn_agregarVariablePrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_agregarVariablesMouseClicked(evt);
+                btn_agregarVariablePrincipalMouseClicked(evt);
             }
         });
 
@@ -753,7 +907,7 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jp_variablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jp_variablesLayout.createSequentialGroup()
                         .addGap(66, 66, 66)
-                        .addComponent(btn_agregarVariables))
+                        .addComponent(btn_agregarVariablePrincipal))
                     .addGroup(jp_variablesLayout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -767,7 +921,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btn_agregarVariables)
+                .addComponent(btn_agregarVariablePrincipal)
                 .addContainerGap(47, Short.MAX_VALUE))
         );
 
@@ -996,12 +1150,10 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         // EXPORTAR A PDF
     }//GEN-LAST:event_jm_exportarMouseClicked
-
     private void btn_agregarVariableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarVariableMouseClicked
-        // TODO add your handling code here:
         for (Variable v : variables) {
             if(v.getNombre().equals(txt_nombreVariable)) {
-                JOptionPane.showMessageDialog(null, "Erros, no deje vacio o solo con espacio");
+                JOptionPane.showMessageDialog(null, "Variable ya existente");
                 txt_nombreVariable.setText("");
                 return;
             }
@@ -1028,36 +1180,31 @@ public class Main extends javax.swing.JFrame {
             variables.add(variable);
             modelo.addElement(variable);
             jd_agregarVariable.setVisible(false);
+            txt_nombreVariable.setText("");
         }
             
     }//GEN-LAST:event_btn_agregarVariableMouseClicked
-
-    private void btn_agregarVariablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarVariablesMouseClicked
+    private void btn_agregarVariablePrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarVariablePrincipalMouseClicked
         // TODO add your handling code here:
         jd_agregarVariable.setVisible(true);
         jd_agregarVariable.pack();
         jd_agregarVariable.setLocationRelativeTo(null);
-    }//GEN-LAST:event_btn_agregarVariablesMouseClicked
-
+    }//GEN-LAST:event_btn_agregarVariablePrincipalMouseClicked
     private void btn_operacionGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_operacionGuardarMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_operacionGuardarMouseClicked
-
-    private void btn_operacionGuardar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_operacionGuardar1MouseClicked
+    private void btn_operacionGuardarPropiedadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_operacionGuardarPropiedadMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_operacionGuardar1MouseClicked
-
+    }//GEN-LAST:event_btn_operacionGuardarPropiedadMouseClicked
     private void btn_propiedadCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_propiedadCancelarMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_propiedadCancelarMouseClicked
-
     private void btn_nuevaClaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nuevaClaseMouseClicked
         // TODO add your handling code here:
         jd_crearClase.pack();
         jd_crearClase.setLocationRelativeTo(jtp_principal);
         jd_crearClase.setVisible(true);     
     }//GEN-LAST:event_btn_nuevaClaseMouseClicked
-
     private void btn_nombreClaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nombreClaseMouseClicked
         // TODO add your handling code here:
         String nombre = txt_nombreClase.getText();
@@ -1102,7 +1249,6 @@ public class Main extends javax.swing.JFrame {
             jd_crearClase.setVisible(false);
         }
     }//GEN-LAST:event_btn_nombreClaseMouseClicked
-
     private void jmi_eliminarArbolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarArbolActionPerformed
         // TODO add your handling code here:
         DefaultTreeModel modeloArbol = (DefaultTreeModel) jtr_clases.getModel();
@@ -1115,7 +1261,6 @@ public class Main extends javax.swing.JFrame {
         }
         else return;
     }//GEN-LAST:event_jmi_eliminarArbolActionPerformed
-
     private void jtr_clasesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtr_clasesMouseClicked
         // TODO add your handling code here:
         /*
@@ -1124,7 +1269,6 @@ public class Main extends javax.swing.JFrame {
         jpm_clases.setLocation(evt.getX(), evt.getY());
         jpm_clases.setVisible(true);*/
     }//GEN-LAST:event_jtr_clasesMouseClicked
-
     private void btn_separadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_separadorMouseClicked
         // TODO add your handling code here:
         DefaultMutableTreeNode nodoSeleccionado = (DefaultMutableTreeNode) jtr_clases.getLastSelectedPathComponent();
@@ -1147,7 +1291,6 @@ public class Main extends javax.swing.JFrame {
         
        
     }//GEN-LAST:event_btn_separadorMouseClicked
-
     private void jmi_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarActionPerformed
         // TODO add your handling code here:
         JFileChooser fc = new JFileChooser();
@@ -1164,7 +1307,6 @@ public class Main extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jmi_guardarActionPerformed
-
     private void jmi_abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirActionPerformed
         // TODO add your handling code here:
         JFileChooser fc = new JFileChooser();
@@ -1183,38 +1325,109 @@ public class Main extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jmi_abrirActionPerformed
-
     private void jmi_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_nuevoActionPerformed
         // TODO add your handling code here:
         Main nuevaVentana = new Main();
         nuevaVentana.setVisible(true);
     }//GEN-LAST:event_jmi_nuevoActionPerformed
-
     private void jmi_cambiarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cambiarTextoActionPerformed
-        // TODO add your handling code here:
+        String texto = JOptionPane.showInputDialog(this, "Ingrese el texto:");
+        if(texto.isBlank() || texto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No deje en blanco");
+            return;
+        }
+        figuraClickDerecho.setTexto(texto);
+        canvasPanel.repaint();
     }//GEN-LAST:event_jmi_cambiarTextoActionPerformed
-
     private void jp_codigoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jp_codigoMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jp_codigoMouseClicked
+    private void btn_agregarVariableMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarVariableMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_agregarVariableMouseEntered
+    private void jmi_cambiarColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cambiarColorActionPerformed
+        figuraClickDerecho.setColorFondo(JColorChooser.showDialog(this, "Seleccione Un color:", Color.white));
+        canvasPanel.repaint();
+    }//GEN-LAST:event_jmi_cambiarColorActionPerformed
+    private void jmi_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarActionPerformed
+        figuras.remove(figuraClickDerecho);
+        canvasPanel.repaint();
+    }//GEN-LAST:event_jmi_eliminarActionPerformed
+    private void jmi_cambiarFuenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cambiarFuenteActionPerformed
+        jd_cambiarFuente.setVisible(true);
+        jd_cambiarFuente.pack();
+        jd_cambiarFuente.setLocationRelativeTo(jtp_principal);
+    }//GEN-LAST:event_jmi_cambiarFuenteActionPerformed
+    private void btn_guardarFuenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarFuenteActionPerformed
+        figuraClickDerecho.setFuente(new Font(jcb_fuente.getSelectedItem().toString(), jcb_estilo.getSelectedIndex(), Integer.parseInt(jcb_tamanhoFuente.getSelectedItem().toString())));
+        jd_cambiarFuente.setVisible(false);
+        jcb_fuente.setSelectedIndex(0);
+        jcb_estilo.setSelectedIndex(0);
+        jcb_tamanhoFuente.setSelectedIndex(3);
+        canvasPanel.repaint();
+    }//GEN-LAST:event_btn_guardarFuenteActionPerformed
+
+    private void jpm_agregarPropiedadDiagramaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jpm_agregarPropiedadDiagramaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jpm_agregarPropiedadDiagramaActionPerformed
+
+    private void jmi_propiedadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_propiedadesActionPerformed
+        jd_propiedadesFigura.setVisible(true);
+        jd_propiedadesFigura.pack();
+        jd_propiedadesFigura.setLocationRelativeTo(jtp_principal);
+        txt_nombrePropiedades.setText(figuraClickDerecho.getNombre());
+        txt_textoPropiedades.setText(figuraClickDerecho.getTexto());
+        jp_colorFondoPropiedades.setBackground(figuraClickDerecho.getColorFondo());
+        String txt = figuraClickDerecho.getTexto();
+        // ENABLE => if(figuraClickDerecho)
+        jcb_propiedadFuente.setSelectedItem(figuraClickDerecho.getFuente().getFamily());
+        jsp_propiedadTamanho.setValue(figuraClickDerecho.getFuente().getSize());
+        jsp_propiedadWidth.setValue(figuraClickDerecho.getAncho());
+        jsp_propiedadHeight.setValue(figuraClickDerecho.getAlto());
+    }//GEN-LAST:event_jmi_propiedadesActionPerformed
+
+    private void btn_operacionGuardarPropiedadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_operacionGuardarPropiedadActionPerformed
+        figuraClickDerecho.setNombre(txt_nombrePropiedades.getText());
+        figuraClickDerecho.setTexto(txt_textoPropiedades.getText());
+        // conseguir color guardado jp_colorFondoPropiedades.setBackground(figuraClickDerecho.colorFondo);
+        figuraClickDerecho.setFuente( new Font(jcb_propiedadFuente.getSelectedItem().toString(), 0, (int) jsp_propiedadTamanho.getValue()));
+        figuraClickDerecho.setColorFondo(colorSelec);
+        figuraClickDerecho.setAncho((int) jsp_propiedadWidth.getValue());
+        figuraClickDerecho.setAlto((int) jsp_propiedadHeight.getValue());
+        
+        txt_nombrePropiedades.setText("");
+        txt_textoPropiedades.setText("");
+        jcb_fuente.setSelectedItem("Times New Roman");
+        jp_colorFondoPropiedades.setBackground(Color.white);
+        jsp_propiedadHeight.setValue(0);
+        jsp_propiedadWidth.setValue(0);
+        jsp_propiedadTamanho.setValue(0);
+        jd_propiedadesFigura.setVisible(false);
+    }//GEN-LAST:event_btn_operacionGuardarPropiedadActionPerformed
+
+    private void btn_propiedadColorFondoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_propiedadColorFondoActionPerformed
+        colorSelec = JColorChooser.showDialog(this, "Seleccione un Color", Color.white);
+    }//GEN-LAST:event_btn_propiedadColorFondoActionPerformed
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregarVariable;
-    private javax.swing.JButton btn_agregarVariables;
+    private javax.swing.JButton btn_agregarVariablePrincipal;
     private javax.swing.JButton btn_codigoUni;
     private javax.swing.JButton btn_generarCodigo;
     private javax.swing.JButton btn_generarCodigoClases;
+    private javax.swing.JButton btn_guardarFuente;
     private javax.swing.JButton btn_herencia;
     private javax.swing.JButton btn_nombreClase;
     private javax.swing.JButton btn_nuevaClase;
     private javax.swing.JButton btn_operacionGuardar;
-    private javax.swing.JButton btn_operacionGuardar1;
+    private javax.swing.JButton btn_operacionGuardarPropiedad;
     private javax.swing.JButton btn_pegar;
     private javax.swing.JButton btn_propiedadCancelar;
-    private javax.swing.JButton btn_propiedadColor;
+    private javax.swing.JButton btn_propiedadColorFondo;
+    private javax.swing.JToggleButton btn_propiedadEnable;
     private javax.swing.JButton btn_separador;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1229,6 +1442,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1238,15 +1454,17 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JComboBox<String> jcb_estilo;
+    private javax.swing.JComboBox<String> jcb_fuente;
     private javax.swing.JComboBox<String> jcb_operacionResultado;
     private javax.swing.JComboBox<String> jcb_operacionTipo;
     private javax.swing.JComboBox<String> jcb_operacionVariable1;
     private javax.swing.JComboBox<String> jcb_operacionVariable2;
     private javax.swing.JComboBox<String> jcb_propiedadFuente;
+    private javax.swing.JComboBox<String> jcb_tamanhoFuente;
     private javax.swing.JComboBox<String> jcb_tipoVariable;
     private javax.swing.JDialog jd_agregarVariable;
+    private javax.swing.JDialog jd_cambiarFuente;
     private javax.swing.JDialog jd_crearClase;
     private javax.swing.JDialog jd_herencia;
     private javax.swing.JDialog jd_operacion;
@@ -1275,12 +1493,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jp_clases;
     private javax.swing.JPanel jp_codigo;
     private javax.swing.JPanel jp_codigo1;
+    private javax.swing.JPanel jp_colorFondoPropiedades;
     private javax.swing.JPanel jp_diagrama;
     private javax.swing.JPanel jp_diagrama1;
     private javax.swing.JPanel jp_medio;
     private javax.swing.JPanel jp_opciones;
     private javax.swing.JPanel jp_uml;
     private javax.swing.JPanel jp_variables;
+    private javax.swing.JMenuItem jpm_agregarPropiedadDiagrama;
     private javax.swing.JPopupMenu jpm_clases;
     private javax.swing.JPopupMenu jpm_diagramas;
     private javax.swing.JSpinner jsp_propiedadHeight;
@@ -1290,8 +1510,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jtp_diagramaCodigo1;
     private javax.swing.JTabbedPane jtp_principal;
     private javax.swing.JTree jtr_clases;
-    private javax.swing.JToggleButton tbtn_propiedadEnable;
     private javax.swing.JTextField txt_nombreClase;
+    private javax.swing.JTextField txt_nombrePropiedades;
     private javax.swing.JTextField txt_nombreVariable;
+    private javax.swing.JTextField txt_textoPropiedades;
     // End of variables declaration//GEN-END:variables
 }
