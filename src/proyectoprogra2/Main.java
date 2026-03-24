@@ -22,7 +22,7 @@ public class Main extends javax.swing.JFrame {
     private ArrayList<Figura> plantillas = new ArrayList<>();
     private JPanel canvasPanel;
     private Figura figuraClickDerecho = null;
-    private Color colorSelec = Color.white;
+    private Figura figuraCopiada = null;
     public Main() {
         initComponents();
         
@@ -79,6 +79,7 @@ public class Main extends javax.swing.JFrame {
                         int y = Math.max(10, canvasPanel.getHeight() / 2 - f.getAlto()  / 2) + (figuras.size() % 6) * 15;
                         figuras.add(f.copiar(x, y));
                         figuras.getLast().setTexto("Lorem Ipsum");
+                        figuras.getLast().setNombre(f.getNombre());
                         canvasPanel.repaint();
                         break;
                     }
@@ -243,16 +244,16 @@ public class Main extends javax.swing.JFrame {
         jmi_agregarMetodo = new javax.swing.JMenuItem();
         jmi_eliminarMetodo = new javax.swing.JMenuItem();
         jmi_descripcionMetodo = new javax.swing.JMenuItem();
-        jd_herencia = new javax.swing.JDialog();
         jpm_diagramas = new javax.swing.JPopupMenu();
         jmi_cambiarColor = new javax.swing.JMenuItem();
         jmi_cambiarTexto = new javax.swing.JMenuItem();
         jmi_eliminar = new javax.swing.JMenuItem();
         jmi_cambiarFuente = new javax.swing.JMenuItem();
+        jmi_colorFuente = new javax.swing.JMenuItem();
         jmi_propiedades = new javax.swing.JMenuItem();
         jmi_copiar = new javax.swing.JMenuItem();
         jpm_agregarPropiedadDiagrama = new javax.swing.JMenuItem();
-        jmi_colorFuente = new javax.swing.JMenuItem();
+        jd_herencia = new javax.swing.JDialog();
         jd_cambiarFuente = new javax.swing.JDialog();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
@@ -261,6 +262,12 @@ public class Main extends javax.swing.JFrame {
         jcb_estilo = new javax.swing.JComboBox<>();
         btn_guardarFuente = new javax.swing.JButton();
         jcb_tamanhoFuente = new javax.swing.JComboBox<>();
+        jd_cambiarColorFuente = new javax.swing.JDialog();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        lbl_previewDelTexto = new javax.swing.JLabel();
+        btn_seleccionarColor = new javax.swing.JButton();
+        btn_cambiarColorFuente = new javax.swing.JButton();
         jtp_principal = new javax.swing.JTabbedPane();
         jp_uml = new javax.swing.JPanel();
         jp_opciones = new javax.swing.JPanel();
@@ -671,17 +678,6 @@ public class Main extends javax.swing.JFrame {
         jmi_descripcionMetodo.setText("Descripcion Metodo");
         jpm_clases.add(jmi_descripcionMetodo);
 
-        javax.swing.GroupLayout jd_herenciaLayout = new javax.swing.GroupLayout(jd_herencia.getContentPane());
-        jd_herencia.getContentPane().setLayout(jd_herenciaLayout);
-        jd_herenciaLayout.setHorizontalGroup(
-            jd_herenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 862, Short.MAX_VALUE)
-        );
-        jd_herenciaLayout.setVerticalGroup(
-            jd_herenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 518, Short.MAX_VALUE)
-        );
-
         jmi_cambiarColor.setText("Cambiar Color");
         jmi_cambiarColor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -715,6 +711,14 @@ public class Main extends javax.swing.JFrame {
         });
         jpm_diagramas.add(jmi_cambiarFuente);
 
+        jmi_colorFuente.setText("Color de Fuente");
+        jmi_colorFuente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_colorFuenteActionPerformed(evt);
+            }
+        });
+        jpm_diagramas.add(jmi_colorFuente);
+
         jmi_propiedades.setText("Propiedades");
         jmi_propiedades.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -724,6 +728,11 @@ public class Main extends javax.swing.JFrame {
         jpm_diagramas.add(jmi_propiedades);
 
         jmi_copiar.setText("Copiar");
+        jmi_copiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_copiarActionPerformed(evt);
+            }
+        });
         jpm_diagramas.add(jmi_copiar);
 
         jpm_agregarPropiedadDiagrama.setText("Agregar Propiedad");
@@ -734,8 +743,16 @@ public class Main extends javax.swing.JFrame {
         });
         jpm_diagramas.add(jpm_agregarPropiedadDiagrama);
 
-        jmi_colorFuente.setText("Color de Fuente");
-        jpm_diagramas.add(jmi_colorFuente);
+        javax.swing.GroupLayout jd_herenciaLayout = new javax.swing.GroupLayout(jd_herencia.getContentPane());
+        jd_herencia.getContentPane().setLayout(jd_herenciaLayout);
+        jd_herenciaLayout.setHorizontalGroup(
+            jd_herenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 862, Short.MAX_VALUE)
+        );
+        jd_herenciaLayout.setVerticalGroup(
+            jd_herenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 518, Short.MAX_VALUE)
+        );
 
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel21.setText("Estilo");
@@ -799,6 +816,70 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_guardarFuente)
                 .addContainerGap(27, Short.MAX_VALUE))
+        );
+
+        jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel24.setText("Cambiar Color de Fuente");
+
+        jLabel25.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel25.setText("Preview del Texto:");
+
+        lbl_previewDelTexto.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbl_previewDelTexto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        btn_seleccionarColor.setText("Seleccionar Color");
+        btn_seleccionarColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_seleccionarColorActionPerformed(evt);
+            }
+        });
+
+        btn_cambiarColorFuente.setText("Guardar");
+        btn_cambiarColorFuente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cambiarColorFuenteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jd_cambiarColorFuenteLayout = new javax.swing.GroupLayout(jd_cambiarColorFuente.getContentPane());
+        jd_cambiarColorFuente.getContentPane().setLayout(jd_cambiarColorFuenteLayout);
+        jd_cambiarColorFuenteLayout.setHorizontalGroup(
+            jd_cambiarColorFuenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_cambiarColorFuenteLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel25)
+                .addGap(134, 134, 134))
+            .addGroup(jd_cambiarColorFuenteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl_previewDelTexto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jd_cambiarColorFuenteLayout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jd_cambiarColorFuenteLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(btn_seleccionarColor)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addComponent(btn_cambiarColorFuente, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
+        );
+        jd_cambiarColorFuenteLayout.setVerticalGroup(
+            jd_cambiarColorFuenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_cambiarColorFuenteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_previewDelTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addGroup(jd_cambiarColorFuenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_seleccionarColor)
+                    .addComponent(btn_cambiarColorFuente))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -1331,13 +1412,17 @@ public class Main extends javax.swing.JFrame {
         nuevaVentana.setVisible(true);
     }//GEN-LAST:event_jmi_nuevoActionPerformed
     private void jmi_cambiarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cambiarTextoActionPerformed
-        String texto = JOptionPane.showInputDialog(this, "Ingrese el texto:");
-        if(texto.isBlank() || texto.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No deje en blanco");
+        try {
+            String texto = JOptionPane.showInputDialog(this, "Ingrese el texto:");
+            if(texto.isBlank() || texto.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No deje en blanco");
+                return;
+            }
+            figuraClickDerecho.setTexto(texto);
+            canvasPanel.repaint();
+        } catch(Exception e) {
             return;
         }
-        figuraClickDerecho.setTexto(texto);
-        canvasPanel.repaint();
     }//GEN-LAST:event_jmi_cambiarTextoActionPerformed
     private void jp_codigoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jp_codigoMouseClicked
         // TODO add your handling code here:
@@ -1357,6 +1442,9 @@ public class Main extends javax.swing.JFrame {
         jd_cambiarFuente.setVisible(true);
         jd_cambiarFuente.pack();
         jd_cambiarFuente.setLocationRelativeTo(jtp_principal);
+        jcb_fuente.setSelectedItem(figuraClickDerecho.getFuente().getFamily());
+        jcb_estilo.setSelectedIndex(figuraClickDerecho.getFuente().getStyle());
+        jcb_tamanhoFuente.setSelectedItem(""+figuraClickDerecho.getFuente().getSize());
     }//GEN-LAST:event_jmi_cambiarFuenteActionPerformed
     private void btn_guardarFuenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarFuenteActionPerformed
         figuraClickDerecho.setFuente(new Font(jcb_fuente.getSelectedItem().toString(), jcb_estilo.getSelectedIndex(), Integer.parseInt(jcb_tamanhoFuente.getSelectedItem().toString())));
@@ -1366,16 +1454,15 @@ public class Main extends javax.swing.JFrame {
         jcb_tamanhoFuente.setSelectedIndex(3);
         canvasPanel.repaint();
     }//GEN-LAST:event_btn_guardarFuenteActionPerformed
-
     private void jpm_agregarPropiedadDiagramaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jpm_agregarPropiedadDiagramaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jpm_agregarPropiedadDiagramaActionPerformed
-
     private void jmi_propiedadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_propiedadesActionPerformed
         jd_propiedadesFigura.setVisible(true);
         jd_propiedadesFigura.pack();
         jd_propiedadesFigura.setLocationRelativeTo(jtp_principal);
-        txt_nombrePropiedades.setText(figuraClickDerecho.getNombre());
+        String nombre = figuraClickDerecho.getNombre();
+        txt_nombrePropiedades.setText(nombre);
         txt_textoPropiedades.setText(figuraClickDerecho.getTexto());
         jp_colorFondoPropiedades.setBackground(figuraClickDerecho.getColorFondo());
         String txt = figuraClickDerecho.getTexto();
@@ -1385,29 +1472,43 @@ public class Main extends javax.swing.JFrame {
         jsp_propiedadWidth.setValue(figuraClickDerecho.getAncho());
         jsp_propiedadHeight.setValue(figuraClickDerecho.getAlto());
     }//GEN-LAST:event_jmi_propiedadesActionPerformed
-
     private void btn_operacionGuardarPropiedadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_operacionGuardarPropiedadActionPerformed
         figuraClickDerecho.setNombre(txt_nombrePropiedades.getText());
         figuraClickDerecho.setTexto(txt_textoPropiedades.getText());
-        // conseguir color guardado jp_colorFondoPropiedades.setBackground(figuraClickDerecho.colorFondo);
+        figuraClickDerecho.setColorFondo(jp_colorFondoPropiedades.getBackground());
         figuraClickDerecho.setFuente( new Font(jcb_propiedadFuente.getSelectedItem().toString(), 0, (int) jsp_propiedadTamanho.getValue()));
-        figuraClickDerecho.setColorFondo(colorSelec);
         figuraClickDerecho.setAncho((int) jsp_propiedadWidth.getValue());
         figuraClickDerecho.setAlto((int) jsp_propiedadHeight.getValue());
-        
-        txt_nombrePropiedades.setText("");
-        txt_textoPropiedades.setText("");
-        jcb_fuente.setSelectedItem("Times New Roman");
-        jp_colorFondoPropiedades.setBackground(Color.white);
-        jsp_propiedadHeight.setValue(0);
-        jsp_propiedadWidth.setValue(0);
-        jsp_propiedadTamanho.setValue(0);
         jd_propiedadesFigura.setVisible(false);
+        canvasPanel.repaint();
     }//GEN-LAST:event_btn_operacionGuardarPropiedadActionPerformed
-
     private void btn_propiedadColorFondoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_propiedadColorFondoActionPerformed
-        colorSelec = JColorChooser.showDialog(this, "Seleccione un Color", Color.white);
+        Color colorSelec = JColorChooser.showDialog(this, "Seleccione un Color", Color.white);
+        jp_colorFondoPropiedades.setBackground(colorSelec);
     }//GEN-LAST:event_btn_propiedadColorFondoActionPerformed
+    private void jmi_colorFuenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_colorFuenteActionPerformed
+        lbl_previewDelTexto.setText(figuraClickDerecho.getTexto());
+        lbl_previewDelTexto.setForeground(figuraClickDerecho.getColorTexto());
+        lbl_previewDelTexto.setBackground(figuraClickDerecho.getColorFondo());
+        jd_cambiarColorFuente.setVisible(true);
+        jd_cambiarColorFuente.pack();
+        jd_cambiarColorFuente.setLocationRelativeTo(jtp_principal);
+    }//GEN-LAST:event_jmi_colorFuenteActionPerformed
+    private void btn_seleccionarColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_seleccionarColorActionPerformed
+        Color selec = JColorChooser.showDialog(this, "Seleccione un color", Color.yellow);
+        lbl_previewDelTexto.setForeground(selec);
+    }//GEN-LAST:event_btn_seleccionarColorActionPerformed
+    private void btn_cambiarColorFuenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cambiarColorFuenteActionPerformed
+        figuraClickDerecho.setColorTexto(lbl_previewDelTexto.getForeground());
+        jd_cambiarColorFuente.setVisible(false);
+    }//GEN-LAST:event_btn_cambiarColorFuenteActionPerformed
+
+    private void jmi_copiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_copiarActionPerformed
+        //int x, int y, int ancho, int alto
+        
+        figuraCopiada = new Figura(figuraClickDerecho.getX(), figuraClickDerecho.getY(), figuraClickDerecho.getAncho(),figuraClickDerecho.getAlto());
+        figuras.add(figuraCopiada);
+    }//GEN-LAST:event_jmi_copiarActionPerformed
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
     }
@@ -1415,6 +1516,7 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregarVariable;
     private javax.swing.JButton btn_agregarVariablePrincipal;
+    private javax.swing.JButton btn_cambiarColorFuente;
     private javax.swing.JButton btn_codigoUni;
     private javax.swing.JButton btn_generarCodigo;
     private javax.swing.JButton btn_generarCodigoClases;
@@ -1428,6 +1530,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btn_propiedadCancelar;
     private javax.swing.JButton btn_propiedadColorFondo;
     private javax.swing.JToggleButton btn_propiedadEnable;
+    private javax.swing.JButton btn_seleccionarColor;
     private javax.swing.JButton btn_separador;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1445,6 +1548,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1464,6 +1569,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcb_tamanhoFuente;
     private javax.swing.JComboBox<String> jcb_tipoVariable;
     private javax.swing.JDialog jd_agregarVariable;
+    private javax.swing.JDialog jd_cambiarColorFuente;
     private javax.swing.JDialog jd_cambiarFuente;
     private javax.swing.JDialog jd_crearClase;
     private javax.swing.JDialog jd_herencia;
@@ -1510,6 +1616,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jtp_diagramaCodigo1;
     private javax.swing.JTabbedPane jtp_principal;
     private javax.swing.JTree jtr_clases;
+    private javax.swing.JLabel lbl_previewDelTexto;
     private javax.swing.JTextField txt_nombreClase;
     private javax.swing.JTextField txt_nombrePropiedades;
     private javax.swing.JTextField txt_nombreVariable;

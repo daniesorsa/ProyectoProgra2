@@ -16,6 +16,7 @@ public abstract class Figura implements Serializable {
     protected String nombre = "";
     protected Color colorFondo = Color.white;
     protected Color colorBorde = Color.darkGray;
+    protected Color colorTexto = Color.BLACK;
 
     public Figura(int x, int y, int ancho, int alto) {
         this.x = x;
@@ -43,6 +44,11 @@ public abstract class Figura implements Serializable {
     public int getAncho() {
         return ancho;
     }
+
+    public Color getColorTexto() {
+        return colorTexto;
+    }
+    
 
     public void setAncho(int ancho) {
         this.ancho = ancho;
@@ -79,6 +85,10 @@ public abstract class Figura implements Serializable {
     public String getNombre() {
         return nombre;
     }
+
+    public void setColorTexto(Color colorTexto) {
+        this.colorTexto = colorTexto;
+    }
     
 
     public void setColorFondo(Color colorFondo) {
@@ -100,12 +110,14 @@ public abstract class Figura implements Serializable {
 
     
     public abstract void dibujar(Graphics2D g2);
+    public abstract Figura copiar();
     public abstract Figura copiar(int x, int y);
     protected void copiarPropiedades(Figura original) {
         original.texto = this.texto;
         original.colorFondo = this.colorFondo;
         original.colorBorde = this.colorBorde;
         original.fuente = this.fuente;
+        original.colorTexto = this.colorTexto;
     }
     protected void dibujarTexto(Graphics2D g2) {
         if (texto == null || texto.isEmpty()) return;
