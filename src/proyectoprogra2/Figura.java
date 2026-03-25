@@ -122,6 +122,7 @@ public abstract class Figura implements Serializable {
     protected void dibujarTexto(Graphics2D g2) {
         if (texto == null || texto.isEmpty()) return;
         g2.setFont(fuente);
+        g2.setColor(colorTexto);
         FontMetrics fm = g2.getFontMetrics();
         int tx = x + (ancho - fm.stringWidth(texto)) / 2;
         int ty = y + (alto  + fm.getAscent() - fm.getDescent()) / 2;

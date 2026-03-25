@@ -23,6 +23,8 @@ public class Rectangulo extends Figura implements Serializable {
 
     @Override
     public Figura copiar() {
-        return new Rectangulo(x, y, ancho, alto);
+        Rectangulo r = new Rectangulo(x, y, ancho, alto);
+        copiarPropiedades(r);
+        return r;
     }
 }

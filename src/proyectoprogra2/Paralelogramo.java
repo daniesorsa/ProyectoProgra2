@@ -22,14 +22,16 @@ public class Paralelogramo extends Figura implements Serializable {
     }
 
     @Override
-    public Figura copiar(int nx, int ny) {
-        Paralelogramo par = new Paralelogramo(nx, ny, ancho, alto);
+    public Figura copiar(int x, int y) {
+        Paralelogramo par = new Paralelogramo(x, y, ancho, alto);
         copiarPropiedades(par);
         return par;
     }
 
     @Override
     public Figura copiar() {
-        return new Paralelogramo(x, y, ancho, alto);
+        Paralelogramo par = new Paralelogramo(x, y, ancho, alto);
+        copiarPropiedades(par);
+        return par;
     }
 }

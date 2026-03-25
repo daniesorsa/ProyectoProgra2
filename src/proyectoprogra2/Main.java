@@ -1500,17 +1500,16 @@ public class Main extends javax.swing.JFrame {
     private void btn_seleccionarColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_seleccionarColorActionPerformed
         Color selec = JColorChooser.showDialog(this, "Seleccione un color", Color.yellow);
         lbl_previewDelTexto.setForeground(selec);
+        canvasPanel.repaint();
     }//GEN-LAST:event_btn_seleccionarColorActionPerformed
     private void btn_cambiarColorFuenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cambiarColorFuenteActionPerformed
         figuraClickDerecho.setColorTexto(lbl_previewDelTexto.getForeground());
         jd_cambiarColorFuente.setVisible(false);
+        canvasPanel.repaint();
     }//GEN-LAST:event_btn_cambiarColorFuenteActionPerformed
-
     private void jmi_copiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_copiarActionPerformed
         figuraCopiada = (figuraClickDerecho.copiar());
-        //figuras.add(figuraCopiada);
     }//GEN-LAST:event_jmi_copiarActionPerformed
-
     private void btn_pegarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pegarActionPerformed
         if(figuraCopiada != null) {
             //offset

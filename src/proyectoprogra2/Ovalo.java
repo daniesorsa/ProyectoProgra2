@@ -23,6 +23,8 @@ public class Ovalo extends Figura implements Serializable {
 
     @Override
     public Figura copiar() {
-        return new Ovalo(x, y, ancho, alto);
+        Ovalo o = new Ovalo(x, y, ancho, alto);
+        copiarPropiedades(o);
+        return o;
     }
 }

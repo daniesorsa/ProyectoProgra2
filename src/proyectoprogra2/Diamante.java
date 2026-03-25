@@ -29,6 +29,8 @@ public class Diamante extends Figura implements Serializable {
 
     @Override
     public Figura copiar() {
-        return new Diamante(x, y, ancho, alto);
+        Diamante d = new Diamante(x, y, ancho, alto);
+        copiarPropiedades(d);
+        return d;
     }
 }

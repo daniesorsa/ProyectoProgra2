@@ -20,14 +20,16 @@ public class RectanguloDoble extends Figura implements Serializable {
     }
 
     @Override
-    public Figura copiar(int nx, int ny) {
-        RectanguloDoble rd = new RectanguloDoble(nx, ny, ancho, alto);
+    public Figura copiar(int x, int y) {
+        RectanguloDoble rd = new RectanguloDoble(x, y, ancho, alto);
         copiarPropiedades(rd);
         return rd;
     }
 
     @Override
     public Figura copiar() {
-        return new RectanguloDoble(x, y, ancho, alto);
+        RectanguloDoble rd = new RectanguloDoble(x, y, ancho, alto);
+        copiarPropiedades(rd);
+        return rd;
     }
 }
