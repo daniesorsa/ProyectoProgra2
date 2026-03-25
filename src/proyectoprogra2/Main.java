@@ -134,17 +134,15 @@ public class Main extends javax.swing.JFrame {
                 if(figuraClickDerecho != null) jpm_diagramas.show(canvasPanel, evt.getX(), evt.getY());
             }
         }});
-         canvasPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+        canvasPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             @Override
             public void mouseDragged(java.awt.event.MouseEvent e) {
                 if (seleccionada[0] != null && javax.swing.SwingUtilities.isLeftMouseButton(e)) {
                     int nuevoX = e.getX() - offsetX[0];
                     int nuevoY = e.getY() - offsetY[0];
-                    // Clamp so the figure stays inside the canvas
-                    nuevoX = Math.max(0, Math.min(nuevoX,
-                    canvasPanel.getWidth()  - seleccionada[0].getAncho()));
-                    nuevoY = Math.max(0, Math.min(nuevoY,
-                    canvasPanel.getHeight() - seleccionada[0].getAlto()));
+                    
+                    nuevoX = Math.max(0, Math.min(nuevoX,canvasPanel.getWidth()  - seleccionada[0].getAncho()));
+                    nuevoY = Math.max(0, Math.min(nuevoY,canvasPanel.getHeight() - seleccionada[0].getAlto()));
 
                     seleccionada[0].setX(nuevoX);
                     seleccionada[0].setY(nuevoY);
@@ -928,6 +926,11 @@ public class Main extends javax.swing.JFrame {
         jtp_diagramaCodigo.addTab("Diagrama", jp_diagrama);
 
         btn_pegar.setText("Pegar");
+        btn_pegar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_pegarActionPerformed(evt);
+            }
+        });
 
         btn_generarCodigo.setText("Generar Codigo");
 
@@ -1504,11 +1507,24 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cambiarColorFuenteActionPerformed
 
     private void jmi_copiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_copiarActionPerformed
-        //int x, int y, int ancho, int alto
-        
-        //figuraCopiada = new Figura(figuraClickDerecho.getX(), figuraClickDerecho.getY(), figuraClickDerecho.getAncho(),figuraClickDerecho.getAlto());
-        figuras.add(figuraCopiada);
+        figuraCopiada = (figuraClickDerecho.copiar());
+        //figuras.add(figuraCopiada);
     }//GEN-LAST:event_jmi_copiarActionPerformed
+
+    private void btn_pegarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pegarActionPerformed
+        if(figuraCopiada != null) {
+            //offset
+            int nuevoX = figuraCopiada.getX() + 20;
+            int nuevoY = figuraCopiada.getY() + 20;
+            
+            Figura nuevaFigura = figuraCopiada.copiar(nuevoX, nuevoY);
+            figuras.add(nuevaFigura);
+            
+            //evitar repeticiones si se copia la misma
+            figuraCopiada = nuevaFigura;
+            canvasPanel.repaint();
+        } else JOptionPane.showMessageDialog(this, "Click derecho -> Copiar -> Presionar Boton Pegar");
+    }//GEN-LAST:event_btn_pegarActionPerformed
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
     }

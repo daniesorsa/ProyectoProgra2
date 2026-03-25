@@ -30,6 +30,6 @@ public class Paralelogramo extends Figura implements Serializable {
 
     @Override
     public Figura copiar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new Paralelogramo(x, y, ancho, alto);
     }
 }

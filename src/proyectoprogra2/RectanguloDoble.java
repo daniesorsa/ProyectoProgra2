@@ -28,6 +28,6 @@ public class RectanguloDoble extends Figura implements Serializable {
 
     @Override
     public Figura copiar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new RectanguloDoble(x, y, ancho, alto);
     }
 }

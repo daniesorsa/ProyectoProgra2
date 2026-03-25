@@ -23,6 +23,6 @@ public class Ovalo extends Figura implements Serializable {
 
     @Override
     public Figura copiar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new Ovalo(x, y, ancho, alto);
     }
 }
