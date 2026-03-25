@@ -24,14 +24,12 @@ public class Main extends javax.swing.JFrame {
     private Figura figuraClickDerecho = null;
     private Figura figuraCopiada = null;
     public Main() {
-        initComponents();
-        
+        initComponents(); 
         //figuras
         
         Ovalo inicio = new Ovalo(10, 10, 90, 35);
         inicio.setNombre("Inicio");
         inicio.setTexto("Inicio");
-        
 
         Ovalo fin = new Ovalo(130, 10, 90, 35);
         fin.setNombre("Fin");
@@ -42,8 +40,8 @@ public class Main extends javax.swing.JFrame {
         proceso.setTexto("Proceso");
         
         Paralelogramo declarar = new Paralelogramo(130, 80, 90, 40);
-        declarar.setNombre("Declarar");
-        declarar.setTexto("Declarar");
+        declarar.setNombre("Operacion");
+        declarar.setTexto("Operacion");
         
         Diamante ifFig = new Diamante(10, 150, 90, 50);
         ifFig.setNombre("If");
@@ -53,12 +51,22 @@ public class Main extends javax.swing.JFrame {
         sout.setNombre("sout");
         sout.setTexto("Sout");
         
+        Diamante whileFig = new Diamante(10, 220, 90, 50);
+        whileFig.setNombre("While");
+        whileFig.setTexto("While");
+        
+        Diamante forFig = new Diamante(130, 220, 90, 50);
+        forFig.setNombre("For");
+        forFig.setTexto("For");
+        
         plantillas.add(inicio);
         plantillas.add(fin);
         plantillas.add(proceso);
         plantillas.add(declarar);
         plantillas.add(ifFig);
         plantillas.add(sout);
+        plantillas.add(whileFig);
+        plantillas.add(forFig);
         
         JPanel opcionesPanel = new JPanel() {
             @Override
@@ -131,7 +139,20 @@ public class Main extends javax.swing.JFrame {
                         break;
                     }
                 }
-                if(figuraClickDerecho != null) jpm_diagramas.show(canvasPanel, evt.getX(), evt.getY());
+                if(figuraClickDerecho != null) {
+                    jpm_diagramas.show(canvasPanel, evt.getX(), evt.getY());
+                    if(figuraClickDerecho instanceof Ovalo){
+                        
+                    } else if(figuraClickDerecho instanceof Rectangulo) {
+                        
+                    } else if(figuraClickDerecho instanceof Paralelogramo) {
+                        
+                    } else if(figuraClickDerecho instanceof RectanguloDoble) {
+                        
+                    } else if(figuraClickDerecho instanceof Rectangulo) {
+                        
+                    }
+                }
             }
         }});
         canvasPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -272,6 +293,8 @@ public class Main extends javax.swing.JFrame {
         jp_medio = new javax.swing.JPanel();
         jtp_diagramaCodigo = new javax.swing.JTabbedPane();
         jp_codigo = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jta_codigoDiagrama = new javax.swing.JTextArea();
         jp_diagrama = new javax.swing.JPanel();
         btn_pegar = new javax.swing.JButton();
         btn_generarCodigo = new javax.swing.JButton();
@@ -899,15 +922,26 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jta_codigoDiagrama.setEditable(false);
+        jta_codigoDiagrama.setColumns(20);
+        jta_codigoDiagrama.setRows(5);
+        jScrollPane3.setViewportView(jta_codigoDiagrama);
+
         javax.swing.GroupLayout jp_codigoLayout = new javax.swing.GroupLayout(jp_codigo);
         jp_codigo.setLayout(jp_codigoLayout);
         jp_codigoLayout.setHorizontalGroup(
             jp_codigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 437, Short.MAX_VALUE)
+            .addGroup(jp_codigoLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jp_codigoLayout.setVerticalGroup(
             jp_codigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 323, Short.MAX_VALUE)
+            .addGroup(jp_codigoLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         jtp_diagramaCodigo.addTab("Codigo", jp_codigo);
@@ -1243,7 +1277,7 @@ public class Main extends javax.swing.JFrame {
             }
         }
         String nombre = txt_nombreVariable.getText();
-        if(nombre.isEmpty() || (nombre.charAt(0) >= 65 && nombre.charAt(0) <= 90) || !(nombre.matches("^[a-zA-Z0-9_]*$"))) {
+        if(!(nombre.matches("^[a-zA-Z0-9_]*$"))) {
             JOptionPane.showMessageDialog(null, "Error, no se permiten "
                     + "\n- Vacios"
                     + "\n- En blanco"
@@ -1269,7 +1303,6 @@ public class Main extends javax.swing.JFrame {
             
     }//GEN-LAST:event_btn_agregarVariableMouseClicked
     private void btn_agregarVariablePrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarVariablePrincipalMouseClicked
-        // TODO add your handling code here:
         jd_agregarVariable.setVisible(true);
         jd_agregarVariable.pack();
         jd_agregarVariable.setLocationRelativeTo(null);
@@ -1384,7 +1417,7 @@ public class Main extends javax.swing.JFrame {
                 FileOutputStream fos = new FileOutputStream(seleccionado);
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
                 //oos.writeObject();
-                
+                oos.close();
             } catch(Exception e) {
                 JOptionPane.showConfirmDialog(this, "Error");
             }
@@ -1403,7 +1436,7 @@ public class Main extends javax.swing.JFrame {
                 //Object obj = oos.readObject();
                 //DataBinario db = (DataBinario) obj;
                 //cargar jframe con esta data
-                
+                ois.close();
             } catch(Exception e) {
                 JOptionPane.showConfirmDialog(this, "Error");
             }
@@ -1574,6 +1607,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JComboBox<String> jcb_estilo;
     private javax.swing.JComboBox<String> jcb_fuente;
     private javax.swing.JComboBox<String> jcb_operacionResultado;
@@ -1627,6 +1661,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JSpinner jsp_propiedadHeight;
     private javax.swing.JSpinner jsp_propiedadTamanho;
     private javax.swing.JSpinner jsp_propiedadWidth;
+    private javax.swing.JTextArea jta_codigoDiagrama;
     private javax.swing.JTabbedPane jtp_diagramaCodigo;
     private javax.swing.JTabbedPane jtp_diagramaCodigo1;
     private javax.swing.JTabbedPane jtp_principal;
