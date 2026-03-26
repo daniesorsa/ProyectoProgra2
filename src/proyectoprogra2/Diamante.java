@@ -4,8 +4,11 @@ import java.awt.Polygon;
 import java.io.Serializable;
 
 public class Diamante extends Figura implements Serializable {
+    private String forStr;
+    private String whileStr;
+    private String ifStr;
     public Diamante(int x, int y, int ancho, int alto) { super(x, y, ancho, alto); }
-
+    
     @Override
     public void dibujar(Graphics2D g2) {
         Polygon rombo = new Polygon();
@@ -18,6 +21,30 @@ public class Diamante extends Figura implements Serializable {
         g2.setColor(colorBorde);
         g2.drawPolygon(rombo);
         dibujarTexto(g2);
+    }
+
+    public String getForStr() {
+        return forStr;
+    }
+
+    public void setForStr(String forStr) {
+        this.forStr = forStr;
+    }
+
+    public String getWhileStr() {
+        return whileStr;
+    }
+
+    public void setWhileStr(String whileStr) {
+        this.whileStr = whileStr;
+    }
+
+    public String getIfStr() {
+        return ifStr;
+    }
+
+    public void setIfStr(String ifStr) {
+        this.ifStr = ifStr;
     }
 
     @Override
@@ -45,15 +72,10 @@ public class Diamante extends Figura implements Serializable {
 
     @Override
     public void ejecutarAccionEspecial(Main m) {
-        if ("If".equals(this.nombre)) {
-            System.out.println("Abriendo ventana para IF...");
-        } else if ("While".equals(this.nombre)) {
-            System.out.println("Abriendo ventana para WHILE...");
-            // Lógica para el While
-
-        } else if ("For".equals(this.nombre)) {
-            System.out.println("Abriendo ventana para FOR...");
-            // Lógica para el For
+        switch (nombre) {
+            case "For":    m.jd_abrirFor(this); break;
+            case "While": m.jd_abrirWhile(this); break;
+            case "If":   m.jd_abrirIf(this);   break;
         }
     }
 }

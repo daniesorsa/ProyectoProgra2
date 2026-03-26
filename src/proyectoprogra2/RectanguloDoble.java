@@ -3,8 +3,17 @@ import java.awt.Graphics2D;
 import java.io.Serializable;
 
 public class RectanguloDoble extends Figura implements Serializable {
+    private String sout;
     public RectanguloDoble(int x, int y, int ancho, int alto) {
         super(x, y, ancho, alto);
+    }
+
+    public String getSout() {
+        return sout;
+    }
+
+    public void setSout(String sout) {
+        this.sout = sout;
     }
 
     @Override
@@ -34,17 +43,11 @@ public class RectanguloDoble extends Figura implements Serializable {
     }
     @Override
     public String getNombreAccionEspecial() {
-        if ("sout".equals(this.nombre)) {
-            return "Configurar Impresión (System.out)";
-        }
-        return "Configurar Subproceso";
+        return "Configurar Impresión (System.out)";
     }
 
     @Override
     public void ejecutarAccionEspecial(Main m) {
-        if ("sout".equals(this.nombre)) {
-            System.out.println("Abriendo ventana para configurar el texto a imprimir...");
-            // Lógica para armar el mensaje que se mostrará en consola
-        }
+        m.jd_abrirSout(this);
     }
 }
