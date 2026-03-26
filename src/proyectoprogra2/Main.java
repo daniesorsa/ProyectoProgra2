@@ -88,12 +88,23 @@ public class Main extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 for (Figura f : plantillas) {
                     if (f.contiene(e.getX(), e.getY())) {
+                        
+                        // solo 1 inicio y 1 final
+                        String nombreNueva = f.getNombre();
+                        if (nombreNueva.equals("Inicio") || nombreNueva.equals("Fin")) {
+                            for (Figura figGuardada : figuras) {
+                                if (figGuardada.getNombre().equals(nombreNueva)) {
+                                    JOptionPane.showMessageDialog(null, "Error: Solo se puede agregar un nodo de '" + nombreNueva + "' al diagrama.");
+                                    return;
+                                }
+                            }
+                        }
                         //offset para poder mover
                         int x = Math.max(10, canvasPanel.getWidth()  / 2 - f.getAncho() / 2)+ (figuras.size() % 6) * 15;
                         int y = Math.max(10, canvasPanel.getHeight() / 2 - f.getAlto()  / 2) + (figuras.size() % 6) * 15;
                         figuras.add(f.copiar(x, y));
-                        figuras.getLast().setTexto(f.getNombre());
-                        figuras.getLast().setNombre(f.getNombre());
+                        figuras.getLast().setTexto(nombreNueva);
+                        figuras.getLast().setNombre(nombreNueva);
                         canvasPanel.repaint();
                         break;
                     }
@@ -183,9 +194,20 @@ public class Main extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         
         //eventos para nuevo, abrir o guardar
+        // Ctrl + N para Nueva Ventana
         jmi_nuevo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-        jmi_guardar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-        jmi_abrir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        
+        // Ctrl + G para Guardar Binario
+        jmi_guardarBinario.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        
+        // Ctrl + A para Abrir Binario
+        jmi_abrirBinario.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        
+        // Ctrl + Shift + G para Guardar Texto
+        jmi_guardarTexto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+
+        // Ctrl + Shift + A para Abrir Texto
+        jmi_abrirTexto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         
 //******Modelos******
         //jcb
@@ -364,6 +386,7 @@ public class Main extends javax.swing.JFrame {
         jta_codigoDiagrama = new javax.swing.JTextArea();
         btn_pegar = new javax.swing.JButton();
         btn_generarCodigo = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
         jp_variables = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -384,8 +407,10 @@ public class Main extends javax.swing.JFrame {
         jp_codigo1 = new javax.swing.JPanel();
         jmb_barraVentana = new javax.swing.JMenuBar();
         jm_archivo = new javax.swing.JMenu();
-        jmi_guardar = new javax.swing.JMenuItem();
-        jmi_abrir = new javax.swing.JMenuItem();
+        jmi_abrirBinario = new javax.swing.JMenuItem();
+        jmi_guardarBinario = new javax.swing.JMenuItem();
+        jmi_guardarTexto = new javax.swing.JMenuItem();
+        jmi_abrirTexto = new javax.swing.JMenuItem();
         jmi_nuevo = new javax.swing.JMenuItem();
         jm_exportar = new javax.swing.JMenu();
 
@@ -1442,19 +1467,27 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("El codigo se genera en el orden en que se añaden figuras");
+
         javax.swing.GroupLayout jp_medioLayout = new javax.swing.GroupLayout(jp_medio);
         jp_medio.setLayout(jp_medioLayout);
         jp_medioLayout.setHorizontalGroup(
             jp_medioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jp_medioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jtp_diagrama, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jp_medioLayout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addComponent(btn_pegar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
                 .addComponent(btn_generarCodigo)
                 .addGap(68, 68, 68))
-            .addGroup(jp_medioLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jtp_diagrama, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jp_medioLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jp_medioLayout.setVerticalGroup(
@@ -1465,7 +1498,9 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jp_medioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_pegar)
                     .addComponent(btn_generarCodigo))
-                .addGap(34, 34, 34))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jLabel1.setFont(new java.awt.Font("Bauhaus 93", 2, 36)); // NOI18N
@@ -1685,23 +1720,39 @@ public class Main extends javax.swing.JFrame {
 
         jm_archivo.setText("Archivo");
 
-        jmi_guardar.setText("Guardar                                       ");
-        jmi_guardar.addActionListener(new java.awt.event.ActionListener() {
+        jmi_abrirBinario.setText("Abrir Binario                                             ");
+        jmi_abrirBinario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmi_guardarActionPerformed(evt);
+                jmi_abrirBinarioActionPerformed(evt);
             }
         });
-        jm_archivo.add(jmi_guardar);
+        jm_archivo.add(jmi_abrirBinario);
 
-        jmi_abrir.setText("Abrir                                             ");
-        jmi_abrir.addActionListener(new java.awt.event.ActionListener() {
+        jmi_guardarBinario.setText("Guardar Binario                                      ");
+        jmi_guardarBinario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmi_abrirActionPerformed(evt);
+                jmi_guardarBinarioActionPerformed(evt);
             }
         });
-        jm_archivo.add(jmi_abrir);
+        jm_archivo.add(jmi_guardarBinario);
 
-        jmi_nuevo.setText("Nuevo                                           ");
+        jmi_guardarTexto.setText("Guardar Texto                                      ");
+        jmi_guardarTexto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_guardarTextoActionPerformed(evt);
+            }
+        });
+        jm_archivo.add(jmi_guardarTexto);
+
+        jmi_abrirTexto.setText("Abrir Texto                                             ");
+        jmi_abrirTexto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_abrirTextoActionPerformed(evt);
+            }
+        });
+        jm_archivo.add(jmi_abrirTexto);
+
+        jmi_nuevo.setText("Nueva Ventana                                           ");
         jmi_nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmi_nuevoActionPerformed(evt);
@@ -1917,8 +1968,7 @@ public class Main extends javax.swing.JFrame {
         
        
     }//GEN-LAST:event_btn_separadorMouseClicked
-    private void jmi_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarActionPerformed
-        // TODO add your handling code here:
+    private void jmi_guardarBinarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarBinarioActionPerformed
         JFileChooser fc = new JFileChooser();
         if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             File seleccionado = fc.getSelectedFile();
@@ -1932,8 +1982,8 @@ public class Main extends javax.swing.JFrame {
             }
         }
         
-    }//GEN-LAST:event_jmi_guardarActionPerformed
-    private void jmi_abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirActionPerformed
+    }//GEN-LAST:event_jmi_guardarBinarioActionPerformed
+    private void jmi_abrirBinarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirBinarioActionPerformed
         // TODO add your handling code here:
         JFileChooser fc = new JFileChooser();
         if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -1950,9 +2000,8 @@ public class Main extends javax.swing.JFrame {
                 JOptionPane.showConfirmDialog(this, "Error");
             }
         }
-    }//GEN-LAST:event_jmi_abrirActionPerformed
+    }//GEN-LAST:event_jmi_abrirBinarioActionPerformed
     private void jmi_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_nuevoActionPerformed
-        // TODO add your handling code here:
         Main nuevaVentana = new Main();
         nuevaVentana.setVisible(true);
     }//GEN-LAST:event_jmi_nuevoActionPerformed
@@ -2215,14 +2264,26 @@ public class Main extends javax.swing.JFrame {
         StringBuilder codigoFinal = new StringBuilder();
         codigoFinal.append("public class MiPrograma {\n");
         codigoFinal.append("    public static void main(String[] args) {\n");
+        
+        boolean existeInicio = false;
+        boolean existeFin = false;
         for (Figura fig : figuras) {
-            String lineaDeCodigo = fig.generarCodigo();
-            if (lineaDeCodigo != null && !lineaDeCodigo.isEmpty()) { 
-                codigoFinal.append("        ").append(lineaDeCodigo).append("\n");
-            }
+            if ("Inicio".equals(fig.getNombre())) existeInicio = true;
+            if ("Fin".equals(fig.getNombre())) existeFin = true;
         }
+        if (existeInicio) codigoFinal.append("//-----------------------------------Inicio de la Clase-----------------------------------\n\n");
+        
+        for (Variable v : variables) codigoFinal.append("        ").append(v.getTipo()).append(" ").append(v.getNombre()).append(";\n");
+        if (!variables.isEmpty()) codigoFinal.append("\n");
+        for (Figura fig : figuras) {
+            if ("Inicio".equals(fig.getNombre()) || "Fin".equals(fig.getNombre())) continue;
+            String lineaDeCodigo = fig.generarCodigo();
+            if (lineaDeCodigo != null && !lineaDeCodigo.isEmpty()) codigoFinal.append("        ").append(lineaDeCodigo).append("\n");
+        }
+        if (existeFin) codigoFinal.append("\n//-------------------------------------Fin de la Clase------------------------------------//\n");
         codigoFinal.append("    }\n");
         codigoFinal.append("}\n");
+
         jta_codigoDiagrama.setText(codigoFinal.toString());
         jtp_diagrama.setSelectedIndex(1);
     }//GEN-LAST:event_btn_generarCodigoMouseClicked
@@ -2251,6 +2312,14 @@ public class Main extends javax.swing.JFrame {
         jd_bucleFor.setVisible(false);
         canvasPanel.repaint();
     }//GEN-LAST:event_btn_bucleForAgregarMouseClicked
+
+    private void jmi_guardarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarTextoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmi_guardarTextoActionPerformed
+
+    private void jmi_abrirTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirTextoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmi_abrirTextoActionPerformed
   
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
@@ -2325,6 +2394,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -2367,7 +2437,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jm_archivo;
     private javax.swing.JMenu jm_exportar;
     private javax.swing.JMenuBar jmb_barraVentana;
-    private javax.swing.JMenuItem jmi_abrir;
+    private javax.swing.JMenuItem jmi_abrirBinario;
+    private javax.swing.JMenuItem jmi_abrirTexto;
     private javax.swing.JMenuItem jmi_accionEspecial;
     private javax.swing.JMenuItem jmi_agregarMetodo;
     private javax.swing.JMenuItem jmi_agregarPropiedad;
@@ -2382,7 +2453,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_eliminarArbol;
     private javax.swing.JMenuItem jmi_eliminarMetodo;
     private javax.swing.JMenuItem jmi_eliminarPropiedad;
-    private javax.swing.JMenuItem jmi_guardar;
+    private javax.swing.JMenuItem jmi_guardarBinario;
+    private javax.swing.JMenuItem jmi_guardarTexto;
     private javax.swing.JMenuItem jmi_nuevo;
     private javax.swing.JMenuItem jmi_propiedades;
     private javax.swing.JPanel jp_clases;

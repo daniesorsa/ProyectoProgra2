@@ -68,8 +68,7 @@ public class Diamante extends Figura implements Serializable {
         copiarPropiedades(d);
         return d;
     }
-
-    // Mantenemos el método SIN parámetros para respetar el contrato de Figura
+    
     @Override
     public String getNombreAccionEspecial() {
         if ("If".equals(this.nombre)) return "Configurar  'IF'";
