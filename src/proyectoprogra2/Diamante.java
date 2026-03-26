@@ -89,10 +89,10 @@ public class Diamante extends Figura implements Serializable {
     @Override
     public String generarCodigo() {
         StringBuilder codigoFinal = new StringBuilder();
-        if ("If".equals(this.nombre)) codigoFinal.append("if (").append(this.texto).append(") {\n");
-        else if ("While".equals(this.nombre)) codigoFinal.append("while (").append(this.texto).append(") {\n");
-        else if ("For".equals(this.nombre)) codigoFinal.append("for (").append(this.texto).append(") {\n");
-        for (String operacionInterna : operacionesInternas) codigoFinal.append("    ").append(operacionInterna).append("\n");
+        if ("If".equals(this.nombre)) codigoFinal.append(this.texto).append(" {\n");
+        else if ("While".equals(this.nombre)) codigoFinal.append(this.texto).append(" {\n");
+        else if ("For".equals(this.nombre)) codigoFinal.append(this.texto).append(" {\n");
+        for (String operacionInterna : operacionesInternas) codigoFinal.append("            ").append(operacionInterna).append("\n");
         codigoFinal.append("        }\n");
         return codigoFinal.toString();
     }

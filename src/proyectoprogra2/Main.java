@@ -51,7 +51,7 @@ public class Main extends javax.swing.JFrame {
         
         Diamante ifFig = new Diamante(10, 150, 90, 50);
         ifFig.setNombre("If");
-        ifFig.setTexto("If");
+        ifFig.setTexto("if");
         
         RectanguloDoble sout = new RectanguloDoble(130, 150, 90, 40);
         sout.setNombre("sout");
@@ -59,11 +59,11 @@ public class Main extends javax.swing.JFrame {
         
         Diamante whileFig = new Diamante(10, 220, 90, 50);
         whileFig.setNombre("While");
-        whileFig.setTexto("While");
+        whileFig.setTexto("while");
         
         Diamante forFig = new Diamante(130, 220, 90, 50);
         forFig.setNombre("For");
-        forFig.setTexto("For");
+        forFig.setTexto("for");
         
         plantillas.add(inicio);
         plantillas.add(fin);
@@ -319,6 +319,7 @@ public class Main extends javax.swing.JFrame {
         jLabel35 = new javax.swing.JLabel();
         jLabel36 = new javax.swing.JLabel();
         jcb_bucleForVariableCondicion = new javax.swing.JComboBox<>();
+        btn_bucleForAccion = new javax.swing.JButton();
         btn_bucleForAgregar = new javax.swing.JButton();
         jd_bucleWhile = new javax.swing.JDialog();
         jLabel37 = new javax.swing.JLabel();
@@ -1026,6 +1027,14 @@ public class Main extends javax.swing.JFrame {
         jLabel36.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel36.setText("Variable de Condicion");
 
+        btn_bucleForAccion.setFont(new java.awt.Font("Tw Cen MT", 0, 24)); // NOI18N
+        btn_bucleForAccion.setText("Agregar Acción");
+        btn_bucleForAccion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_bucleForAccionMouseClicked(evt);
+            }
+        });
+
         btn_bucleForAgregar.setFont(new java.awt.Font("Tw Cen MT", 0, 24)); // NOI18N
         btn_bucleForAgregar.setText("Agregar For");
         btn_bucleForAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1044,26 +1053,29 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(jd_bucleForLayout.createSequentialGroup()
                         .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jd_bucleForLayout.createSequentialGroup()
-                        .addGroup(jd_bucleForLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jd_bucleForLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel32, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel36, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel31)
-                            .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jd_bucleForLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jcb_bucleForCondicion, 0, 115, Short.MAX_VALUE)
-                            .addComponent(jcb_bucleForSalto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jcb_bucleForAccion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jcb_bucleForIdx, 0, 115, Short.MAX_VALUE)
-                            .addComponent(jcb_bucleForVariableCondicion, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_bucleForLayout.createSequentialGroup()
+                        .addGroup(jd_bucleForLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jd_bucleForLayout.createSequentialGroup()
+                                .addGap(0, 2, Short.MAX_VALUE)
+                                .addComponent(btn_bucleForAgregar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_bucleForAccion))
+                            .addGroup(jd_bucleForLayout.createSequentialGroup()
+                                .addGroup(jd_bucleForLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jd_bucleForLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jLabel32, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel36, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel31)
+                                    .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jd_bucleForLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jcb_bucleForCondicion, 0, 115, Short.MAX_VALUE)
+                                    .addComponent(jcb_bucleForSalto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jcb_bucleForAccion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jcb_bucleForIdx, 0, 115, Short.MAX_VALUE)
+                                    .addComponent(jcb_bucleForVariableCondicion, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(59, 59, 59))))
-            .addGroup(jd_bucleForLayout.createSequentialGroup()
-                .addGap(134, 134, 134)
-                .addComponent(btn_bucleForAgregar)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         jd_bucleForLayout.setVerticalGroup(
             jd_bucleForLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1090,9 +1102,11 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jd_bucleForLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jcb_bucleForAccion, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addComponent(btn_bucleForAgregar)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addGap(37, 37, 37)
+                .addGroup(jd_bucleForLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_bucleForAccion)
+                    .addComponent(btn_bucleForAgregar))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         jLabel37.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -1730,13 +1744,15 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jm_exportarMouseClicked
     private void btn_agregarVariableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarVariableMouseClicked
         String nombre = txt_nombreVariable.getText();
-        if(!(nombre.matches("^[a-zA-Z0-9_]*$")) || nombre.isEmpty()) {
+        if(!(nombre.matches("^[a-zA-Z0-9_]*$")) || nombre.isEmpty() || Character.isDigit(nombre.charAt(0))) {
             JOptionPane.showMessageDialog(null, """
                                                 Error, no se permiten 
                                                 - Vacios
                                                 - En blanco
                                                 - Caracteres Especiales
-                                                - Letra mayuscula inicial""");
+                                                - Letra mayuscula inicial
+                                                - Empezar con un numero
+                                                """);
             txt_nombreVariable.setText("");
         } else {
             for (Variable v : variables) {
@@ -2050,7 +2066,8 @@ public class Main extends javax.swing.JFrame {
             canvasPanel.repaint();
         } else JOptionPane.showMessageDialog(this, "Click derecho -> Copiar -> Presionar Boton Pegar");
     }//GEN-LAST:event_btn_pegarActionPerformed
-    // accion especial(jmi), bucles, condicional y sout
+    
+// accion especial(jmi), bucles, condicional y sout
     private void jmi_accionEspecialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_accionEspecialActionPerformed
         figuraClickDerecho.ejecutarAccionEspecial(this);
         canvasPanel.repaint();
@@ -2104,18 +2121,19 @@ public class Main extends javax.swing.JFrame {
         jd_bucleFor.pack();
         jd_bucleFor.setLocationRelativeTo(jtp_principal);
     }
-    private void btn_bucleForAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_bucleForAgregarMouseClicked
-        Variable valorIdx = (Variable) jcb_bucleForIdx.getSelectedItem();
-        Variable valorCondicion = (Variable) jcb_bucleForVariableCondicion.getSelectedItem();
-        String operador = jcb_bucleForCondicion.getSelectedItem().toString();
-        String salto = jcb_bucleForSalto.getSelectedItem().toString();
-        String condicionLimpia = "int i = " + valorIdx.getNombre() + "; i " + operador + " " + valorCondicion.getNombre() + "; i" + salto;
-        Diamante d = (Diamante) figuraClickDerecho;
-        d.setTexto(condicionLimpia);
-        System.out.println("Condición For guardada: " + condicionLimpia);
-        jd_bucleFor.setVisible(false);
-        canvasPanel.repaint();
-    }//GEN-LAST:event_btn_bucleForAgregarMouseClicked
+    private void btn_bucleForAccionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_bucleForAccionMouseClicked
+        String opcionElegida = jcb_bucleForAccion.getSelectedItem().toString();
+        padreTemporal = (Diamante) figuraClickDerecho;
+        if (opcionElegida.equals("Operacion")) {
+            jd_operacion.pack();
+            jd_operacion.setLocationRelativeTo(this);
+            jd_operacion.setVisible(true);
+        } else if (opcionElegida.equals("Sout")) {
+            jd_sout.pack();
+            jd_sout.setLocationRelativeTo(this);
+            jd_sout.setVisible(true);
+        }
+    }//GEN-LAST:event_btn_bucleForAccionMouseClicked
     private void jcb_bucleWhileAccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_bucleWhileAccionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jcb_bucleWhileAccionActionPerformed
@@ -2134,7 +2152,7 @@ public class Main extends javax.swing.JFrame {
         String operador = jcb_bucleWhileCondicion.getSelectedItem().toString();
         String condicionLimpia = var1.getNombre() + " " + operador + " " + var2.getNombre();
         Diamante d = (Diamante) figuraClickDerecho;
-        d.setTexto(condicionLimpia); 
+        d.setTexto("while (" + condicionLimpia + ")"); 
         System.out.println("Condición While guardada: " + condicionLimpia);
         jd_bucleWhile.setVisible(false);
         canvasPanel.repaint();
@@ -2178,7 +2196,7 @@ public class Main extends javax.swing.JFrame {
             padreTemporal = null;
         } else {
             RectanguloDoble r = (RectanguloDoble) figuraClickDerecho;
-            r.setTexto(textoLimpio); 
+            r.setTexto("Imprimir..."); 
         }
         jd_sout.setVisible(false);
         jta_sout.setText("");
@@ -2188,8 +2206,8 @@ public class Main extends javax.swing.JFrame {
         Variable var1 = (Variable) jcb_ifVar1.getSelectedItem();
         Variable var2 = (Variable) jcb_ifVar2.getSelectedItem();
         String operador = jcb_ifCondicion.getSelectedItem().toString();
-        String laCondicion = var1.getNombre() + " " + operador + " " + var2.getNombre();
-        figuraClickDerecho.setTexto(laCondicion); 
+        String condicion = var1.getNombre() + " " + operador + " " + var2.getNombre();
+        figuraClickDerecho.setTexto("if (" + condicion + ")"); 
         jd_if.setVisible(false);
         canvasPanel.repaint();
     }//GEN-LAST:event_btn_ifGuardarMouseClicked
@@ -2206,21 +2224,33 @@ public class Main extends javax.swing.JFrame {
         codigoFinal.append("    }\n");
         codigoFinal.append("}\n");
         jta_codigoDiagrama.setText(codigoFinal.toString());
-        jtp_diagrama.setSelectedIndex(0);
+        jtp_diagrama.setSelectedIndex(1);
     }//GEN-LAST:event_btn_generarCodigoMouseClicked
     private void btn_bucleWhileAccionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_bucleWhileAccionMouseClicked
-        String opcionElegida = jcb_bucleForAccion.getSelectedItem().toString();
+        String opcionElegida = jcb_bucleWhileAccion.getSelectedItem().toString();
         padreTemporal = (Diamante) figuraClickDerecho;
-        if (opcionElegida.equals("operacion")) {
+        if (opcionElegida.equals("Operacion")) {
             jd_operacion.pack();
             jd_operacion.setLocationRelativeTo(this);
             jd_operacion.setVisible(true);
-        } else if (opcionElegida.equals("sout")) {
+        } else if (opcionElegida.equals("Sout")) {
             jd_sout.pack();
             jd_sout.setLocationRelativeTo(this);
             jd_sout.setVisible(true);
         }
     }//GEN-LAST:event_btn_bucleWhileAccionMouseClicked
+    private void btn_bucleForAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_bucleForAgregarMouseClicked
+        Variable valorIdx = (Variable) jcb_bucleForIdx.getSelectedItem();
+        Variable valorCondicion = (Variable) jcb_bucleForVariableCondicion.getSelectedItem();
+        String operador = jcb_bucleForCondicion.getSelectedItem().toString();
+        String salto = jcb_bucleForSalto.getSelectedItem().toString();
+        String condicionLimpia = "int i = " + valorIdx.getNombre() + "; i " + operador + " " + valorCondicion.getNombre() + "; i" + salto;
+        Diamante d = (Diamante) figuraClickDerecho;
+        d.setTexto("for (" + condicionLimpia + ")");
+        System.out.println("Condición For guardada: " + condicionLimpia);
+        jd_bucleFor.setVisible(false);
+        canvasPanel.repaint();
+    }//GEN-LAST:event_btn_bucleForAgregarMouseClicked
   
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
@@ -2229,6 +2259,7 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregarVariable;
     private javax.swing.JButton btn_agregarVariablePrincipal;
+    private javax.swing.JButton btn_bucleForAccion;
     private javax.swing.JButton btn_bucleForAgregar;
     private javax.swing.JButton btn_bucleWhileAccion;
     private javax.swing.JButton btn_bucleWhileAgregar;
