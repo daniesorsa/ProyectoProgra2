@@ -27,4 +27,26 @@ public class Ovalo extends Figura implements Serializable {
         copiarPropiedades(o);
         return o;
     }
+
+    @Override
+    public String getNombreAccionEspecial() {
+        if ("Inicio".equals(this.nombre)) {
+            return "Configurar Inicio";
+        } else if ("Fin".equals(this.nombre)) {
+            return "Configurar Fin";
+        }
+        return null; // Si no es ni inicio ni fin, no mostramos menú especial
+    }
+
+    @Override
+    public void ejecutarAccionEspecial() {
+        if ("Inicio".equals(this.nombre)) {
+            System.out.println("Abriendo ventana para configurar Inicio...");
+            // Lógica para el Inicio
+        } else if ("Fin".equals(this.nombre)) {
+            System.out.println("Abriendo ventana para configurar Fin...");
+            // Lógica para el Fin
+        }
+    }
+    
 }

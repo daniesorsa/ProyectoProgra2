@@ -27,4 +27,19 @@ public class Rectangulo extends Figura implements Serializable {
         copiarPropiedades(r);
         return r;
     }
+    @Override
+    public String getNombreAccionEspecial() {
+        if ("Proceso".equals(this.nombre)) {
+            return "Configurar Proceso (Asignación)";
+        }
+        return "Configurar Rectángulo"; 
+    }
+
+    @Override
+    public void ejecutarAccionEspecial() {
+        if ("Proceso".equals(this.nombre)) {
+            System.out.println("Abriendo ventana para declarar variables o procesos...");
+            // Lógica para pedirle al usuario qué variable va a modificar
+        }
+    }
 }

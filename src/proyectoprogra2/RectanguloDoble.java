@@ -32,4 +32,19 @@ public class RectanguloDoble extends Figura implements Serializable {
         copiarPropiedades(rd);
         return rd;
     }
+    @Override
+    public String getNombreAccionEspecial() {
+        if ("sout".equals(this.nombre)) {
+            return "Configurar Impresión (System.out)";
+        }
+        return "Configurar Subproceso";
+    }
+
+    @Override
+    public void ejecutarAccionEspecial() {
+        if ("sout".equals(this.nombre)) {
+            System.out.println("Abriendo ventana para configurar el texto a imprimir...");
+            // Lógica para armar el mensaje que se mostrará en consola
+        }
+    }
 }

@@ -107,7 +107,10 @@ public abstract class Figura implements Serializable {
         this.nombre = Nombre;
     }
     
-
+    
+    
+    public String getNombreAccionEspecial() {return null;}
+    public abstract void ejecutarAccionEspecial();
     
     public abstract void dibujar(Graphics2D g2);
     public abstract Figura copiar();

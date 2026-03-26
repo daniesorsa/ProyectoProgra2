@@ -33,4 +33,27 @@ public class Diamante extends Figura implements Serializable {
         copiarPropiedades(d);
         return d;
     }
+
+    // Mantenemos el método SIN parámetros para respetar el contrato de Figura
+    @Override
+    public String getNombreAccionEspecial() {
+        if ("If".equals(this.nombre)) return "Configurar  'IF'";
+        else if ("While".equals(this.nombre)) return "Configurar Bucle 'While'";
+        else if ("For".equals(this.nombre)) return "Configurar Bucle 'For'";
+        return null;
+    }
+
+    @Override
+    public void ejecutarAccionEspecial() {
+        if ("If".equals(this.nombre)) {
+            System.out.println("Abriendo ventana para IF...");
+        } else if ("While".equals(this.nombre)) {
+            System.out.println("Abriendo ventana para WHILE...");
+            // Lógica para el While
+
+        } else if ("For".equals(this.nombre)) {
+            System.out.println("Abriendo ventana para FOR...");
+            // Lógica para el For
+        }
+    }
 }

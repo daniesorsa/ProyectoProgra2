@@ -140,18 +140,13 @@ public class Main extends javax.swing.JFrame {
                     }
                 }
                 if(figuraClickDerecho != null) {
+                    String textoAccion = figuraClickDerecho.getNombreAccionEspecial();
+                    if (textoAccion != null) {
+                        jmi_accionEspecial.setText(textoAccion);
+                        jmi_accionEspecial.setVisible(true);
+                    } else jmi_accionEspecial.setVisible(false);
                     jpm_diagramas.show(canvasPanel, evt.getX(), evt.getY());
-                    if(figuraClickDerecho instanceof Ovalo){
-                        
-                    } else if(figuraClickDerecho instanceof Rectangulo) {
-                        
-                    } else if(figuraClickDerecho instanceof Paralelogramo) {
-                        
-                    } else if(figuraClickDerecho instanceof RectanguloDoble) {
-                        
-                    } else if(figuraClickDerecho instanceof Rectangulo) {
-                        
-                    }
+                    jpm_diagramas.show(canvasPanel, evt.getX(), evt.getY());
                 }
             }
         }});
@@ -272,6 +267,7 @@ public class Main extends javax.swing.JFrame {
         jmi_propiedades = new javax.swing.JMenuItem();
         jmi_copiar = new javax.swing.JMenuItem();
         jpm_agregarPropiedadDiagrama = new javax.swing.JMenuItem();
+        jmi_accionEspecial = new javax.swing.JMenuItem();
         jd_herencia = new javax.swing.JDialog();
         jd_cambiarFuente = new javax.swing.JDialog();
         jLabel21 = new javax.swing.JLabel();
@@ -292,10 +288,12 @@ public class Main extends javax.swing.JFrame {
         jp_opciones = new javax.swing.JPanel();
         jp_medio = new javax.swing.JPanel();
         jtp_diagramaCodigo = new javax.swing.JTabbedPane();
+        jp_diagrama = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jta_codigoDiagrama = new javax.swing.JTextArea();
         jp_codigo = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jta_codigoDiagrama = new javax.swing.JTextArea();
-        jp_diagrama = new javax.swing.JPanel();
+        jta_codigoDiagrama1 = new javax.swing.JTextArea();
         btn_pegar = new javax.swing.JButton();
         btn_generarCodigo = new javax.swing.JButton();
         jp_variables = new javax.swing.JPanel();
@@ -764,6 +762,14 @@ public class Main extends javax.swing.JFrame {
         });
         jpm_diagramas.add(jpm_agregarPropiedadDiagrama);
 
+        jmi_accionEspecial.setText("Accion Especial");
+        jmi_accionEspecial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_accionEspecialActionPerformed(evt);
+            }
+        });
+        jpm_diagramas.add(jmi_accionEspecial);
+
         javax.swing.GroupLayout jd_herenciaLayout = new javax.swing.GroupLayout(jd_herencia.getContentPane());
         jd_herencia.getContentPane().setLayout(jd_herenciaLayout);
         jd_herenciaLayout.setHorizontalGroup(
@@ -916,16 +922,40 @@ public class Main extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        jta_codigoDiagrama.setEditable(false);
+        jta_codigoDiagrama.setColumns(20);
+        jta_codigoDiagrama.setRows(5);
+        jScrollPane2.setViewportView(jta_codigoDiagrama);
+
+        javax.swing.GroupLayout jp_diagramaLayout = new javax.swing.GroupLayout(jp_diagrama);
+        jp_diagrama.setLayout(jp_diagramaLayout);
+        jp_diagramaLayout.setHorizontalGroup(
+            jp_diagramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jp_diagramaLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+        jp_diagramaLayout.setVerticalGroup(
+            jp_diagramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jp_diagramaLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
+
+        jtp_diagramaCodigo.addTab("Diagrama", jp_diagrama);
+
         jp_codigo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jp_codigoMouseClicked(evt);
             }
         });
 
-        jta_codigoDiagrama.setEditable(false);
-        jta_codigoDiagrama.setColumns(20);
-        jta_codigoDiagrama.setRows(5);
-        jScrollPane3.setViewportView(jta_codigoDiagrama);
+        jta_codigoDiagrama1.setEditable(false);
+        jta_codigoDiagrama1.setColumns(20);
+        jta_codigoDiagrama1.setRows(5);
+        jScrollPane3.setViewportView(jta_codigoDiagrama1);
 
         javax.swing.GroupLayout jp_codigoLayout = new javax.swing.GroupLayout(jp_codigo);
         jp_codigo.setLayout(jp_codigoLayout);
@@ -945,19 +975,6 @@ public class Main extends javax.swing.JFrame {
         );
 
         jtp_diagramaCodigo.addTab("Codigo", jp_codigo);
-
-        javax.swing.GroupLayout jp_diagramaLayout = new javax.swing.GroupLayout(jp_diagrama);
-        jp_diagrama.setLayout(jp_diagramaLayout);
-        jp_diagramaLayout.setHorizontalGroup(
-            jp_diagramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 437, Short.MAX_VALUE)
-        );
-        jp_diagramaLayout.setVerticalGroup(
-            jp_diagramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 323, Short.MAX_VALUE)
-        );
-
-        jtp_diagramaCodigo.addTab("Diagrama", jp_diagrama);
 
         btn_pegar.setText("Pegar");
         btn_pegar.addActionListener(new java.awt.event.ActionListener() {
@@ -1557,6 +1574,10 @@ public class Main extends javax.swing.JFrame {
             canvasPanel.repaint();
         } else JOptionPane.showMessageDialog(this, "Click derecho -> Copiar -> Presionar Boton Pegar");
     }//GEN-LAST:event_btn_pegarActionPerformed
+    private void jmi_accionEspecialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_accionEspecialActionPerformed
+        figuraClickDerecho.ejecutarAccionEspecial();
+        canvasPanel.repaint();
+    }//GEN-LAST:event_jmi_accionEspecialActionPerformed
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
     }
@@ -1607,6 +1628,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JComboBox<String> jcb_estilo;
     private javax.swing.JComboBox<String> jcb_fuente;
@@ -1629,6 +1651,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jm_exportar;
     private javax.swing.JMenuBar jmb_barraVentana;
     private javax.swing.JMenuItem jmi_abrir;
+    private javax.swing.JMenuItem jmi_accionEspecial;
     private javax.swing.JMenuItem jmi_agregarMetodo;
     private javax.swing.JMenuItem jmi_agregarPropiedad;
     private javax.swing.JMenuItem jmi_cambiarColor;
@@ -1662,6 +1685,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JSpinner jsp_propiedadTamanho;
     private javax.swing.JSpinner jsp_propiedadWidth;
     private javax.swing.JTextArea jta_codigoDiagrama;
+    private javax.swing.JTextArea jta_codigoDiagrama1;
     private javax.swing.JTabbedPane jtp_diagramaCodigo;
     private javax.swing.JTabbedPane jtp_diagramaCodigo1;
     private javax.swing.JTabbedPane jtp_principal;
