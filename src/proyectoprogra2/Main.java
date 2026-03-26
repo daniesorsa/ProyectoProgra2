@@ -201,13 +201,13 @@ public class Main extends javax.swing.JFrame {
         jmi_guardarBinario.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         
         // Ctrl + A para Abrir Binario
-        jmi_abrirBinario.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        jmi_abrirTexto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         
         // Ctrl + Shift + G para Guardar Texto
         jmi_guardarTexto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
 
         // Ctrl + Shift + A para Abrir Texto
-        jmi_abrirTexto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+        jmi_abrirBinario.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         
 //******Modelos******
         //jcb
@@ -260,6 +260,7 @@ public class Main extends javax.swing.JFrame {
         btn_agregarVariable = new javax.swing.JButton();
         txt_nombreVariable = new javax.swing.JTextField();
         jcb_tipoVariable = new javax.swing.JComboBox<>();
+        jLabel48 = new javax.swing.JLabel();
         jd_propiedadesFigura = new javax.swing.JDialog();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -373,6 +374,17 @@ public class Main extends javax.swing.JFrame {
         btn_soutGuardar = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jta_sout = new javax.swing.JTextArea();
+        jd_agregarPropiedad = new javax.swing.JDialog();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        btn_agregarParametro = new javax.swing.JButton();
+        txt_nombreVariable1 = new javax.swing.JTextField();
+        jcb_propiedadReturn = new javax.swing.JComboBox<>();
+        jLabel49 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jcb_propiedadAlcance = new javax.swing.JComboBox<>();
+        jLabel50 = new javax.swing.JLabel();
+        btn_propiedadAgregarParametro = new javax.swing.JButton();
         jtp_principal = new javax.swing.JTabbedPane();
         jp_uml = new javax.swing.JPanel();
         jp_opciones = new javax.swing.JPanel();
@@ -407,9 +419,9 @@ public class Main extends javax.swing.JFrame {
         jp_codigo1 = new javax.swing.JPanel();
         jmb_barraVentana = new javax.swing.JMenuBar();
         jm_archivo = new javax.swing.JMenu();
-        jmi_abrirBinario = new javax.swing.JMenuItem();
         jmi_guardarBinario = new javax.swing.JMenuItem();
         jmi_guardarTexto = new javax.swing.JMenuItem();
+        jmi_abrirBinario = new javax.swing.JMenuItem();
         jmi_abrirTexto = new javax.swing.JMenuItem();
         jmi_nuevo = new javax.swing.JMenuItem();
         jm_exportar = new javax.swing.JMenu();
@@ -433,6 +445,10 @@ public class Main extends javax.swing.JFrame {
 
         jcb_tipoVariable.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Int", "Float", "Char", "String" }));
 
+        jLabel48.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel48.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel48.setText("Agregar Variable");
+
         javax.swing.GroupLayout jd_agregarVariableLayout = new javax.swing.GroupLayout(jd_agregarVariable.getContentPane());
         jd_agregarVariable.getContentPane().setLayout(jd_agregarVariableLayout);
         jd_agregarVariableLayout.setHorizontalGroup(
@@ -451,11 +467,14 @@ public class Main extends javax.swing.JFrame {
                 .addGap(121, 121, 121)
                 .addComponent(btn_agregarVariable, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jLabel48, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jd_agregarVariableLayout.setVerticalGroup(
             jd_agregarVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_agregarVariableLayout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addContainerGap()
+                .addComponent(jLabel48)
+                .addGap(4, 4, 4)
                 .addGroup(jd_agregarVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_nombreVariable))
@@ -1386,6 +1405,95 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(51, Short.MAX_VALUE))
         );
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel8.setText("Nombre");
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel9.setText("Return");
+
+        btn_agregarParametro.setFont(new java.awt.Font("Tw Cen MT", 0, 24)); // NOI18N
+        btn_agregarParametro.setText("Agregar");
+        btn_agregarParametro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_agregarParametroMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_agregarParametroMouseEntered(evt);
+            }
+        });
+
+        jcb_propiedadReturn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "void", "int", "float", "char", "String", "boolean" }));
+
+        jLabel49.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel49.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel49.setText("Agregar Propiedad");
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel10.setText("Parametro");
+
+        jcb_propiedadAlcance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "private", "public", "protected" }));
+
+        jLabel50.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel50.setText("Alcance");
+
+        btn_propiedadAgregarParametro.setText("Agregar");
+
+        javax.swing.GroupLayout jd_agregarPropiedadLayout = new javax.swing.GroupLayout(jd_agregarPropiedad.getContentPane());
+        jd_agregarPropiedad.getContentPane().setLayout(jd_agregarPropiedadLayout);
+        jd_agregarPropiedadLayout.setHorizontalGroup(
+            jd_agregarPropiedadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_agregarPropiedadLayout.createSequentialGroup()
+                .addGap(121, 121, 121)
+                .addComponent(btn_agregarParametro, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jd_agregarPropiedadLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel49, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jd_agregarPropiedadLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(jd_agregarPropiedadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel50, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                .addGroup(jd_agregarPropiedadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txt_nombreVariable1)
+                    .addComponent(jcb_propiedadReturn, 0, 115, Short.MAX_VALUE)
+                    .addComponent(jcb_propiedadAlcance, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_propiedadAgregarParametro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(59, 59, 59))
+        );
+        jd_agregarPropiedadLayout.setVerticalGroup(
+            jd_agregarPropiedadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_agregarPropiedadLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel49)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jd_agregarPropiedadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_nombreVariable1))
+                .addGap(18, 18, 18)
+                .addGroup(jd_agregarPropiedadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcb_propiedadReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_agregarPropiedadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jcb_propiedadAlcance, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel50, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jd_agregarPropiedadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_agregarPropiedadLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(btn_propiedadAgregarParametro))
+                    .addGroup(jd_agregarPropiedadLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(btn_agregarParametro, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         javax.swing.GroupLayout jp_opcionesLayout = new javax.swing.GroupLayout(jp_opciones);
@@ -1720,14 +1828,6 @@ public class Main extends javax.swing.JFrame {
 
         jm_archivo.setText("Archivo");
 
-        jmi_abrirBinario.setText("Abrir Binario                                             ");
-        jmi_abrirBinario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmi_abrirBinarioActionPerformed(evt);
-            }
-        });
-        jm_archivo.add(jmi_abrirBinario);
-
         jmi_guardarBinario.setText("Guardar Binario                                      ");
         jmi_guardarBinario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1744,15 +1844,23 @@ public class Main extends javax.swing.JFrame {
         });
         jm_archivo.add(jmi_guardarTexto);
 
+        jmi_abrirBinario.setText("Abrir Binario                                             ");
+        jmi_abrirBinario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_abrirBinarioActionPerformed(evt);
+            }
+        });
+        jm_archivo.add(jmi_abrirBinario);
+
         jmi_abrirTexto.setText("Abrir Texto                                             ");
         jmi_abrirTexto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmi_abrirTextoActionPerformed(evt);
+                jmi_abrirTextoTextoActionPerformed(evt);
             }
         });
         jm_archivo.add(jmi_abrirTexto);
 
-        jmi_nuevo.setText("Nueva Ventana                                           ");
+        jmi_nuevo.setText("Nuevo                                           ");
         jmi_nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmi_nuevoActionPerformed(evt);
@@ -1983,7 +2091,7 @@ public class Main extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jmi_guardarBinarioActionPerformed
-    private void jmi_abrirBinarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirBinarioActionPerformed
+    private void jmi_abrirTextoTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirTextoTextoActionPerformed
         // TODO add your handling code here:
         JFileChooser fc = new JFileChooser();
         if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -2000,7 +2108,7 @@ public class Main extends javax.swing.JFrame {
                 JOptionPane.showConfirmDialog(this, "Error");
             }
         }
-    }//GEN-LAST:event_jmi_abrirBinarioActionPerformed
+    }//GEN-LAST:event_jmi_abrirTextoTextoActionPerformed
     private void jmi_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_nuevoActionPerformed
         Main nuevaVentana = new Main();
         nuevaVentana.setVisible(true);
@@ -2312,20 +2420,43 @@ public class Main extends javax.swing.JFrame {
         jd_bucleFor.setVisible(false);
         canvasPanel.repaint();
     }//GEN-LAST:event_btn_bucleForAgregarMouseClicked
-
     private void jmi_guardarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarTextoActionPerformed
-        // TODO add your handling code here:
+        StringBuilder codigo = new StringBuilder();
+        JFileChooser fc = new JFileChooser();
+        if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File selec = fc.getSelectedFile();
+            try {
+                FileWriter fw = new FileWriter(selec, false);
+                BufferedWriter bw = new BufferedWriter(fw);
+                codigo.append(jta_codigoDiagrama.getText());
+                bw.write(codigo.toString());
+                bw.close();
+            } catch (FileNotFoundException ex) {
+                System.out.println("File not found");
+            } catch (IOException ex) {
+                System.out.println("Input/Output error");
+            }
+        }
     }//GEN-LAST:event_jmi_guardarTextoActionPerformed
 
-    private void jmi_abrirTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirTextoActionPerformed
+    private void jmi_abrirBinarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirBinarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jmi_abrirTextoActionPerformed
+    }//GEN-LAST:event_jmi_abrirBinarioActionPerformed
+
+    private void btn_agregarParametroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarParametroMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_agregarParametroMouseClicked
+
+    private void btn_agregarParametroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarParametroMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_agregarParametroMouseEntered
   
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_agregarParametro;
     private javax.swing.JButton btn_agregarVariable;
     private javax.swing.JButton btn_agregarVariablePrincipal;
     private javax.swing.JButton btn_bucleForAccion;
@@ -2345,6 +2476,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btn_operacionAgregar;
     private javax.swing.JButton btn_operacionGuardarPropiedad;
     private javax.swing.JButton btn_pegar;
+    private javax.swing.JButton btn_propiedadAgregarParametro;
     private javax.swing.JButton btn_propiedadCancelar;
     private javax.swing.JButton btn_propiedadColorFondo;
     private javax.swing.JToggleButton btn_propiedadEnable;
@@ -2352,6 +2484,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btn_separador;
     private javax.swing.JButton btn_soutGuardar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -2392,9 +2525,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -2419,9 +2557,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcb_operacionSelec;
     private javax.swing.JComboBox<String> jcb_operacionVar1;
     private javax.swing.JComboBox<String> jcb_operacionVar2;
+    private javax.swing.JComboBox<String> jcb_propiedadAlcance;
     private javax.swing.JComboBox<String> jcb_propiedadFuente;
+    private javax.swing.JComboBox<String> jcb_propiedadReturn;
     private javax.swing.JComboBox<String> jcb_tamanhoFuente;
     private javax.swing.JComboBox<String> jcb_tipoVariable;
+    private javax.swing.JDialog jd_agregarPropiedad;
     private javax.swing.JDialog jd_agregarVariable;
     private javax.swing.JDialog jd_bucleFor;
     private javax.swing.JDialog jd_bucleWhile;
@@ -2484,6 +2625,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField txt_nombreClase;
     private javax.swing.JTextField txt_nombrePropiedades;
     private javax.swing.JTextField txt_nombreVariable;
+    private javax.swing.JTextField txt_nombreVariable1;
     private javax.swing.JTextField txt_textoPropiedades;
     // End of variables declaration//GEN-END:variables
 }
