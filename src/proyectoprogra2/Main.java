@@ -25,11 +25,14 @@ public class Main extends javax.swing.JFrame {
     private JPanel canvasPanel;
     private Figura figuraClickDerecho = null;
     private Figura figuraCopiada = null;
+    private Diamante padreTemporal = null;
+    
     public Main() {
         initComponents();
-        jtp_diagrama.setSelectedComponent(jp_diagrama);
-        //figuras
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         
+
+//figuras        
         Ovalo inicio = new Ovalo(10, 10, 90, 35);
         inicio.setNombre("Inicio");
         inicio.setTexto("Inicio");
@@ -89,7 +92,7 @@ public class Main extends javax.swing.JFrame {
                         int x = Math.max(10, canvasPanel.getWidth()  / 2 - f.getAncho() / 2)+ (figuras.size() % 6) * 15;
                         int y = Math.max(10, canvasPanel.getHeight() / 2 - f.getAlto()  / 2) + (figuras.size() % 6) * 15;
                         figuras.add(f.copiar(x, y));
-                        figuras.getLast().setTexto("Lorem Ipsum");
+                        figuras.getLast().setTexto(f.getNombre());
                         figuras.getLast().setNombre(f.getNombre());
                         canvasPanel.repaint();
                         break;
@@ -173,7 +176,7 @@ public class Main extends javax.swing.JFrame {
         jp_diagrama.removeAll();
         jp_diagrama.setLayout(new BorderLayout());
         jp_diagrama.add(canvasPanel, BorderLayout.CENTER);
-        jtp_diagrama.setSelectedIndex(1);
+        jtp_diagrama.setSelectedIndex(0);
         
                 
         this.pack();
@@ -184,9 +187,8 @@ public class Main extends javax.swing.JFrame {
         jmi_guardar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         jmi_abrir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         
-        //******Modelos******
+//******Modelos******
         //jcb
-        
         String[] fuentes = (String[]) GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
         DefaultComboBoxModel modeloFuentes = new DefaultComboBoxModel(fuentes);
         jcb_fuente.setModel(modeloFuentes);
@@ -216,8 +218,6 @@ public class Main extends javax.swing.JFrame {
         jcb_bucleWhileVar1.setModel(modeloVar1While);
         DefaultComboBoxModel modeloVar2While = new DefaultComboBoxModel();
         jcb_bucleWhileVar2.setModel(modeloVar2While);
-        
-        
         
         //jlist
         DefaultListModel modeloLista = new DefaultListModel();
@@ -331,6 +331,7 @@ public class Main extends javax.swing.JFrame {
         jLabel42 = new javax.swing.JLabel();
         jcb_bucleWhileVar2 = new javax.swing.JComboBox<>();
         btn_bucleWhileAgregar = new javax.swing.JButton();
+        btn_bucleWhileAccion = new javax.swing.JButton();
         jd_if = new javax.swing.JDialog();
         jLabel39 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
@@ -341,7 +342,8 @@ public class Main extends javax.swing.JFrame {
         jLabel45 = new javax.swing.JLabel();
         jLabel46 = new javax.swing.JLabel();
         jcb_ifVar2 = new javax.swing.JComboBox<>();
-        btn_ifAgregar = new javax.swing.JButton();
+        btn_ifAgregarAccion = new javax.swing.JButton();
+        btn_ifGuardar = new javax.swing.JButton();
         jd_sout = new javax.swing.JDialog();
         jLabel47 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -355,10 +357,10 @@ public class Main extends javax.swing.JFrame {
         jtp_diagrama = new javax.swing.JTabbedPane();
         jp_diagrama = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jta_codigoDiagrama = new javax.swing.JTextArea();
+        jta_visualDiagrama = new javax.swing.JTextArea();
         jp_codigo = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jta_codigoDiagrama1 = new javax.swing.JTextArea();
+        jta_codigoDiagrama = new javax.swing.JTextArea();
         btn_pegar = new javax.swing.JButton();
         btn_generarCodigo = new javax.swing.JButton();
         jp_variables = new javax.swing.JPanel();
@@ -1126,6 +1128,14 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        btn_bucleWhileAccion.setFont(new java.awt.Font("Tw Cen MT", 0, 24)); // NOI18N
+        btn_bucleWhileAccion.setText("Agregar Acción");
+        btn_bucleWhileAccion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_bucleWhileAccionMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jd_bucleWhileLayout = new javax.swing.GroupLayout(jd_bucleWhile.getContentPane());
         jd_bucleWhile.getContentPane().setLayout(jd_bucleWhileLayout);
         jd_bucleWhileLayout.setHorizontalGroup(
@@ -1133,6 +1143,11 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jd_bucleWhileLayout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(jd_bucleWhileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_bucleWhileLayout.createSequentialGroup()
+                        .addComponent(btn_bucleWhileAgregar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_bucleWhileAccion)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jd_bucleWhileLayout.createSequentialGroup()
                         .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1150,10 +1165,6 @@ public class Main extends javax.swing.JFrame {
                             .addComponent(jcb_bucleWhileVar1, 0, 115, Short.MAX_VALUE)
                             .addComponent(jcb_bucleWhileVar2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(59, 59, 59))))
-            .addGroup(jd_bucleWhileLayout.createSequentialGroup()
-                .addGap(142, 142, 142)
-                .addComponent(btn_bucleWhileAgregar)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         jd_bucleWhileLayout.setVerticalGroup(
             jd_bucleWhileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1177,7 +1188,9 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jcb_bucleWhileAccion, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btn_bucleWhileAgregar)
+                .addGroup(jd_bucleWhileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_bucleWhileAgregar)
+                    .addComponent(btn_bucleWhileAccion))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
@@ -1206,11 +1219,19 @@ public class Main extends javax.swing.JFrame {
         jLabel46.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel46.setText("Variable de Condicion");
 
-        btn_ifAgregar.setFont(new java.awt.Font("Tw Cen MT", 0, 24)); // NOI18N
-        btn_ifAgregar.setText("Agregar While");
-        btn_ifAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_ifAgregarAccion.setFont(new java.awt.Font("Tw Cen MT", 0, 24)); // NOI18N
+        btn_ifAgregarAccion.setText("Agregar Accion");
+        btn_ifAgregarAccion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_ifAgregarMouseClicked(evt);
+                btn_ifAgregarAccionMouseClicked(evt);
+            }
+        });
+
+        btn_ifGuardar.setFont(new java.awt.Font("Tw Cen MT", 0, 24)); // NOI18N
+        btn_ifGuardar.setText("Guardar If");
+        btn_ifGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_ifGuardarMouseClicked(evt);
             }
         });
 
@@ -1221,10 +1242,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jd_ifLayout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(jd_ifLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jd_ifLayout.createSequentialGroup()
-                        .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jd_ifLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_ifLayout.createSequentialGroup()
                         .addGroup(jd_ifLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jd_ifLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jLabel43, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1237,11 +1255,15 @@ public class Main extends javax.swing.JFrame {
                             .addComponent(jcb_ifAccion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jcb_ifVar1, 0, 115, Short.MAX_VALUE)
                             .addComponent(jcb_ifVar2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(59, 59, 59))))
-            .addGroup(jd_ifLayout.createSequentialGroup()
-                .addGap(119, 119, 119)
-                .addComponent(btn_ifAgregar)
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(59, 59, 59))
+                    .addGroup(jd_ifLayout.createSequentialGroup()
+                        .addGroup(jd_ifLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jd_ifLayout.createSequentialGroup()
+                                .addComponent(btn_ifGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_ifAgregarAccion)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jd_ifLayout.setVerticalGroup(
             jd_ifLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1264,9 +1286,11 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jd_ifLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel44, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jcb_ifAccion, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_ifAgregar)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_ifLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_ifAgregarAccion)
+                    .addComponent(btn_ifGuardar))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jLabel47.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -1336,10 +1360,10 @@ public class Main extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jta_codigoDiagrama.setEditable(false);
-        jta_codigoDiagrama.setColumns(20);
-        jta_codigoDiagrama.setRows(5);
-        jScrollPane2.setViewportView(jta_codigoDiagrama);
+        jta_visualDiagrama.setEditable(false);
+        jta_visualDiagrama.setColumns(20);
+        jta_visualDiagrama.setRows(5);
+        jScrollPane2.setViewportView(jta_visualDiagrama);
 
         javax.swing.GroupLayout jp_diagramaLayout = new javax.swing.GroupLayout(jp_diagrama);
         jp_diagrama.setLayout(jp_diagramaLayout);
@@ -1366,10 +1390,10 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jta_codigoDiagrama1.setEditable(false);
-        jta_codigoDiagrama1.setColumns(20);
-        jta_codigoDiagrama1.setRows(5);
-        jScrollPane3.setViewportView(jta_codigoDiagrama1);
+        jta_codigoDiagrama.setEditable(false);
+        jta_codigoDiagrama.setColumns(20);
+        jta_codigoDiagrama.setRows(5);
+        jScrollPane3.setViewportView(jta_codigoDiagrama);
 
         javax.swing.GroupLayout jp_codigoLayout = new javax.swing.GroupLayout(jp_codigo);
         jp_codigo.setLayout(jp_codigoLayout);
@@ -1398,6 +1422,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         btn_generarCodigo.setText("Generar Codigo");
+        btn_generarCodigo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_generarCodigoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jp_medioLayout = new javax.swing.GroupLayout(jp_medio);
         jp_medio.setLayout(jp_medioLayout);
@@ -2041,10 +2070,14 @@ public class Main extends javax.swing.JFrame {
         Variable var2 = (Variable) jcb_operacionVar2.getSelectedItem();
         String operador = jcb_operacionSelec.getSelectedItem().toString();
         String res = varResultado.getNombre() + " = " + var1.getNombre() + " " + operador + " " + var2.getNombre() + ";";
-        Paralelogramo p = (Paralelogramo) figuraClickDerecho;
-        if(p.getOperaciones() == null) p.setOperaciones(res);
-        else p.setOperaciones(p.getOperaciones() + "\n" + res);
-        // \n se puede usar como delimitador
+        if (padreTemporal != null) {
+            padreTemporal.getOperacionesInternas().add(res); 
+            padreTemporal = null;
+        } else {
+            Paralelogramo p = (Paralelogramo) figuraClickDerecho;
+            if(p.getOperaciones() == null) p.setOperaciones(res);
+            else p.setOperaciones(p.getOperaciones() + "\n" + res);
+        }
         jd_operacion.setVisible(false);
     }//GEN-LAST:event_btn_operacionAgregarMouseClicked
     private void btn_operacionAgregarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_operacionAgregarMouseEntered
@@ -2074,16 +2107,14 @@ public class Main extends javax.swing.JFrame {
     private void btn_bucleForAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_bucleForAgregarMouseClicked
         Variable valorIdx = (Variable) jcb_bucleForIdx.getSelectedItem();
         Variable valorCondicion = (Variable) jcb_bucleForVariableCondicion.getSelectedItem();
-        String forStr = ""
-                + "for(int i = " + valorIdx.getNombre() + "; i " + jcb_bucleForCondicion.getSelectedItem()
-                + " " + valorCondicion.getNombre() + "; i" + jcb_bucleForSalto.getSelectedItem()
-                + ") {"
-                + "\n   CONDICION " + ";\n" 
-                + "}";
+        String operador = jcb_bucleForCondicion.getSelectedItem().toString();
+        String salto = jcb_bucleForSalto.getSelectedItem().toString();
+        String condicionLimpia = "int i = " + valorIdx.getNombre() + "; i " + operador + " " + valorCondicion.getNombre() + "; i" + salto;
         Diamante d = (Diamante) figuraClickDerecho;
-        d.setForStr(forStr);
-        System.out.println("For str:\n" + forStr);
+        d.setTexto(condicionLimpia);
+        System.out.println("Condición For guardada: " + condicionLimpia);
         jd_bucleFor.setVisible(false);
+        canvasPanel.repaint();
     }//GEN-LAST:event_btn_bucleForAgregarMouseClicked
     private void jcb_bucleWhileAccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_bucleWhileAccionActionPerformed
         // TODO add your handling code here:
@@ -2100,14 +2131,13 @@ public class Main extends javax.swing.JFrame {
     private void btn_bucleWhileAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_bucleWhileAgregarMouseClicked
         Variable var1 = (Variable) jcb_bucleWhileVar1.getSelectedItem();
         Variable var2 = (Variable) jcb_bucleWhileVar2.getSelectedItem();
-        String forStr = ""
-                + "while(" + var1.getNombre() + jcb_bucleWhileCondicion + var2.getNombre() + ") {"
-                + "\n   CONDICION " + ";\n" 
-                + "}";
+        String operador = jcb_bucleWhileCondicion.getSelectedItem().toString();
+        String condicionLimpia = var1.getNombre() + " " + operador + " " + var2.getNombre();
         Diamante d = (Diamante) figuraClickDerecho;
-        d.setWhileStr(forStr);
-        System.out.println("While str:\n" + forStr);
+        d.setTexto(condicionLimpia); 
+        System.out.println("Condición While guardada: " + condicionLimpia);
         jd_bucleWhile.setVisible(false);
+        canvasPanel.repaint();
     }//GEN-LAST:event_btn_bucleWhileAgregarMouseClicked
     private void jcb_ifAccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_ifAccionActionPerformed
         // TODO add your handling code here:
@@ -2121,33 +2151,77 @@ public class Main extends javax.swing.JFrame {
         jd_if.pack();
         jd_if.setLocationRelativeTo(jtp_principal);
     }
-    private void btn_ifAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ifAgregarMouseClicked
-        Variable var1 = (Variable) jcb_ifVar1.getSelectedItem();
-        Variable var2 = (Variable) jcb_ifVar2.getSelectedItem();
-        String forStr = ""
-                + "if(" + var1.getNombre() + jcb_ifCondicion + var2.getNombre() + ") {"
-                + "\n   CONDICION " + ";\n" 
-                + "}";
-        Diamante d = (Diamante) figuraClickDerecho;
-        d.setIfStr(forStr);
-        System.out.println("If str:\n" + forStr);
-        jd_if.setVisible(false);
-    }//GEN-LAST:event_btn_ifAgregarMouseClicked
+    private void btn_ifAgregarAccionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ifAgregarAccionMouseClicked
+        String opcionElegida = jcb_ifAccion.getSelectedItem().toString();
+        padreTemporal = (Diamante) figuraClickDerecho; 
+        if (opcionElegida.equals("Operacion")) {
+            jd_operacion.pack();
+            jd_operacion.setLocationRelativeTo(this);
+            jd_operacion.setVisible(true);
+        } else if (opcionElegida.equals("Sout")) {
+            jd_sout.pack();
+            jd_sout.setLocationRelativeTo(this);
+            jd_sout.setVisible(true);
+        }
+    }//GEN-LAST:event_btn_ifAgregarAccionMouseClicked
     public void jd_abrirSout(Figura f) {
         jd_sout.setVisible(true);
         jd_sout.pack();
         jd_sout.setLocationRelativeTo(jtp_principal);
     }
     private void btn_soutGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_soutGuardarMouseClicked
-        String texto = jta_sout.getText();
-        RectanguloDoble r = (RectanguloDoble) figuraClickDerecho;
-        r.setTexto("System.out.println(" + texto + ");");
-        System.out.println(r.getTexto());
+        String textoBruto = jta_sout.getText();
+        String textoLimpio = textoBruto.replace("\n", "\\n");
+        if (padreTemporal != null) {
+            String codigoSout = "System.out.println(\"" + textoLimpio + "\");";
+            padreTemporal.agregarOperacionInterna(codigoSout);
+            padreTemporal = null;
+        } else {
+            RectanguloDoble r = (RectanguloDoble) figuraClickDerecho;
+            r.setTexto(textoLimpio); 
+        }
         jd_sout.setVisible(false);
         jta_sout.setText("");
+        canvasPanel.repaint();
     }//GEN-LAST:event_btn_soutGuardarMouseClicked
-
-    
+    private void btn_ifGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ifGuardarMouseClicked
+        Variable var1 = (Variable) jcb_ifVar1.getSelectedItem();
+        Variable var2 = (Variable) jcb_ifVar2.getSelectedItem();
+        String operador = jcb_ifCondicion.getSelectedItem().toString();
+        String laCondicion = var1.getNombre() + " " + operador + " " + var2.getNombre();
+        figuraClickDerecho.setTexto(laCondicion); 
+        jd_if.setVisible(false);
+        canvasPanel.repaint();
+    }//GEN-LAST:event_btn_ifGuardarMouseClicked
+    private void btn_generarCodigoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_generarCodigoMouseClicked
+        StringBuilder codigoFinal = new StringBuilder();
+        codigoFinal.append("public class MiPrograma {\n");
+        codigoFinal.append("    public static void main(String[] args) {\n");
+        for (Figura fig : figuras) {
+            String lineaDeCodigo = fig.generarCodigo();
+            if (lineaDeCodigo != null && !lineaDeCodigo.isEmpty()) { 
+                codigoFinal.append("        ").append(lineaDeCodigo).append("\n");
+            }
+        }
+        codigoFinal.append("    }\n");
+        codigoFinal.append("}\n");
+        jta_codigoDiagrama.setText(codigoFinal.toString());
+        jtp_diagrama.setSelectedIndex(0);
+    }//GEN-LAST:event_btn_generarCodigoMouseClicked
+    private void btn_bucleWhileAccionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_bucleWhileAccionMouseClicked
+        String opcionElegida = jcb_bucleForAccion.getSelectedItem().toString();
+        padreTemporal = (Diamante) figuraClickDerecho;
+        if (opcionElegida.equals("operacion")) {
+            jd_operacion.pack();
+            jd_operacion.setLocationRelativeTo(this);
+            jd_operacion.setVisible(true);
+        } else if (opcionElegida.equals("sout")) {
+            jd_sout.pack();
+            jd_sout.setLocationRelativeTo(this);
+            jd_sout.setVisible(true);
+        }
+    }//GEN-LAST:event_btn_bucleWhileAccionMouseClicked
+  
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
     }
@@ -2156,6 +2230,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btn_agregarVariable;
     private javax.swing.JButton btn_agregarVariablePrincipal;
     private javax.swing.JButton btn_bucleForAgregar;
+    private javax.swing.JButton btn_bucleWhileAccion;
     private javax.swing.JButton btn_bucleWhileAgregar;
     private javax.swing.JButton btn_cambiarColorFuente;
     private javax.swing.JButton btn_codigoUni;
@@ -2163,7 +2238,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btn_generarCodigoClases;
     private javax.swing.JButton btn_guardarFuente;
     private javax.swing.JButton btn_herencia;
-    private javax.swing.JButton btn_ifAgregar;
+    private javax.swing.JButton btn_ifAgregarAccion;
+    private javax.swing.JButton btn_ifGuardar;
     private javax.swing.JButton btn_nombreClase;
     private javax.swing.JButton btn_nuevaClase;
     private javax.swing.JButton btn_operacionAgregar;
@@ -2295,8 +2371,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JSpinner jsp_propiedadTamanho;
     private javax.swing.JSpinner jsp_propiedadWidth;
     private javax.swing.JTextArea jta_codigoDiagrama;
-    private javax.swing.JTextArea jta_codigoDiagrama1;
     private javax.swing.JTextArea jta_sout;
+    private javax.swing.JTextArea jta_visualDiagrama;
     private javax.swing.JTabbedPane jtp_diagrama;
     private javax.swing.JTabbedPane jtp_diagramaCodigo1;
     private javax.swing.JTabbedPane jtp_principal;

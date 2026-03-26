@@ -52,4 +52,8 @@ public class Paralelogramo extends Figura implements Serializable {
     public void ejecutarAccionEspecial(Main m) {
         m.jd_abrirOperacion(this);
     }
+    @Override
+    public String generarCodigo() {
+        return this.operaciones; 
+    }
 }

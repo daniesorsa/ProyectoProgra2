@@ -50,4 +50,12 @@ public class RectanguloDoble extends Figura implements Serializable {
     public void ejecutarAccionEspecial(Main m) {
         m.jd_abrirSout(this);
     }
+    @Override
+    public String generarCodigo() {
+        // Toma lo que dice en pantalla y lo envuelve en código Java
+        if (this.texto != null && !this.texto.isEmpty() && !this.texto.equals("Sout")) {
+            return "System.out.println(\"" + this.texto + "\");";
+        }
+        return "";
+    }
 }

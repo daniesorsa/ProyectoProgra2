@@ -134,4 +134,5 @@ public abstract class Figura implements Serializable {
     public boolean contiene(int mouseX, int mouseY) { 
         return mouseX >= x && mouseX <= x + ancho && mouseY >= y && mouseY <= y + alto;
     }
+    public String generarCodigo() {return this.texto;}
 }
