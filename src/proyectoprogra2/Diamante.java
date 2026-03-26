@@ -44,7 +44,7 @@ public class Diamante extends Figura implements Serializable {
     }
 
     @Override
-    public void ejecutarAccionEspecial() {
+    public void ejecutarAccionEspecial(Main m) {
         if ("If".equals(this.nombre)) {
             System.out.println("Abriendo ventana para IF...");
         } else if ("While".equals(this.nombre)) {

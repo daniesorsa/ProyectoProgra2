@@ -36,7 +36,7 @@ public class Rectangulo extends Figura implements Serializable {
     }
 
     @Override
-    public void ejecutarAccionEspecial() {
+    public void ejecutarAccionEspecial(Main m) {
         if ("Proceso".equals(this.nombre)) {
             System.out.println("Abriendo ventana para declarar variables o procesos...");
             // Lógica para pedirle al usuario qué variable va a modificar

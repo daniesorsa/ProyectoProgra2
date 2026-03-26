@@ -39,7 +39,7 @@ public class Ovalo extends Figura implements Serializable {
     }
 
     @Override
-    public void ejecutarAccionEspecial() {
+    public void ejecutarAccionEspecial(Main m) {
         if ("Inicio".equals(this.nombre)) {
             System.out.println("Abriendo ventana para configurar Inicio...");
             // Lógica para el Inicio

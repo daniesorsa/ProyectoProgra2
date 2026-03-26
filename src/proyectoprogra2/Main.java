@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import javax.swing.DefaultBoundedRangeModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JColorChooser;
@@ -24,7 +25,8 @@ public class Main extends javax.swing.JFrame {
     private Figura figuraClickDerecho = null;
     private Figura figuraCopiada = null;
     public Main() {
-        initComponents(); 
+        initComponents();
+        jtp_diagrama.setSelectedComponent(jp_diagrama);
         //figuras
         
         Ovalo inicio = new Ovalo(10, 10, 90, 35);
@@ -170,7 +172,7 @@ public class Main extends javax.swing.JFrame {
         jp_diagrama.removeAll();
         jp_diagrama.setLayout(new BorderLayout());
         jp_diagrama.add(canvasPanel, BorderLayout.CENTER);
-        jtp_diagramaCodigo.setSelectedIndex(1);
+        jtp_diagrama.setSelectedIndex(1);
         
                 
         this.pack();
@@ -181,11 +183,8 @@ public class Main extends javax.swing.JFrame {
         jmi_guardar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         jmi_abrir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         
-        //Modelos
+        //******Modelos******
         //jcb
-        DefaultComboBoxModel modeloOperacionVariable =  new DefaultComboBoxModel();
-        jcb_operacionVariable1.setModel(modeloOperacionVariable);
-        jcb_operacionVariable2.setModel(modeloOperacionVariable);
         
         String[] fuentes = (String[]) GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
         DefaultComboBoxModel modeloFuentes = new DefaultComboBoxModel(fuentes);
@@ -194,6 +193,13 @@ public class Main extends javax.swing.JFrame {
         
         String[] tamanhos = {"8", "10", "12", "14", "16", "18", "24", "36", "48"};
         jcb_tamanhoFuente.setModel(new DefaultComboBoxModel<>(tamanhos));
+        
+        DefaultComboBoxModel modeloVariables1 = new DefaultComboBoxModel();
+        DefaultComboBoxModel modeloVariables2 = new DefaultComboBoxModel();
+        DefaultComboBoxModel modeloVariables3 = new DefaultComboBoxModel();
+        jcb_operacionVar1.setModel(modeloVariables1);
+        jcb_operacionVar2.setModel(modeloVariables2);
+        jcb_operacionRes.setModel(modeloVariables3);
         
         //jlist
         DefaultListModel modeloLista = new DefaultListModel();
@@ -214,17 +220,6 @@ public class Main extends javax.swing.JFrame {
         btn_agregarVariable = new javax.swing.JButton();
         txt_nombreVariable = new javax.swing.JTextField();
         jcb_tipoVariable = new javax.swing.JComboBox<>();
-        jd_operacion = new javax.swing.JDialog();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        btn_operacionGuardar = new javax.swing.JButton();
-        jcb_operacionVariable1 = new javax.swing.JComboBox<>();
-        jcb_operacionVariable2 = new javax.swing.JComboBox<>();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jcb_operacionResultado = new javax.swing.JComboBox<>();
-        jcb_operacionTipo = new javax.swing.JComboBox<>();
         jd_propiedadesFigura = new javax.swing.JDialog();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -283,11 +278,22 @@ public class Main extends javax.swing.JFrame {
         lbl_previewDelTexto = new javax.swing.JLabel();
         btn_seleccionarColor = new javax.swing.JButton();
         btn_cambiarColorFuente = new javax.swing.JButton();
+        jd_operacion = new javax.swing.JDialog();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        btn_operacionAgregar = new javax.swing.JButton();
+        jcb_operacionVar1 = new javax.swing.JComboBox<>();
+        jLabel28 = new javax.swing.JLabel();
+        jcb_operacionVar2 = new javax.swing.JComboBox<>();
+        jcb_operacionRes = new javax.swing.JComboBox<>();
+        jLabel29 = new javax.swing.JLabel();
+        jcb_operacionSelec = new javax.swing.JComboBox<>();
+        jLabel30 = new javax.swing.JLabel();
         jtp_principal = new javax.swing.JTabbedPane();
         jp_uml = new javax.swing.JPanel();
         jp_opciones = new javax.swing.JPanel();
         jp_medio = new javax.swing.JPanel();
-        jtp_diagramaCodigo = new javax.swing.JTabbedPane();
+        jtp_diagrama = new javax.swing.JTabbedPane();
         jp_diagrama = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jta_codigoDiagrama = new javax.swing.JTextArea();
@@ -372,90 +378,6 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jcb_tipoVariable, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addComponent(btn_agregarVariable, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
-        );
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel6.setText("Variable 2");
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel7.setText("Operacion");
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel8.setText("Variable 1");
-
-        btn_operacionGuardar.setFont(new java.awt.Font("Tw Cen MT", 0, 24)); // NOI18N
-        btn_operacionGuardar.setText("Guardar");
-        btn_operacionGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_operacionGuardarMouseClicked(evt);
-            }
-        });
-
-        jcb_operacionVariable1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Int", "Float", "Char", "String" }));
-
-        jcb_operacionVariable2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Creacion de la Operacion");
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel10.setText("Resultado");
-
-        jcb_operacionResultado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jcb_operacionTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "+", "-", "*", "/" }));
-
-        javax.swing.GroupLayout jd_operacionLayout = new javax.swing.GroupLayout(jd_operacion.getContentPane());
-        jd_operacion.getContentPane().setLayout(jd_operacionLayout);
-        jd_operacionLayout.setHorizontalGroup(
-            jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_operacionLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jd_operacionLayout.createSequentialGroup()
-                        .addGroup(jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jcb_operacionVariable1, 0, 115, Short.MAX_VALUE)
-                            .addComponent(jcb_operacionVariable2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jcb_operacionResultado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jcb_operacionTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(59, 59, 59))
-            .addGroup(jd_operacionLayout.createSequentialGroup()
-                .addGap(111, 111, 111)
-                .addComponent(btn_operacionGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jd_operacionLayout.setVerticalGroup(
-            jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jd_operacionLayout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcb_operacionTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcb_operacionVariable1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcb_operacionVariable2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcb_operacionResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addComponent(btn_operacionGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36))
         );
 
@@ -909,6 +831,105 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(44, Short.MAX_VALUE))
         );
 
+        jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel26.setText("Operacion");
+
+        jLabel27.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel27.setText("Variable 1");
+
+        btn_operacionAgregar.setFont(new java.awt.Font("Tw Cen MT", 0, 24)); // NOI18N
+        btn_operacionAgregar.setText("Agregar");
+        btn_operacionAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_operacionAgregarMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_operacionAgregarMouseEntered(evt);
+            }
+        });
+
+        jcb_operacionVar1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Int", "Float", "Char", "String" }));
+
+        jLabel28.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel28.setText("Variable 2");
+
+        jcb_operacionVar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcb_operacionVar2ActionPerformed(evt);
+            }
+        });
+
+        jcb_operacionRes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Int", "Float", "Char", "String" }));
+        jcb_operacionRes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcb_operacionResActionPerformed(evt);
+            }
+        });
+
+        jLabel29.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel29.setText("Resultado");
+
+        jcb_operacionSelec.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "+", "-", "*", "/" }));
+
+        jLabel30.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel30.setText("Creacion de la Operacion");
+
+        javax.swing.GroupLayout jd_operacionLayout = new javax.swing.GroupLayout(jd_operacion.getContentPane());
+        jd_operacion.getContentPane().setLayout(jd_operacionLayout);
+        jd_operacionLayout.setHorizontalGroup(
+            jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_operacionLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel26))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jcb_operacionVar1, 0, 115, Short.MAX_VALUE)
+                    .addComponent(jcb_operacionVar2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jcb_operacionRes, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jcb_operacionSelec, 0, 115, Short.MAX_VALUE))
+                .addGap(59, 59, 59))
+            .addGroup(jd_operacionLayout.createSequentialGroup()
+                .addGroup(jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_operacionLayout.createSequentialGroup()
+                        .addGap(121, 121, 121)
+                        .addComponent(btn_operacionAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jd_operacionLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+        jd_operacionLayout.setVerticalGroup(
+            jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_operacionLayout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcb_operacionSelec, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcb_operacionVar1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcb_operacionVar2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcb_operacionRes, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addComponent(btn_operacionAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         javax.swing.GroupLayout jp_opcionesLayout = new javax.swing.GroupLayout(jp_opciones);
@@ -944,7 +965,7 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
-        jtp_diagramaCodigo.addTab("Diagrama", jp_diagrama);
+        jtp_diagrama.addTab("Diagrama", jp_diagrama);
 
         jp_codigo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -974,7 +995,7 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
-        jtp_diagramaCodigo.addTab("Codigo", jp_codigo);
+        jtp_diagrama.addTab("Codigo", jp_codigo);
 
         btn_pegar.setText("Pegar");
         btn_pegar.addActionListener(new java.awt.event.ActionListener() {
@@ -997,13 +1018,13 @@ public class Main extends javax.swing.JFrame {
                 .addGap(68, 68, 68))
             .addGroup(jp_medioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jtp_diagramaCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtp_diagrama, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jp_medioLayout.setVerticalGroup(
             jp_medioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jp_medioLayout.createSequentialGroup()
-                .addComponent(jtp_diagramaCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtp_diagrama, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
                 .addGroup(jp_medioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_pegar)
@@ -1286,22 +1307,23 @@ public class Main extends javax.swing.JFrame {
         // EXPORTAR A PDF
     }//GEN-LAST:event_jm_exportarMouseClicked
     private void btn_agregarVariableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarVariableMouseClicked
-        for (Variable v : variables) {
-            if(v.getNombre().equals(txt_nombreVariable)) {
-                JOptionPane.showMessageDialog(null, "Variable ya existente");
-                txt_nombreVariable.setText("");
-                return;
-            }
-        }
         String nombre = txt_nombreVariable.getText();
-        if(!(nombre.matches("^[a-zA-Z0-9_]*$"))) {
+        if(!(nombre.matches("^[a-zA-Z0-9_]*$")) || nombre.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Error, no se permiten "
                     + "\n- Vacios"
                     + "\n- En blanco"
                     + "\n- Caracteres Especiales"
                     + "\n- Letra mayuscula inicial");
+            txt_nombreVariable.setText("");
             return;
         } else {
+            for (Variable v : variables) {
+                if(v.getNombre().equals(nombre)) {
+                    JOptionPane.showMessageDialog(null, "Variable ya existente");
+                    txt_nombreVariable.setText("");
+                    return;
+                }
+            }
             DefaultListModel modelo = (DefaultListModel) jl_variables.getModel();
             for (int i = 0; i < modelo.getSize(); i++) {
                 if(modelo.getElementAt(i).toString().equals(nombre)) {
@@ -1314,8 +1336,19 @@ public class Main extends javax.swing.JFrame {
             Variable variable = new Variable(nombre, tipo);
             variables.add(variable);
             modelo.addElement(variable);
+            // AGREGAR AL CODIGO: Se agrega en variable operaciones dentro de clase paralelogramo
             jd_agregarVariable.setVisible(false);
             txt_nombreVariable.setText("");
+            
+            //Añadir a jcb de operacion
+            if(!variable.getTipo().equals("String") && !variable.getTipo().equals("Char")) {
+                DefaultComboBoxModel modeloVariables1 =  (DefaultComboBoxModel) jcb_operacionVar1.getModel();
+                modeloVariables1.addElement(variable);
+                DefaultComboBoxModel modeloVariables2 =  (DefaultComboBoxModel) jcb_operacionVar2.getModel();
+                modeloVariables2.addElement(variable);
+                DefaultComboBoxModel modeloVariables3 =  (DefaultComboBoxModel) jcb_operacionRes.getModel();
+                modeloVariables3.addElement(variable);
+            }
         }
             
     }//GEN-LAST:event_btn_agregarVariableMouseClicked
@@ -1324,9 +1357,6 @@ public class Main extends javax.swing.JFrame {
         jd_agregarVariable.pack();
         jd_agregarVariable.setLocationRelativeTo(null);
     }//GEN-LAST:event_btn_agregarVariablePrincipalMouseClicked
-    private void btn_operacionGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_operacionGuardarMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_operacionGuardarMouseClicked
     private void btn_operacionGuardarPropiedadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_operacionGuardarPropiedadMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_operacionGuardarPropiedadMouseClicked
@@ -1575,9 +1605,47 @@ public class Main extends javax.swing.JFrame {
         } else JOptionPane.showMessageDialog(this, "Click derecho -> Copiar -> Presionar Boton Pegar");
     }//GEN-LAST:event_btn_pegarActionPerformed
     private void jmi_accionEspecialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_accionEspecialActionPerformed
-        figuraClickDerecho.ejecutarAccionEspecial();
+        figuraClickDerecho.ejecutarAccionEspecial(this);
         canvasPanel.repaint();
     }//GEN-LAST:event_jmi_accionEspecialActionPerformed
+
+    private void btn_operacionAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_operacionAgregarMouseClicked
+        Variable varResultado = (Variable) jcb_operacionRes.getSelectedItem();
+        Variable var1 = (Variable) jcb_operacionVar1.getSelectedItem();
+        Variable var2 = (Variable) jcb_operacionVar2.getSelectedItem();
+        String operador = jcb_operacionSelec.getSelectedItem().toString();
+        String res = varResultado.getNombre() + " = " + var1.getNombre() + " " + operador + " " + var2.getNombre() + ";";
+        //System.out.println("RES: " + res);
+        Paralelogramo p = (Paralelogramo) figuraClickDerecho;
+        if(p.getOperaciones() == null) p.setOperaciones(res);
+        else p.setOperaciones(p.getOperaciones() + "\n" + res);
+        //System.out.println("OP:\n" + p.getOperaciones());
+        // \n se puede usar como delimitador
+        jd_operacion.setVisible(false);
+    }//GEN-LAST:event_btn_operacionAgregarMouseClicked
+
+    private void btn_operacionAgregarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_operacionAgregarMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_operacionAgregarMouseEntered
+
+    private void jcb_operacionVar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_operacionVar2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcb_operacionVar2ActionPerformed
+
+    private void jcb_operacionResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_operacionResActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcb_operacionResActionPerformed
+    
+    public void jd_abrirOperacion(Figura f) {
+        if(variables.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Crea al menos una variable");
+            return;
+        }
+        jd_operacion.setVisible(true);
+        jd_operacion.pack();
+        jd_operacion.setLocationRelativeTo(jtp_principal);
+    }
+    
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
     }
@@ -1593,7 +1661,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btn_herencia;
     private javax.swing.JButton btn_nombreClase;
     private javax.swing.JButton btn_nuevaClase;
-    private javax.swing.JButton btn_operacionGuardar;
+    private javax.swing.JButton btn_operacionAgregar;
     private javax.swing.JButton btn_operacionGuardarPropiedad;
     private javax.swing.JButton btn_pegar;
     private javax.swing.JButton btn_propiedadCancelar;
@@ -1602,7 +1670,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btn_seleccionarColor;
     private javax.swing.JButton btn_separador;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -1619,23 +1686,24 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JComboBox<String> jcb_estilo;
     private javax.swing.JComboBox<String> jcb_fuente;
-    private javax.swing.JComboBox<String> jcb_operacionResultado;
-    private javax.swing.JComboBox<String> jcb_operacionTipo;
-    private javax.swing.JComboBox<String> jcb_operacionVariable1;
-    private javax.swing.JComboBox<String> jcb_operacionVariable2;
+    private javax.swing.JComboBox<String> jcb_operacionRes;
+    private javax.swing.JComboBox<String> jcb_operacionSelec;
+    private javax.swing.JComboBox<String> jcb_operacionVar1;
+    private javax.swing.JComboBox<String> jcb_operacionVar2;
     private javax.swing.JComboBox<String> jcb_propiedadFuente;
     private javax.swing.JComboBox<String> jcb_tamanhoFuente;
     private javax.swing.JComboBox<String> jcb_tipoVariable;
@@ -1686,7 +1754,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JSpinner jsp_propiedadWidth;
     private javax.swing.JTextArea jta_codigoDiagrama;
     private javax.swing.JTextArea jta_codigoDiagrama1;
-    private javax.swing.JTabbedPane jtp_diagramaCodigo;
+    private javax.swing.JTabbedPane jtp_diagrama;
     private javax.swing.JTabbedPane jtp_diagramaCodigo1;
     private javax.swing.JTabbedPane jtp_principal;
     private javax.swing.JTree jtr_clases;

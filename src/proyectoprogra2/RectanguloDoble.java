@@ -41,7 +41,7 @@ public class RectanguloDoble extends Figura implements Serializable {
     }
 
     @Override
-    public void ejecutarAccionEspecial() {
+    public void ejecutarAccionEspecial(Main m) {
         if ("sout".equals(this.nombre)) {
             System.out.println("Abriendo ventana para configurar el texto a imprimir...");
             // Lógica para armar el mensaje que se mostrará en consola

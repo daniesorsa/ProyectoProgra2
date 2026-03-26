@@ -110,7 +110,7 @@ public abstract class Figura implements Serializable {
     
     
     public String getNombreAccionEspecial() {return null;}
-    public abstract void ejecutarAccionEspecial();
+    public abstract void ejecutarAccionEspecial(Main m);
     
     public abstract void dibujar(Graphics2D g2);
     public abstract Figura copiar();

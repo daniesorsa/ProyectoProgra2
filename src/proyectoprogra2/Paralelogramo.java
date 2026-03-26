@@ -4,9 +4,18 @@ import java.awt.Polygon;
 import java.io.Serializable;
 public class Paralelogramo extends Figura implements Serializable {
     private int offset = 15; // offset horizontal
+    private String operaciones;
 
     public Paralelogramo(int x, int y, int ancho, int alto) { super(x, y, ancho, alto); }
 
+    public String getOperaciones() {
+        return operaciones;
+    }
+
+    public void setOperaciones(String operaciones) {
+        this.operaciones = operaciones;
+    }
+    
     @Override
     public void dibujar(Graphics2D g2) {
         Polygon p = new Polygon();
@@ -36,17 +45,11 @@ public class Paralelogramo extends Figura implements Serializable {
     }
     @Override
     public String getNombreAccionEspecial() {
-        if ("Operacion".equals(this.nombre)) {
-            return "Configurar Lectura de Datos";
-        }
-        return "Configurar Entrada/Salida";
+        return "Crear Operacion con Variables";
     }
 
     @Override
-    public void ejecutarAccionEspecial() {
-        if ("Operacion".equals(this.nombre)) {
-            System.out.println("Abriendo ventana para configurar Operación (Input/Scanner)...");
-            // Lógica para solicitar al usuario la variable a leer
-        }
+    public void ejecutarAccionEspecial(Main m) {
+        m.jd_abrirOperacion(this);
     }
 }

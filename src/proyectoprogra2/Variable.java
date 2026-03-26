@@ -31,7 +31,7 @@ public class Variable implements Serializable {
 
     @Override
     public String toString() {
-        return "[" + tipo + "] " + nombre;
+        return "[" + tipo + "]" + nombre;
     }
     
 }
