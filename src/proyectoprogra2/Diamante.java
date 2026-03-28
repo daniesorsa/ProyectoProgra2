@@ -1,4 +1,6 @@
 package proyectoprogra2;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.io.Serializable;
@@ -9,7 +11,90 @@ public class Diamante extends Figura implements Serializable {
     private String whileStr;
     private String ifStr;
     private ArrayList<String> operacionesInternas = new ArrayList<>();
-    public Diamante(int x, int y, int ancho, int alto) { super(x, y, ancho, alto); }
+    public Diamante(int x, int y, int ancho, int alto) {
+        super(x, y, ancho, alto);
+    
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getAncho() {
+        return ancho;
+    }
+
+    public void setAncho(int ancho) {
+        this.ancho = ancho;
+    }
+
+    public int getAlto() {
+        return alto;
+    }
+
+    public void setAlto(int alto) {
+        this.alto = alto;
+    }
+
+    public Font getFuente() {
+        return fuente;
+    }
+
+    public void setFuente(Font fuente) {
+        this.fuente = fuente;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Color getColorFondo() {
+        return colorFondo;
+    }
+
+    public void setColorFondo(Color colorFondo) {
+        this.colorFondo = colorFondo;
+    }
+
+    public Color getColorBorde() {
+        return colorBorde;
+    }
+
+    public void setColorBorde(Color colorBorde) {
+        this.colorBorde = colorBorde;
+    }
+
+    public Color getColorTexto() {
+        return colorTexto;
+    }
+
+    public void setColorTexto(Color colorTexto) {
+        this.colorTexto = colorTexto;
+    }
     
     @Override
     public void dibujar(Graphics2D g2) {

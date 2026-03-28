@@ -1,28 +1,31 @@
 package proyectoprogra2;
-
 import java.io.Serializable;
-
-public class Variable implements Serializable {
+import java.util.ArrayList;
+public class Metodo implements Serializable {
     private String nombre;
     private String tipo;
     private String alcance;
+    private ArrayList<Variable> parametros;
 
-    public Variable(String nombre, String tipo) {
+    public Metodo(String nombre, String tipo, String alcance, ArrayList<Variable> parametros) {
         this.nombre = nombre;
         this.tipo = tipo;
+        this.alcance = alcance;
+        this.parametros = parametros;
     }
+
+    
 
     public String getNombre() {
         return nombre;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-    
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getTipo() {
+        return tipo;
     }
 
     public void setTipo(String tipo) {
@@ -36,12 +39,19 @@ public class Variable implements Serializable {
     public void setAlcance(String alcance) {
         this.alcance = alcance;
     }
-    
+
+    public ArrayList<Variable> getParametros() {
+        return parametros;
+    }
+
+    public void setParametros(ArrayList<Variable> parametros) {
+        this.parametros = parametros;
+    }
 
     @Override
     public String toString() {
-        //if(this.alcance.length() > 0) return alcance + tipo + nombre;
-        return "(" + tipo + ")" + nombre;
+        return "[" + tipo + "]" + nombre;
     }
+    
     
 }

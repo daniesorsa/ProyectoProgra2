@@ -2,33 +2,17 @@ package proyectoprogra2;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 public class DataBinario implements Serializable{
-    private ArrayList<Figura> figuras = new ArrayList<Figura>();
-    private ArrayList<Figura> variables = new ArrayList<Figura>();
+    private ArrayList<Figura> figurasUml = new ArrayList<Figura>();
+    private ArrayList<FiguraArbol> figurasClases = new ArrayList<FiguraArbol>();
+    public DefaultMutableTreeNode raizArbol;
 
-    public DataBinario() {
-    }
-
-    public ArrayList<Figura> getFiguras() {
-        return figuras;
-    }
-
-    public ArrayList<Figura> getVariables() {
-        return variables;
-    }
-
-    public void setFiguras(ArrayList<Figura> figuras) {
-        this.figuras = figuras;
-    }
-
-    public void setVariables(ArrayList<Figura> variables) {
-        this.variables = variables;
-    }
-
-    @Override
-    public String toString() {
-        return "DataBinario{" + "figuras=" + figuras + ", variables=" + variables + '}';
+    public DataBinario(ArrayList<Figura> figurasUml, ArrayList<FiguraArbol> figurasClases, DefaultMutableTreeNode raizArbol) {
+        this.figurasUml = figurasUml;
+        this.figurasClases = figurasClases;
+        this.raizArbol = raizArbol;
     }
     
 }
