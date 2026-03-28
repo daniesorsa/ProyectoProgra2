@@ -2818,7 +2818,14 @@ public class Main extends javax.swing.JFrame {
                 DataBinario dataBin = (DataBinario) ois.readObject();
                 figuras = dataBin.getFigurasUml();
                 figurasClases = dataBin.getFigurasClases();
+                
                 variables = dataBin.getVariables();
+                DefaultListModel modeloVar = new DefaultListModel();
+                if (variables != null) {
+                    for (Variable v : variables) modeloVar.addElement(v);
+                }
+                jl_variables.setModel(modeloVar);
+                
                 DefaultMutableTreeNode root = dataBin.getRaizArbol();
                 
                 jtr_clases.setModel(new DefaultTreeModel(root));
@@ -2830,7 +2837,8 @@ public class Main extends javax.swing.JFrame {
                     FiguraArbol fa = (FiguraArbol) f;
                     fa.reconstruirArbolVisual();
                     modeloPadres.addElement(fa);
-                    modeloHijas.addElement(fa);
+                    //modeloHijas.addElement(fa);
+                    if (fa.getClasePadre() == null) modeloHijas.addElement(fa);
                 }
 
                 jl_clasePadre.setModel(modeloPadres);
