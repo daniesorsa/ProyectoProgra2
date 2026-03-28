@@ -1,6 +1,9 @@
 package proyectoprogra2;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.awt.print.PageFormat;
+import java.awt.print.PrinterJob;
 import java.io.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -2256,18 +2259,80 @@ public class Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private java.awt.image.BufferedImage capturarComponente(java.awt.Component comp) {
-        // Creamos una imagen vacía del tamaño del componente
-        java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(comp.getWidth(), comp.getHeight(), java.awt.image.BufferedImage.TYPE_INT_ARGB);
-        java.awt.Graphics2D g2d = img.createGraphics();
-        comp.paintAll(g2d); // Le decimos al componente que se dibuje sobre la imagen
+    private BufferedImage capturarComponente(Component comp) {
+        /*BufferedImage img = new BufferedImage(comp.getWidth(), comp.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = img.createGraphics();
+        comp.paintAll(g2d);
+        g2d.dispose();
+        return img;*/
+        BufferedImage img = new BufferedImage(comp.getWidth(), comp.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = img.createGraphics();
+        g2d.setColor(java.awt.Color.WHITE);
+        g2d.fillRect(0, 0, comp.getWidth(), comp.getHeight());
+        comp.paint(g2d); 
         g2d.dispose();
         return img;
     }
     private void jm_exportarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jm_exportarMouseClicked
         // TODO add your handling code here:
         // EXPORTAR A PDF
-        
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setJobName("Exportar Proyecto UML");
+
+        job.setPrintable(new java.awt.print.Printable() {
+            @Override
+            public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) {                
+                if (pageIndex > 1) return NO_SUCH_PAGE;
+
+                Graphics2D g2d = (Graphics2D) graphics;
+                g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+
+                int ancho = (int) pageFormat.getImageableWidth();
+
+                g2d.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 18));
+                g2d.setColor(java.awt.Color.BLACK);
+
+                if (pageIndex == 0) {
+                    g2d.drawString("UML", 0, 20);
+
+                    //  UML
+                    BufferedImage imgLienzoUml = capturarComponente(canvasPanel);
+                    double escalaLienzo = Math.min((double) ancho / imgLienzoUml.getWidth(), 0.5);
+                    int altoLienzoEscalado = (int) (imgLienzoUml.getHeight() * escalaLienzo);
+                    g2d.drawImage(imgLienzoUml, 0, 30, (int)(imgLienzoUml.getWidth() * escalaLienzo), altoLienzoEscalado, null);
+
+                    // Codigo UML
+                    java.awt.image.BufferedImage imgCodigoUml = capturarComponente(jta_codigoDiagrama);
+                    double escalaCodigo = Math.min((double) ancho / imgCodigoUml.getWidth(), 0.5);
+                    g2d.drawImage(imgCodigoUml, 0, 40 + altoLienzoEscalado, (int)(imgCodigoUml.getWidth() * escalaCodigo), (int)(imgCodigoUml.getHeight() * escalaCodigo), null);
+
+                } else if (pageIndex == 1) {
+                    g2d.drawString("Clases Generadas", 0, 20);
+
+                    // Clases
+                    java.awt.image.BufferedImage imgLienzoClases = capturarComponente(canvasClasesPanel);
+                    double escalaLienzo = Math.min((double) ancho / imgLienzoClases.getWidth(), 0.5);
+                    int altoLienzoEscalado = (int) (imgLienzoClases.getHeight() * escalaLienzo);
+                    g2d.drawImage(imgLienzoClases, 0, 30, (int)(imgLienzoClases.getWidth() * escalaLienzo), altoLienzoEscalado, null);
+
+                    // Codigo de Clases
+                    java.awt.image.BufferedImage imgCodigoClases = capturarComponente(jta_codigoClases); // Tu JTextArea de código
+                    double escalaCodigo = Math.min((double) ancho / imgCodigoClases.getWidth(), 0.5);
+                    g2d.drawImage(imgCodigoClases, 0, 40 + altoLienzoEscalado, (int)(imgCodigoClases.getWidth() * escalaCodigo), (int)(imgCodigoClases.getHeight() * escalaCodigo), null);
+                }
+
+                return PAGE_EXISTS;
+            }
+        });
+
+        if (job.printDialog()) {
+            try {
+                job.print();
+                javax.swing.JOptionPane.showMessageDialog(this, "Exportacion a PDF realizada");
+            } catch (java.awt.print.PrinterException ex) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Error al exportar: " + ex.getMessage());
+            }
+        }
     }//GEN-LAST:event_jm_exportarMouseClicked
     private void btn_agregarVariableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarVariableMouseClicked
         String nombre = txt_nombreVariable.getText();
@@ -2458,18 +2523,6 @@ public class Main extends javax.swing.JFrame {
        
     }//GEN-LAST:event_btn_separadorMouseClicked
     private void jmi_guardarBinarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarBinarioActionPerformed
-//        JFileChooser fc = new JFileChooser();
-//        if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-//            File seleccionado = fc.getSelectedFile();
-//            try {
-//                FileOutputStream fos = new FileOutputStream(seleccionado);
-//                ObjectOutputStream oos = new ObjectOutputStream(fos);
-//                //oos.writeObject();
-//                oos.close();
-//            } catch(Exception e) {
-//                JOptionPane.showConfirmDialog(this, "Error");
-//            }
-//        }
         JFileChooser fc = new JFileChooser();
             if (fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fc.getSelectedFile()))) {
@@ -2834,10 +2887,16 @@ public class Main extends javax.swing.JFrame {
     private void jmi_abrirBinarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirBinarioActionPerformed
         JFileChooser fc = new JFileChooser();
         if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fc.getSelectedFile()))) {
-                figuras = (java.util.ArrayList<Figura>) ois.readObject();
-                figurasClases = (java.util.ArrayList<FiguraArbol>) ois.readObject();
-                javax.swing.tree.DefaultMutableTreeNode root = (javax.swing.tree.DefaultMutableTreeNode) ois.readObject();
+            try {
+                File selec = fc.getSelectedFile();
+                FileInputStream fis = new FileInputStream(selec);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                DataBinario dataBin = (DataBinario) ois.readObject();
+                figuras = (ArrayList<Figura>) ois.readObject();
+                figurasClases = (ArrayList<FiguraArbol>) ois.readObject();
+                //DefaultMutableTreeNode root = (DefaultMutableTreeNode) ois.readObject();
+                DefaultMutableTreeNode root = dataBin.raizArbol;
+                
                 jtr_clases.setModel(new DefaultTreeModel(root));
                 DefaultListModel modeloPadres = new DefaultListModel();
                 DefaultListModel modeloHijas = new DefaultListModel();
@@ -2850,7 +2909,7 @@ public class Main extends javax.swing.JFrame {
 
                 jl_clasePadre.setModel(modeloPadres);
                 jl_claseHija.setModel(modeloHijas);
-                ((javax.swing.DefaultListModel) jl_hijosClasePadre.getModel()).removeAllElements();
+                ((DefaultListModel) jl_hijosClasePadre.getModel()).removeAllElements();
 
                 canvasPanel.repaint();
                 canvasClasesPanel.repaint();
