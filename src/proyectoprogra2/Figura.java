@@ -109,7 +109,9 @@ public abstract class Figura implements Serializable {
     
     
     
-    public String getNombreAccionEspecial() {return null;}
+    public String getNombreAccionEspecial() {
+        return null;
+    }
     public abstract void ejecutarAccionEspecial(Main m);
     
     public abstract void dibujar(Graphics2D g2);
@@ -134,5 +136,7 @@ public abstract class Figura implements Serializable {
     public boolean contiene(int mouseX, int mouseY) { 
         return mouseX >= x && mouseX <= x + ancho && mouseY >= y && mouseY <= y + alto;
     }
-    public String generarCodigo() {return this.texto;}
+    public String generarCodigo() {
+        return this.texto;
+    }
 }

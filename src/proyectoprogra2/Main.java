@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
+import java.awt.print.Printable;
 import java.awt.print.PrinterJob;
 import java.io.*;
 import java.io.FileInputStream;
@@ -275,14 +276,8 @@ public class Main extends javax.swing.JFrame {
         // Ctrl + G para Guardar Binario
         jmi_guardarBinario.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         
-        // Ctrl + A para Abrir Binario
-        jmi_abrirTexto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-        
-        // Ctrl + Shift + G para Guardar Texto
-        jmi_guardarTexto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
-
-        // Ctrl + Shift + A para Abrir Texto
-        jmi_abrirBinario.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+        // Ctrl + A para Abrir Texto
+        jmi_abrirBinario.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         
 //******Modelos******
 //jcb
@@ -531,9 +526,7 @@ public class Main extends javax.swing.JFrame {
         jmb_barraVentana = new javax.swing.JMenuBar();
         jm_archivo = new javax.swing.JMenu();
         jmi_guardarBinario = new javax.swing.JMenuItem();
-        jmi_guardarTexto = new javax.swing.JMenuItem();
         jmi_abrirBinario = new javax.swing.JMenuItem();
-        jmi_abrirTexto = new javax.swing.JMenuItem();
         jmi_nuevo = new javax.swing.JMenuItem();
         jm_exportar = new javax.swing.JMenu();
 
@@ -1706,7 +1699,7 @@ public class Main extends javax.swing.JFrame {
         jLabel62.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel62.setText("Tipo");
 
-        jcb_metodoTipoVariable.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Int", "Float", "Char", "String" }));
+        jcb_metodoTipoVariable.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "int", "float", "char", "String" }));
 
         btn_metodoAgregarParametro.setFont(new java.awt.Font("Tw Cen MT", 0, 24)); // NOI18N
         btn_metodoAgregarParametro.setText("Agregar");
@@ -2199,14 +2192,6 @@ public class Main extends javax.swing.JFrame {
         });
         jm_archivo.add(jmi_guardarBinario);
 
-        jmi_guardarTexto.setText("Guardar Texto                                      ");
-        jmi_guardarTexto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmi_guardarTextoActionPerformed(evt);
-            }
-        });
-        jm_archivo.add(jmi_guardarTexto);
-
         jmi_abrirBinario.setText("Abrir Binario                                             ");
         jmi_abrirBinario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2214,14 +2199,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jm_archivo.add(jmi_abrirBinario);
-
-        jmi_abrirTexto.setText("Abrir Texto                                             ");
-        jmi_abrirTexto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmi_abrirTextoTextoActionPerformed(evt);
-            }
-        });
-        jm_archivo.add(jmi_abrirTexto);
 
         jmi_nuevo.setText("Nuevo                                           ");
         jmi_nuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -2260,11 +2237,6 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private BufferedImage capturarComponente(Component comp) {
-        /*BufferedImage img = new BufferedImage(comp.getWidth(), comp.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = img.createGraphics();
-        comp.paintAll(g2d);
-        g2d.dispose();
-        return img;*/
         BufferedImage img = new BufferedImage(comp.getWidth(), comp.getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = img.createGraphics();
         g2d.setColor(java.awt.Color.WHITE);
@@ -2274,12 +2246,10 @@ public class Main extends javax.swing.JFrame {
         return img;
     }
     private void jm_exportarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jm_exportarMouseClicked
-        // TODO add your handling code here:
-        // EXPORTAR A PDF
-        PrinterJob job = PrinterJob.getPrinterJob();
-        job.setJobName("Exportar Proyecto UML");
+        PrinterJob pj = PrinterJob.getPrinterJob();
+        pj.setJobName("Exportar a PDF");
 
-        job.setPrintable(new java.awt.print.Printable() {
+        pj.setPrintable(new Printable() {
             @Override
             public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) {                
                 if (pageIndex > 1) return NO_SUCH_PAGE;
@@ -2302,7 +2272,7 @@ public class Main extends javax.swing.JFrame {
                     g2d.drawImage(imgLienzoUml, 0, 30, (int)(imgLienzoUml.getWidth() * escalaLienzo), altoLienzoEscalado, null);
 
                     // Codigo UML
-                    java.awt.image.BufferedImage imgCodigoUml = capturarComponente(jta_codigoDiagrama);
+                    BufferedImage imgCodigoUml = capturarComponente(jta_codigoDiagrama);
                     double escalaCodigo = Math.min((double) ancho / imgCodigoUml.getWidth(), 0.5);
                     g2d.drawImage(imgCodigoUml, 0, 40 + altoLienzoEscalado, (int)(imgCodigoUml.getWidth() * escalaCodigo), (int)(imgCodigoUml.getHeight() * escalaCodigo), null);
 
@@ -2310,13 +2280,13 @@ public class Main extends javax.swing.JFrame {
                     g2d.drawString("Clases Generadas", 0, 20);
 
                     // Clases
-                    java.awt.image.BufferedImage imgLienzoClases = capturarComponente(canvasClasesPanel);
+                    BufferedImage imgLienzoClases = capturarComponente(canvasClasesPanel);
                     double escalaLienzo = Math.min((double) ancho / imgLienzoClases.getWidth(), 0.5);
                     int altoLienzoEscalado = (int) (imgLienzoClases.getHeight() * escalaLienzo);
                     g2d.drawImage(imgLienzoClases, 0, 30, (int)(imgLienzoClases.getWidth() * escalaLienzo), altoLienzoEscalado, null);
 
                     // Codigo de Clases
-                    java.awt.image.BufferedImage imgCodigoClases = capturarComponente(jta_codigoClases); // Tu JTextArea de código
+                    BufferedImage imgCodigoClases = capturarComponente(jta_codigoClases);
                     double escalaCodigo = Math.min((double) ancho / imgCodigoClases.getWidth(), 0.5);
                     g2d.drawImage(imgCodigoClases, 0, 40 + altoLienzoEscalado, (int)(imgCodigoClases.getWidth() * escalaCodigo), (int)(imgCodigoClases.getHeight() * escalaCodigo), null);
                 }
@@ -2325,10 +2295,10 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        if (job.printDialog()) {
+        if (pj.printDialog()) {
             try {
-                job.print();
-                javax.swing.JOptionPane.showMessageDialog(this, "Exportacion a PDF realizada");
+                pj.print();
+                JOptionPane.showMessageDialog(this, "Exportacion a PDF realizada");
             } catch (java.awt.print.PrinterException ex) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Error al exportar: " + ex.getMessage());
             }
@@ -2470,13 +2440,9 @@ public class Main extends javax.swing.JFrame {
     private void jmi_eliminarArbolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarArbolActionPerformed
         // Eliminar padre
         FiguraArbol figuraEliminar = (FiguraArbol) claseClickDerecho;
-        for (FiguraArbol hija : figuraEliminar.getClasesHijas()) {
-            hija.setClasePadre(null);
-        }
+        for (FiguraArbol hija : figuraEliminar.getClasesHijas()) hija.setClasePadre(null);
         // Eliminar hijas;
-        if (figuraEliminar.getClasePadre() != null) {
-            figuraEliminar.getClasePadre().getClasesHijas().remove(figuraEliminar);
-        }
+        if (figuraEliminar.getClasePadre() != null) figuraEliminar.getClasePadre().getClasesHijas().remove(figuraEliminar);
         figurasClases.remove(figuraEliminar);
         
         DefaultTreeModel modeloArbol = (DefaultTreeModel) jtr_clases.getModel();
@@ -2488,12 +2454,7 @@ public class Main extends javax.swing.JFrame {
         canvasClasesPanel.repaint();
     }//GEN-LAST:event_jmi_eliminarArbolActionPerformed
     private void jtr_clasesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtr_clasesMouseClicked
-        // TODO add your handling code here:
-        /*
-        MALOOOO ---- tiene que ser el que esta dentro del tabbedpane y no el de la izquierda
-        jpm_clases.pack();
-        jpm_clases.setLocation(evt.getX(), evt.getY());
-        jpm_clases.setVisible(true);*/
+        
     }//GEN-LAST:event_jtr_clasesMouseClicked
     private void btn_separadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_separadorMouseClicked
         DefaultMutableTreeNode nodoSeleccionado = (DefaultMutableTreeNode) jtr_clases.getLastSelectedPathComponent();
@@ -2527,33 +2488,14 @@ public class Main extends javax.swing.JFrame {
             if (fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fc.getSelectedFile()))) {
                     DefaultMutableTreeNode root = (DefaultMutableTreeNode) jtr_clases.getModel().getRoot();
-                    DataBinario dataBin = new DataBinario(figuras, figurasClases, root);
+                    DataBinario dataBin = new DataBinario(figuras, figurasClases, variables, root);
                     oos.writeObject(dataBin);
                     JOptionPane.showMessageDialog(this, "Proyecto guardado");
                 } catch (Exception ex) {
                     javax.swing.JOptionPane.showMessageDialog(this, "Error al guardar");
                 }
             }
-        
     }//GEN-LAST:event_jmi_guardarBinarioActionPerformed
-    private void jmi_abrirTextoTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirTextoTextoActionPerformed
-        // TODO add your handling code here:
-        JFileChooser fc = new JFileChooser();
-        if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File seleccionado = fc.getSelectedFile();
-            try {
-                FileInputStream fis = new FileInputStream(seleccionado);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                
-                //Object obj = oos.readObject();
-                //DataBinario db = (DataBinario) obj;
-                //cargar jframe con esta data
-                ois.close();
-            } catch(Exception e) {
-                JOptionPane.showConfirmDialog(this, "Error");
-            }
-        }
-    }//GEN-LAST:event_jmi_abrirTextoTextoActionPerformed
     private void jmi_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_nuevoActionPerformed
         Main nuevaVentana = new Main();
         nuevaVentana.setVisible(true);
@@ -2865,41 +2807,25 @@ public class Main extends javax.swing.JFrame {
         jd_bucleFor.setVisible(false);
         canvasPanel.repaint();
     }//GEN-LAST:event_btn_bucleForAgregarMouseClicked
-    private void jmi_guardarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarTextoActionPerformed
-        StringBuilder codigo = new StringBuilder();
-        JFileChooser fc = new JFileChooser();
-        if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File selec = fc.getSelectedFile();
-            try {
-                FileWriter fw = new FileWriter(selec, false);
-                BufferedWriter bw = new BufferedWriter(fw);
-                codigo.append(jta_codigoDiagrama.getText());
-                bw.write(codigo.toString());
-                bw.close();
-            } catch (FileNotFoundException ex) {
-                System.out.println("File not found");
-            } catch (IOException ex) {
-                System.out.println("Input/Output error");
-            }
-        }
-    }//GEN-LAST:event_jmi_guardarTextoActionPerformed
 
     private void jmi_abrirBinarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirBinarioActionPerformed
         JFileChooser fc = new JFileChooser();
         if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             try {
-                File selec = fc.getSelectedFile();
+                File selec = (File) fc.getSelectedFile();
                 FileInputStream fis = new FileInputStream(selec);
-                ObjectInputStream ois = new ObjectInputStream(fis);
+                ObjectInputStream ois = new ObjectInputStream(fis) ;
                 DataBinario dataBin = (DataBinario) ois.readObject();
-                figuras = (ArrayList<Figura>) ois.readObject();
-                figurasClases = (ArrayList<FiguraArbol>) ois.readObject();
-                //DefaultMutableTreeNode root = (DefaultMutableTreeNode) ois.readObject();
-                DefaultMutableTreeNode root = dataBin.raizArbol;
+                figuras = dataBin.getFigurasUml();
+                figurasClases = dataBin.getFigurasClases();
+                variables = dataBin.getVariables();
+                DefaultMutableTreeNode root = dataBin.getRaizArbol();
                 
                 jtr_clases.setModel(new DefaultTreeModel(root));
+                
                 DefaultListModel modeloPadres = new DefaultListModel();
                 DefaultListModel modeloHijas = new DefaultListModel();
+                
                 for (Figura f : figurasClases) {
                     FiguraArbol fa = (FiguraArbol) f;
                     fa.reconstruirArbolVisual();
@@ -3174,8 +3100,12 @@ public class Main extends javax.swing.JFrame {
             FiguraArbol fa = (FiguraArbol) f;
             DefaultMutableTreeNode nodoClase = fa.getNodoPrincipal();
             DefaultMutableTreeNode nodoPropiedades = (DefaultMutableTreeNode) nodoClase.getChildAt(0);
-            DefaultMutableTreeNode nodoMetodos = (DefaultMutableTreeNode) nodoClase.getChildAt(1);
-
+            //DefaultMutableTreeNode nodoMetodos = (DefaultMutableTreeNode) nodoClase.getChildAt(1);
+            DefaultMutableTreeNode nodoMetodos = null;
+            for (int i = 0; i < nodoClase.getChildCount(); i++) {
+                DefaultMutableTreeNode hijo = (DefaultMutableTreeNode) nodoClase.getChildAt(i);
+                if (hijo.getUserObject().toString().equals("Metodos")) nodoMetodos = hijo;
+            }
             String textoHerencia = (fa.getClasePadre() != null) ? " extends " + fa.getClasePadre().getNombre() : "";
             codigoFinal.append("public class ").append(fa.getNombre()).append(textoHerencia).append(" {\n\n");
 
@@ -3191,8 +3121,6 @@ public class Main extends javax.swing.JFrame {
             }
 
             for (int i = 0; i < nodoMetodos.getChildCount(); i++) {
-                String metodoOriginal = nodoMetodos.getChildAt(i).toString();
-                int idxLimpio = metodoOriginal.indexOf("]");
                 DefaultMutableTreeNode objNodo = (DefaultMutableTreeNode) nodoMetodos.getChildAt(i);
                 Object contenido = objNodo.getUserObject();
                 if(contenido instanceof Metodo) {
@@ -3214,7 +3142,7 @@ public class Main extends javax.swing.JFrame {
             codigoFinal.append("}\n\n");
             codigoFinal.append("// ---------------Fin de la Clase---------------\n\n\n\n");
         }
-
+        jtp_diagramaCodigo1.setSelectedIndex(1);
         jta_codigoClases.setText(codigoFinal.toString());
     }//GEN-LAST:event_btn_generarCodigoClasesMouseClicked
 
@@ -3376,7 +3304,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jm_exportar;
     private javax.swing.JMenuBar jmb_barraVentana;
     private javax.swing.JMenuItem jmi_abrirBinario;
-    private javax.swing.JMenuItem jmi_abrirTexto;
     private javax.swing.JMenuItem jmi_accionEspecial;
     private javax.swing.JMenuItem jmi_agregarMetodo;
     private javax.swing.JMenuItem jmi_agregarPropiedad;
@@ -3390,7 +3317,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_eliminarMetodo;
     private javax.swing.JMenuItem jmi_eliminarPropiedad;
     private javax.swing.JMenuItem jmi_guardarBinario;
-    private javax.swing.JMenuItem jmi_guardarTexto;
     private javax.swing.JMenuItem jmi_nuevo;
     private javax.swing.JMenuItem jmi_propiedades;
     private javax.swing.JPanel jp_clases;
